@@ -1,11 +1,11 @@
-import CRUDApp from "./Crud";
+import "./App.css";
+import CrudApp from "./CrudApp";
 
 export default function App() 
 {
-    console.log(process.env.REACT_APP_FIREBASE_API);
     return (
-        <div>
-            <CRUDApp/>
+        <div className="h-screen dark:bg-black">
+            <CrudApp/>
         </div>
     );
 }
