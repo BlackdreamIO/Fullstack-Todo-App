@@ -6,16 +6,23 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import Authenticator, { AuthMode } from '../function/authenticator.ts';
+
+import Authenticator, { AuthMode } from '../function/authenticator';
+import { Container, Typography } from '@mui/material';
 
 
-const AuthPanel = forwardRef((props, ref) => {
+const AuthPanel = forwardRef((props, ref, onLoggedIn) => {
 
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('logIn');
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const socialAuth = {
+        google : "https://cdn-icons-png.flaticon.com/512/2702/2702602.png",
+        github : "https://cdn-icons-png.flaticon.com/512/25/25231.png"
+    }
 
     const HideDialog = () => {
        setShow(false);
@@ -34,13 +41,24 @@ const AuthPanel = forwardRef((props, ref) => {
         }
     }));
 
-    const LogInWithEmailAndPassword = (e) => {
-        let status = Authenticator({
-            event:e,
-            email:email,
-            password:password,
-            auth_mode:AuthMode.LOG_IN
-        }) 
+    const HandleAuthentication = async (e) => {
+        await Authenticator({
+            event: e,
+            email: email,
+            password: password,
+            auth_mode : mode === 'logIn' ? AuthMode.LOG_IN : AuthMode.SIGN_UP
+        })
+        .then((response) => { response.uid ? handleLogIn() : console.log("No User Found"); })
+        .catch((error) => console.log("ERR : ", error));
+    }
+
+    const handleLogIn = () => {
+        if(onLoggedIn != null) 
+        {
+            onLoggedIn();
+            return;
+        }
+        alert("Failed To Detect User");
     }
 
     return (
@@ -57,10 +75,17 @@ const AuthPanel = forwardRef((props, ref) => {
                             variant="filled" className='dark:bg-[#e3f2fd] dark:text-[aquamarine] dark:placeholder:text-yellow-400' 
                             sx={{borderRadius:'10px'}} onChange={(e) => setPassword(e.target.value)} required
                 />
+                <Typography marginTop='2%' align='center' color='white'> Or </Typography>
+                <ul className='flex flex-row items-center justify-center m-auto'>
+                    <img src={socialAuth.google} alt="the google icon is not found" className='w-[35px] ml-5 mr-5 bg-neutral-300 dark:bg-white dark:hover:bg-neutral-400 p-2 rounded-full cursor-pointer' />
+                    <img src={socialAuth.github} alt="the google icon is not found" className='w-[35px] ml-5 mr-5 bg-neutral-300 dark:bg-white dark:hover:bg-neutral-400 p-2 rounded-full cursor-pointer' />
+                </ul>
             </DialogContent>
             <DialogActions className='dark:bg-neutral-950 '>
                 <Button onClick={() => HideDialog()} className='dark:text-white dark:hover:text-black dark:hover:bg-white rounded-full'>Cancel</Button>
-                <Button onClick={(e) => LogInWithEmailAndPassword(e)} className='dark:text-white dark:hover:text-black dark:hover:bg-white rounded-full'>Log In</Button>
+                <Button onClick={(e) => HandleAuthentication(e)} className='dark:text-white dark:hover:text-black dark:hover:bg-white rounded-full'>
+                    { mode === 'logIn' ? 'Log In' : 'Sign Up'}
+                </Button>
             </DialogActions>
         </Dialog>
     )

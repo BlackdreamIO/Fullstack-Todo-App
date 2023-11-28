@@ -7,15 +7,20 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack'
+import Tooltip from '@mui/material/Tooltip';
+import { Person } from '@mui/icons-material';
+
 import { ThemeSwitch } from './ThemeToggle';
 
 import SwitchThemeFunction from '../function/themeManager';
 import AuthPanel from './AuthPanel';
+import { IsLoggedIn, LogOutUser } from '../function/authenticator';
 
 export default function Navbar () 
 {
     const [darkMode, setDarkMode] = useState(false);
     const [showStack, setShowStack] = useState(false);
+    const [hasUser, setHasUser] = useState(true);
 
     const childRef = useRef(null);
 
@@ -39,6 +44,10 @@ export default function Navbar ()
         }
     }
 
+    const handleUserLogIn = () => {
+        console.log(IsLoggedIn());
+    }
+
     const handleAuthDialog = (_mode) => {
         _mode == 'logIn' ?  childRef.current.ShowLogIn() : childRef.current.ShowSignUp();
     }
@@ -52,8 +61,16 @@ export default function Navbar ()
                             Todo App
                         </Typography>
 
-                        <Button onClick={() => handleAuthDialog('logIn')}  className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block"}}>LOG IN</Button>
-                        <Button onClick={() => handleAuthDialog('signUp')} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block"}}>SIGN UP</Button>
+                        <Button onClick={() => handleAuthDialog('logIn')} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>LOG IN</Button>
+                        <Button onClick={() => handleAuthDialog('signUp')} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>SIGN UP</Button>
+                        
+                        <Button disableRipple sx={{color:"black"}} className='dark:text-neutral-400 dark:hover:text-white' style={{display : hasUser ? "block" : "none"}}>
+                            <Tooltip title="User">
+                                <Person />
+                            </Tooltip>
+                        </Button>
+                        <Button onClick={() => LogOutUser()} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>LOG OUT</Button>
+                        
                         <ThemeSwitch className={`${showStack} ? 'hidden' : 'visited:'`} defaultChecked={true} onClick={() => handleClick()} />
                     </Toolbar>
                     <Stack className='dark:bg-neutral-950 bg-neutral-200' sx={{ display: showStack ? 'flex' : 'none'}}>
@@ -65,7 +82,7 @@ export default function Navbar ()
                     </Stack>
                 </AppBar>
             </Box>
-            <AuthPanel ref={childRef}/>
+            <AuthPanel ref={childRef} onLoggedIn={() => handleUserLogIn()} />
         </nav>
     )
 }
