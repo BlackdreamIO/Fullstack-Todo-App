@@ -7,11 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
-import Authenticator, { AuthMode } from '../function/authenticator';
+import Authenticator, { AuthMode, SignInWithGoogle } from '../function/authenticator';
 import { Container, Typography } from '@mui/material';
 
 
-const AuthPanel = forwardRef((props, ref, onLoggedIn) => {
+const AuthPanel = forwardRef((props, ref) => {
 
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('logIn');
@@ -38,6 +38,10 @@ const AuthPanel = forwardRef((props, ref, onLoggedIn) => {
         {
             setShow(true);
             setMode('signUp');
+        },
+        HideAuthDialog()
+        {
+            setShow(false);
         }
     }));
 
@@ -53,9 +57,9 @@ const AuthPanel = forwardRef((props, ref, onLoggedIn) => {
     }
 
     const handleLogIn = () => {
-        if(onLoggedIn != null) 
+        if(props.onLoggedIn != null) 
         {
-            onLoggedIn();
+            props.onLoggedIn();
             return;
         }
         alert("Failed To Detect User");
@@ -66,6 +70,7 @@ const AuthPanel = forwardRef((props, ref, onLoggedIn) => {
             <DialogTitle className='dark:bg-neutral-950 dark:text-white'>
                 {mode === 'logIn' ? 'Log In' : 'Sign Up'}
             </DialogTitle>
+
             <DialogContent className='dark:bg-neutral-950'>
                 <TextField  autoFocus margin="dense" label="Email Address" type="email" fullWidth 
                             variant="filled" className='dark:bg-[#e3f2fd] dark:text-[aquamarine] dark:placeholder:text-yellow-400' 
@@ -75,12 +80,15 @@ const AuthPanel = forwardRef((props, ref, onLoggedIn) => {
                             variant="filled" className='dark:bg-[#e3f2fd] dark:text-[aquamarine] dark:placeholder:text-yellow-400' 
                             sx={{borderRadius:'10px'}} onChange={(e) => setPassword(e.target.value)} required
                 />
+
                 <Typography marginTop='2%' align='center' color='white'> Or </Typography>
+                
                 <ul className='flex flex-row items-center justify-center m-auto'>
-                    <img src={socialAuth.google} alt="the google icon is not found" className='w-[35px] ml-5 mr-5 bg-neutral-300 dark:bg-white dark:hover:bg-neutral-400 p-2 rounded-full cursor-pointer' />
+                    <img onClick={() => { SignInWithGoogle(); handleLogIn(); }} src={socialAuth.google} alt="the google icon is not found" className='w-[35px] ml-5 mr-5 bg-neutral-300 dark:bg-white dark:hover:bg-neutral-400 p-2 rounded-full cursor-pointer' />
                     <img src={socialAuth.github} alt="the google icon is not found" className='w-[35px] ml-5 mr-5 bg-neutral-300 dark:bg-white dark:hover:bg-neutral-400 p-2 rounded-full cursor-pointer' />
                 </ul>
             </DialogContent>
+
             <DialogActions className='dark:bg-neutral-950 '>
                 <Button onClick={() => HideDialog()} className='dark:text-white dark:hover:text-black dark:hover:bg-white rounded-full'>Cancel</Button>
                 <Button onClick={(e) => HandleAuthentication(e)} className='dark:text-white dark:hover:text-black dark:hover:bg-white rounded-full'>
