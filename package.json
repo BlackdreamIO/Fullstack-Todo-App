@@ -1,7 +1,8 @@
 {
-  "name": "chat-app",
+  "name": "TodoApp",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",

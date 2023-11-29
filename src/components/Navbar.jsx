@@ -20,7 +20,7 @@ export default function Navbar ()
 {
     const [darkMode, setDarkMode] = useState(false);
     const [showStack, setShowStack] = useState(false);
-    const [hasUser, setHasUser] = useState(true);
+    const [hasUser, setHasUser] = useState(false);
 
     const childRef = useRef(null);
 
@@ -46,10 +46,26 @@ export default function Navbar ()
 
     const handleUserLogIn = () => {
         console.log(IsLoggedIn());
+        setHasUser(IsLoggedIn());
+        handleAuthDialog('closeDialog');
     }
 
     const handleAuthDialog = (_mode) => {
-        _mode == 'logIn' ?  childRef.current.ShowLogIn() : childRef.current.ShowSignUp();
+       // _mode === 'logIn' ?  childRef.current.ShowLogIn() : childRef.current.ShowSignUp();
+        switch (_mode) 
+        {
+            case 'logIn':
+                childRef.current.ShowLogIn();
+                break;
+            case 'signUp':
+                childRef.current.ShowSignUp()
+                break;
+            case 'closeDialog':
+                childRef.current.HideAuthDialog();
+                break;
+            default:
+                break;
+        }
     }
 
     return (
@@ -65,11 +81,11 @@ export default function Navbar ()
                         <Button onClick={() => handleAuthDialog('signUp')} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>SIGN UP</Button>
                         
                         <Button disableRipple sx={{color:"black"}} className='dark:text-neutral-400 dark:hover:text-white' style={{display : hasUser ? "block" : "none"}}>
-                            <Tooltip title="User">
+                            <Tooltip title={localStorage.getItem("email")}>
                                 <Person />
                             </Tooltip>
                         </Button>
-                        <Button onClick={() => LogOutUser()} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>LOG OUT</Button>
+                        <Button onClick={() => { LogOutUser(); handleUserLogIn() }} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "block" : "none"}}>LOG OUT</Button>
                         
                         <ThemeSwitch className={`${showStack} ? 'hidden' : 'visited:'`} defaultChecked={true} onClick={() => handleClick()} />
                     </Toolbar>
