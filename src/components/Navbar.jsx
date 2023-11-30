@@ -28,10 +28,11 @@ export default function Navbar ()
       window.addEventListener('resize', () => {
         setShowStack(window.innerWidth < 375 ? true : false);
       })
+      handleUserLogIn();
     }, [])
     
 
-    const handleClick = () => {
+    const handleThemeClick = () => {
         if(darkMode) 
         {
             setDarkMode(false);
@@ -45,8 +46,7 @@ export default function Navbar ()
     }
 
     const handleUserLogIn = () => {
-        console.log(IsLoggedIn());
-        setHasUser(IsLoggedIn());
+        setHasUser(JSON.parse(localStorage.getItem("user")));
         handleAuthDialog('closeDialog');
     }
 
@@ -87,7 +87,7 @@ export default function Navbar ()
                         </Button>
                         <Button onClick={() => { LogOutUser(); handleUserLogIn() }} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "block" : "none"}}>LOG OUT</Button>
                         
-                        <ThemeSwitch className={`${showStack} ? 'hidden' : 'visited:'`} defaultChecked={true} onClick={() => handleClick()} />
+                        <ThemeSwitch className={`${showStack} ? 'hidden' : 'visited:'`} defaultChecked={true} onClick={() => handleThemeClick()} />
                     </Toolbar>
                     <Stack className='dark:bg-neutral-950 bg-neutral-200' sx={{ display: showStack ? 'flex' : 'none'}}>
                         <Container sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'flex-end'}}>

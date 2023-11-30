@@ -3,7 +3,7 @@ import{
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword,  
     GoogleAuthProvider, 
-    signInWithPopup
+    signInWithPopup,
 } from "firebase/auth";
 
 export const AuthMode = {
@@ -54,7 +54,7 @@ export function IsLoggedIn()
 
 export function LogOutUser()
 {
-    try { auth.signOut(); }
+    try { auth.signOut(); localStorage.setItem("user", IsLoggedIn()); }
     catch { alert("User Not Found Try Again");  }
 }
 
@@ -62,7 +62,7 @@ export function LogOutUser()
 export async function SignInWithGoogle()
 {
     const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
+    provider.setCustomParameters({ prompt: 'select_account' }); // ERR 
 
     await signInWithPopup(auth, provider)
         .then((result) => {
@@ -78,3 +78,4 @@ export async function SignInWithGoogle()
             }
     }).catch((error) => alert("Err During Sign In"))
 }
+

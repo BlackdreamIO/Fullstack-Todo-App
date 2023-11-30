@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../database/firebase';
+import { db, auth } from '../database/firebase';
 
 import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
-import { TodoItem } from './TodoItem';
+import { CreateCollectionForUser, CreateDocumentForUser, GetDocument, GetUserDocuments } from '../function/todoFirebase';
 
-const TodoPanel = () => {
+export default function TodoPanel() 
+{
 
   const [data, setData] = useState([]);
 
@@ -45,31 +46,38 @@ const TodoPanel = () => {
   
   };
 
+  const addDocument = async () => { 
+ 
+    //CreateCollectionForUser();
+
+    // CreateDocumentForUser({
+    //   collectionRef:`UCID : ${auth.currentUser.email}`,
+    //   data:{
+    //     title : "First Todo",
+    //     complete : "pending",
+    //     descirption : "lorem ipsul dole"
+    //   },
+    //   documentRef:"auto generated document"
+    // });
+
+    const data = await GetUserDocuments({collectionRef:`UCID : ${auth.currentUser.email}`,GetDataOf:GetDocument.DATA});
+    console.log(data);
+  }
+
   // useEffect to fetch data when component mounts
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    console.log(data);
+    //console.log(data);
   }, [data])
   
   return (
         <div>
             <h1 className='dark:text-white'>CRUD App</h1>
-            <button className='dark:text-white' onClick={addItem}>Add Item</button>
-            {
-                data.map((item, index) => (
-                    <TodoItem
-                        title={item.title}
-                        descirption={item.descirption}
-                        complete={item.complete}
-                        key={index}
-                     />
-                ))
-            }
+            <button onClick={() => addDocument()} className='dark:text-white'>CREATE DOCUMENT</button>
         </div>
   );
 };
 
-export default TodoPanel;
