@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
-import Authenticator, { AuthMode, SignInWithGoogle } from '../function/authenticator';
+import Authenticator, { AuthMode, SignInWithGoogle, IsLoggedIn } from '../function/authenticator';
 import { Container, Typography } from '@mui/material';
 
 
@@ -60,6 +60,7 @@ const AuthPanel = forwardRef((props, ref) => {
         if(props.onLoggedIn != null) 
         {
             props.onLoggedIn();
+            localStorage.setItem("user", IsLoggedIn());
             return;
         }
         alert("Failed To Detect User");
