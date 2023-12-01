@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { db, auth } from '../database/firebase';
 
 import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
-import { CreateCollectionForUser, CreateDocumentForUser, GetDocument, GetUserDocuments } from '../function/todoFirebase';
+import { CreateCollectionForUser, CreateDocumentForUser, UserDocument, GetUserDocuments } from '../function/todoFirebase';
+import TodoColumnPanel from './TodoColumnPanel';
 
 export default function TodoPanel() 
 {
@@ -36,21 +37,13 @@ export default function TodoPanel()
     //     .catch(error => { console.log(error); })
   };
 
-  // Function to delete item
-  const deleteItem = async id => {
-   
-  };
 
-  // Function to edit item
-  const editItemHandler = async () => {
-  
-  };
 
   const addDocument = async () => { 
  
-    //CreateCollectionForUser();
+    CreateCollectionForUser();
 
-    // CreateDocumentForUser({
+    //CreateDocumentForUser({
     //   collectionRef:`UCID : ${auth.currentUser.email}`,
     //   data:{
     //     title : "First Todo",
@@ -60,8 +53,8 @@ export default function TodoPanel()
     //   documentRef:"auto generated document"
     // });
 
-    const data = await GetUserDocuments({collectionRef:`UCID : ${auth.currentUser.email}`,GetDataOf:GetDocument.DATA});
-    console.log(data);
+    //const data = await GetUserDocuments({collectionRef:`UCID : ${auth.currentUser.email}`,GetDataOf:GetDocument.DATA});
+    //console.log(data);
   }
 
   // useEffect to fetch data when component mounts
@@ -69,15 +62,12 @@ export default function TodoPanel()
     fetchData();
   }, []);
 
-  useEffect(() => {
-    //console.log(data);
-  }, [data])
   
   return (
-        <div>
-            <h1 className='dark:text-white'>CRUD App</h1>
-            <button onClick={() => addDocument()} className='dark:text-white'>CREATE DOCUMENT</button>
-        </div>
-  );
-};
+    <div>
+        {/* <button onClick={() => addDocument()} className='dark:text-white'>CREATE DOCUMENT</button> */}
+        <TodoColumnPanel/>
+    </div>
+  )
+}
 
