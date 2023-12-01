@@ -7,8 +7,8 @@ export function CreateCollectionForUser()
     {
         const collectionId = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
 
-        const documents = ["ALL","IMPORTENT","COMPLETE"];
-        const value = { tempororyNumber: "1+2=4" }; 
+        const documents = ["ALL","IMPORTENT","COMPLETE"]; // Default Document
+        const value = { docInit: "Success" }; 
 
         for (let i = 0; i < documents.length; i++) {
             setDoc(doc(db, collectionId, documents[i]), value); 
@@ -38,24 +38,24 @@ export async function CreateDocumentForUser({collectionRef='app', documentRef='U
     }
 }
 
-export const GetDocument = {
+export const UserDocument = {
     ID : 'id',
     DATA : 'data'
 }
 
-export async function GetUserDocuments({collectionRef='app', GetDataOf = GetDocument.ID})
+export async function GetUserDocuments({collectionRef='app', GetDataOf = UserDocument.ID})
 {
     try 
     {
         const collectionID = collection(db, collectionRef);
         const documents = await getDocs(collectionID);
 
-        if(GetDataOf === GetDocument.ID) 
+        if(GetDataOf === UserDocument.ID) 
         {
             const data = documents.docs.map((document) => ( document.id ));
             return data;
         }
-        else if(GetDataOf === GetDocument.DATA)
+        else if(GetDataOf === UserDocument.DATA)
         {
             const data = documents.docs.map((document) => ( document.data() ));
             return data;
