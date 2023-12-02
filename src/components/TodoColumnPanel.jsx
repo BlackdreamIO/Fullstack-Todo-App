@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-
-import Input from '@mui/material/Input';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import Stack from '@mui/material/Stack';
+import { Input, Divider, Tooltip, Stack } from '@mui/material';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Search  } from '@mui/icons-material';
+import Search from '@mui/icons-material/Search';
 
 import {TodoColumn } from './TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
@@ -16,7 +12,7 @@ export default function TodoColumnPanel()
     const [open, setOpen] = useState(false);
 
     return (
-        <section className='dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
+        <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
             
             <div className='flex flex-row items-center justify-center mb-7'>
                 <Input placeholder='Search' variant="filled" className='dark:text-white dark:placeholder:text-white dark:bg-neutral-900 dark:border-y-white mt-5 w-11/12 p-1 rounded-md'/>

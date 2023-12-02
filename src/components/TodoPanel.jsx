@@ -3,7 +3,9 @@ import { db, auth } from '../database/firebase';
 
 import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { CreateCollectionForUser, CreateDocumentForUser, UserDocument, GetUserDocuments } from '../function/todoFirebase';
+
 import TodoColumnPanel from './TodoColumnPanel';
+import TodoListPanel from './TodoListPanel';
 
 export default function TodoPanel() 
 {
@@ -64,9 +66,9 @@ export default function TodoPanel()
 
   
   return (
-    <div>
-        {/* <button onClick={() => addDocument()} className='dark:text-white'>CREATE DOCUMENT</button> */}
+    <div className='flex flex-row items-center justify-center'>
         <TodoColumnPanel/>
+        <TodoListPanel/>
     </div>
   )
 }
