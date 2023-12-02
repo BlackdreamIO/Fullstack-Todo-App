@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack'
-import Tooltip from '@mui/material/Tooltip';
+import { AppBar, Box, Toolbar, Typography, Button, Container, Stack, Tooltip } from '@mui/material';
 import { Person } from '@mui/icons-material';
 
 import { ThemeSwitch } from './ThemeToggle';
