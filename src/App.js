@@ -9,7 +9,7 @@ export default function App()
     }, [])
     
     return (
-        <div className="h-screen dark:bg-black">
+        <div className="h-screen dark:bg-black select-none">
             <CrudApp/>
         </div>
     );
