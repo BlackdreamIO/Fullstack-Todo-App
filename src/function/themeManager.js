@@ -1,7 +1,8 @@
 
-function ThemeManager()
+export function CheckIfDarkMode()
 {
-
+    const isDarkMode = document.documentElement.className === 'dark' ? true : false;
+    return isDarkMode;
 }
 
 export default function SwitchThemeFunction(useDarkMode)
@@ -10,10 +11,12 @@ export default function SwitchThemeFunction(useDarkMode)
     {
         document.documentElement.classList.remove('light')
         document.documentElement.classList.add('dark');
+        CheckIfDarkMode();
     } 
     else 
     {
         document.documentElement.classList.remove('dark')
         document.documentElement.classList.add('light');
+        CheckIfDarkMode();
     }
 }
