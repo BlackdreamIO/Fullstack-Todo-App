@@ -43,8 +43,9 @@ export const UserDocument = {
     DATA : 'data'
 }
 
-export async function GetUserDocuments({collectionRef='app', GetDataOf = UserDocument.ID})
+export async function GetUserDocuments({ GetDataOf = UserDocument.ID})
 {
+    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
     try 
     {
         const collectionID = collection(db, collectionRef);
