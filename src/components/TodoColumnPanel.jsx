@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Divider, Tooltip, Stack } from '@mui/material';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -7,9 +7,31 @@ import Search from '@mui/icons-material/Search';
 import {TodoColumn } from './TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
+import { GetUserDocuments, UserDocument } from '../function/todoFirebase';
+import { Try } from '@mui/icons-material';
+
 export default function TodoColumnPanel() 
 {
     const [open, setOpen] = useState(false);
+
+    const abort = new AbortController(); // code: abort.signal
+
+    useEffect(() => {
+        const getData = async () => {
+            try
+            {
+                const data = await GetUserDocuments({GetDataOf:UserDocument.ID})
+                    .then((response) => (console.log(response)))
+                    .catch((error) => console.log("Failed Reasone ", error));
+            }
+            catch (err) 
+            {
+                console.log("Failed To Process Fetch");
+            }
+        }
+        getData();
+    }, [])
+    
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>

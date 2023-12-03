@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Tooltip, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -6,6 +7,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onCompleteTodoAll}) => {
     
     const [anchorElUser, setAnchorElUser] = useState(null);
+
+    const { todoID } = useParams(); // app/blogs/shorts/<shortsID>
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -36,7 +39,7 @@ export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onComple
             <AppBar position="static" className='dark:!bg-neutral-950 !bg-neutral-300 dark:!border-l-[1px] border-b-[1px] dark:!border-neutral-900 pl-2 pr-2'>
                 <Toolbar disableGutters>
                     <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant="h1" component="h2" fontSize={"1rem"} className='dark:!text-neutral-200 !text-neutral-900 !font-bold dark:!font-bold'>TITLE OF THE TASK</Typography>
+                        <Typography variant="h1" component="h2" fontSize={"1rem"} className='dark:!text-neutral-200 !text-neutral-900 !font-bold dark:!font-bold'>{todoID}</Typography>
                     </Box>
                     <Box sx={{ flexGrow: 0 }} >
                         <Tooltip title="Option">
