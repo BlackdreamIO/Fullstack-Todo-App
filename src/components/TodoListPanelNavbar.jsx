@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Tooltip, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { DeleteUserDocument } from '../function/todoFirebase';
 
 export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onCompleteTodoAll}) => {
     
@@ -23,12 +24,16 @@ export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onComple
             onThemeSelect();
         }
     }
-     const handleDocumentDeletion = () => {
-        if(onDocumentDeletion != null) {
-            onDocumentDeletion();
-        }
+    const handleDocumentDeletion = () => {
+        DeleteUserDocument({documentID:todoID})
+            .then((resp) => {
+                if(onDocumentDeletion != null)
+                {
+                     onDocumentDeletion();
+                }
+            });
     }
-     const handleCompleteTodoAll = () => {
+    const handleCompleteTodoAll = () => {
         if(onCompleteTodoAll != null) {
             onCompleteTodoAll();
         }

@@ -20,10 +20,9 @@ export const TodoColumn = ({Text='', completedTodoCount=0}) => {
         },
     }));
 
-    const randomIndex = Math.floor(1 + Math.random() * Text.length); // when the database feature will be integrated then it will be fetched from the database id
 
     return (
-        <Link to={`/todo/${randomIndex}`}>
+        <Link to={`/todo/${Text}`}>
             <Stack direction='row' className='items-center justify-center m-auto'>
                 <HtmlTooltip title={Text} placement='left-end'>
                     <Badge badgeContent={completedTodoCount} className='dark:text-white w-11/12 p-1'>

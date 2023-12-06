@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -7,9 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
-import Authenticator, { AuthMode, SignInWithGoogle, IsLoggedIn } from '../function/authenticator';
+import Authenticator, { AuthMode, SignInWithGoogle, IsLoggedIn, AutoSignIn } from '../function/authenticator';
 import { Container, Typography } from '@mui/material';
-
 
 const AuthPanel = forwardRef((props, ref) => {
 
@@ -65,6 +64,11 @@ const AuthPanel = forwardRef((props, ref) => {
         }
         alert("Failed To Detect User");
     }
+
+    useEffect(() => {
+        //AutoSignIn();
+    }, [])
+    
 
     return (
         <Dialog className='backdrop:blur-md backdrop:bg-black' open={show} onClose={HideDialog}>
