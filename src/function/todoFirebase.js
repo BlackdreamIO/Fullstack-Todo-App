@@ -1,28 +1,29 @@
 import { db, auth } from '../database/firebase';
-import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, deleteDoc } from 'firebase/firestore';
 
 export function CreateCollectionForUser()
 {
     try 
     {
-        const collectionId = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
+        const collectionId = `UCID : ${'mdh560354@gmail.com'}`; // <USER COLLECTION ID>
 
         const documents = ["ALL","IMPORTENT","COMPLETE"]; // Default Document
-        const value = { docInit: "Success" }; 
+        const definedRandomNumber = [24, 99, 82];
 
-        for (let i = 0; i < documents.length; i++) {
-            setDoc(doc(db, collectionId, documents[i]), value); 
+        for (let i = 0; i < documents.length; i++) 
+        {
+            setDoc(doc(db, collectionId, documents[i]), {documentIdentity : definedRandomNumber[i]}); 
         }
-        //setDoc(doc(db, collectionId, 'documents'), value); 
     } 
     catch (error) 
     {
-        alert("Failed To Create Todo Column Try Re Sign In")
+        alert("Failed To Create Todo Document Try Re Sign In : ", error)
+        console.log(error);
         return;    
     }
 }
 
-export async function CreateDocumentForUser({collectionRef='app', documentRef='UCID  : <USER EMAIL>', data={}})
+export async function CreateDocumentForUser({collectionRef='app', data={}})
 {
     try
     {
@@ -64,6 +65,37 @@ export async function GetUserDocuments({ GetDataOf = UserDocument.ID})
     } 
     catch (error) 
     {
+        console.log(error);
+    }
+}
+
+export async function GetSpecificTodo({documentIndexIdentity=0}) 
+{
+    try
+    {
+       const collectionRef = collection(db, `UCID : ${auth.currentUser.email}`);
+       const q = await query(collectionRef, where("documentIdentity", "==", parseInt(documentIndexIdentity)));
+       const documents = await getDocs(q);
+       const data = documents.docs.map((document) => ( document.data() ));
+
+       return data ? data : [];
+    }
+    catch 
+    { 
+        return []
+    }
+}
+
+export async function DeleteUserDocument({documentID=''})
+{
+    try 
+    {
+        const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
+        await deleteDoc(documentReference);
+    } 
+    catch (error) 
+    {
+        alert("Failed To Delete Document");
         console.log(error);
     }
 }

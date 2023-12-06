@@ -12,8 +12,6 @@ export const ColumnCreateDialog = ({onClose, onCreate, open}) => {
 
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    console.log(dialogOpen);
-
     useEffect(() => {
         setDialogOpen(open);
     }, [open]);

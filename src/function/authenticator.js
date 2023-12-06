@@ -6,6 +6,19 @@ import{
     signInWithPopup,
 } from "firebase/auth";
 
+
+export  async function AutoSignIn() 
+{
+    if(localStorage.key('userEmail') && localStorage.key('userPassword'))
+    {
+        const user_email = localStorage.getItem('userEmail');
+        const user_password = localStorage.getItem('userPassword');
+        Authenticator({ event:EventTarget, auth_mode:AuthMode.LOG_IN, email:user_email, password:user_password });
+        
+        auth.currentUser.email.length > 1 ? console.log("Signed In") : alert("Failed To Auto Log In");
+    }
+}
+
 export const AuthMode = {
     LOG_IN : 'LOG_IN',
     SIGN_UP : 'SIGN_UP',
@@ -20,6 +33,8 @@ export default async function Authenticator({event, email='', password='', auth_
         {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+            localStorage.setItem('userEmail', user.email);
+            localStorage.setItem('userPassword', user.password);
             return user;
         } 
         catch 

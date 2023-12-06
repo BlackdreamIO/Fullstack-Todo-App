@@ -7,31 +7,53 @@ import Search from '@mui/icons-material/Search';
 import {TodoColumn } from './TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
-import { GetUserDocuments, UserDocument } from '../function/todoFirebase';
-import { Try } from '@mui/icons-material';
+import {  GetUserDocuments, UserDocument, GetSpecificTodo } from '../function/todoFirebase';
+import { auth } from '../database/firebase';
+
+
+function GetLocalStorageData()
+{
+    if(localStorage.getItem('todoDocuments'))
+    {
+        const todoDocuments = JSON.parse(localStorage.getItem('todoDocuments'));
+        return todoDocuments;
+    }
+    else 
+    {
+        return [];
+    }
+}
 
 export default function TodoColumnPanel() 
 {
     const [open, setOpen] = useState(false);
+    const [todoDocuments, setTodoDocuments] = useState([]);
 
     const abort = new AbortController(); // code: abort.signal
+    
+    const GetTodoDocuments = async () => {
+        try
+        {
+            const data = await GetUserDocuments({GetDataOf:UserDocument.ID})
+                .then(response => setTodoDocuments(response))
+                .catch((error) => console.log("Failed Reasone ", error));
+        }
+        catch (err) 
+        {
+            console.log("Failed To Process Fetch");
+        }
+    }
 
     useEffect(() => {
-        const getData = async () => {
-            try
-            {
-                const data = await GetUserDocuments({GetDataOf:UserDocument.ID})
-                    .then((response) => (console.log(response)))
-                    .catch((error) => console.log("Failed Reasone ", error));
-            }
-            catch (err) 
-            {
-                console.log("Failed To Process Fetch");
-            }
-        }
-        getData();
-    }, [])
-    
+        auth.onAuthStateChanged(() => {
+            
+        })
+    },)
+
+    const GetSpecificDocument = async () => {
+        console.log(GetSpecificTodo({documentIndexIdentity:24}));
+        GetTodoDocuments();
+    }
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
@@ -46,8 +68,17 @@ export default function TodoColumnPanel()
             <ColumnCreateDialog open={open} onCreate={() => alert("created")} onClose={() => setOpen(false)}/>
 
             <Stack direction="column"  spacing={1} marginTop={2}>
-                <TodoColumn Text='GURDIEN' completedTodoCount={10}/>
-                <TodoColumn Text='TODO by creating a new todo column you can' completedTodoCount={4}/>
+                {
+                    todoDocuments.map((value,index) => (
+                        <TodoColumn key={value} Text={value} completedTodoCount={index}/>
+                    ))
+                }
+                {/* <TodoColumn Text='GURDIEN' completedTodoCount={10}/> */}
+                {/* <TodoColumn Text='TODO by creating a new todo column you can' completedTodoCount={4}/> */}
+                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetSpecificDocument()}>CREATE COLLECTION</button>
+                {/* <button className='dark:text-neutral-500 dark:hover:text-white mt-5' onClick={() => GetTodoDocuments()}>FETCH DOCUMENTS</button> */}
+                {/* <Input type='number' placeholder='Enter Document Index Identity ' onChange={(e) => setDocumentIndexIdentity(e.target.value)}/> */}
+                {/* <button className='dark:text-neutral-500 dark:hover:text-white mt-5' onClick={() => GetSpecificDocument()}>FIND DOCUMENTS</button> */}
             </Stack>
             
             <div className='fixed bottom-1 mb-0 mt-0'>
