@@ -6,7 +6,7 @@ import { CreateCollectionForUser, CreateDocumentForUser, UserDocument, GetUserDo
 
 import TodoColumnPanel from './TodoColumnPanel';
 import TodoListPanel from './TodoListPanel';
-import { TodoContext } from './TodoContex';
+import { TodoContextProvider } from '../contextAPI/TodoContex';
 
 export default function TodoPanel() 
 {
@@ -66,10 +66,10 @@ export default function TodoPanel()
   
     return (
         <div className='flex flex-row items-center justify-center'>
-            <TodoContext >
+            <TodoContextProvider >
                 <TodoColumnPanel/>
                 <TodoListPanel/>
-            </TodoContext>
+            </TodoContextProvider>
         </div>
     )
 }

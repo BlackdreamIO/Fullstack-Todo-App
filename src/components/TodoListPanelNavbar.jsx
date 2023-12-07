@@ -5,7 +5,7 @@ import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Tooltip, MenuItem }
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { DeleteUserDocument } from '../function/todoFirebase';
 
-import { useTodoContext } from './TodoContex';
+import { useTodoContext } from '../contextAPI/TodoContex';
 
 export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onCompleteTodoAll}) => {
     
@@ -13,12 +13,7 @@ export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onComple
 
     const { todoID } = useParams(); // app/blogs/shorts/<shortsID>
 
-    const { toggleTrigger } = useTodoContext();
-
-    function refreshPage() 
-    {
-        window.location.reload(false);
-    }
+    const { contextDeleteCall } = useTodoContext();
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -29,7 +24,7 @@ export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onComple
     };
 
     const handleThemeSelect = (e) => {
-        toggleTrigger();
+        contextDeleteCall();
     }
     const handleDocumentDeletion = () => {
         DeleteUserDocument({documentID:todoID})
