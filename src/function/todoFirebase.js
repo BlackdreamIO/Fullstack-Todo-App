@@ -1,6 +1,7 @@
 import { db, auth } from '../database/firebase';
 import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, deleteDoc } from 'firebase/firestore';
 
+
 export const UserDocument = {
     ID : 'id',
     DATA : 'data'
@@ -8,6 +9,7 @@ export const UserDocument = {
 
 export function CreateCollectionForUser() // @ CCFU
 {
+    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
     try 
     {
         const collectionId = `UCID : ${'mdh560354@gmail.com'}`; // <USER COLLECTION ID>
@@ -17,7 +19,7 @@ export function CreateCollectionForUser() // @ CCFU
 
         for (let i = 0; i < documents.length; i++) 
         {
-            setDoc(doc(db, collectionId, documents[i]), {documentIdentity : definedRandomNumber[i]}); 
+            setDoc(doc(db, collectionRef, documents[i]), {documentIdentity : definedRandomNumber[i]}); 
         }
     } 
     catch (error) 
@@ -28,8 +30,10 @@ export function CreateCollectionForUser() // @ CCFU
     }
 }
 
-export async function CreateDocumentForUser({collectionRef='app', data={}}) // @ CDFU
+export async function CreateDocumentForUser({data={}}) // @ CDFU
 {
+    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
+    
     try
     {
         const dbRef = collection(db, collectionRef);
@@ -47,6 +51,7 @@ export async function CreateDocumentForUser({collectionRef='app', data={}}) // @
 export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
 {
     const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
+
     try 
     {
         const collectionID = collection(db, collectionRef);
@@ -71,9 +76,9 @@ export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
 
 export async function GetSpecificTodo({documentIndexIdentity=0}) // @ DST
 {
+    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
     try
     {
-       const collectionRef = collection(db, `UCID : ${auth.currentUser.email}`);
        const q = await query(collectionRef, where("documentIdentity", "==", parseInt(documentIndexIdentity)));
        const documents = await getDocs(q);
        const data = documents.docs.map((document) => ( document.data() ));

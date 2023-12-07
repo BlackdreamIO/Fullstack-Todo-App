@@ -10,8 +10,6 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
 
-import { CheckIfDarkMode } from '../function/themeManager';
-
 export default function TodoListPanel() 
 {
     const [value, setValue] = React.useState('recents');

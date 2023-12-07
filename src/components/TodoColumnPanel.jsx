@@ -4,11 +4,12 @@ import { Input, Divider, Tooltip, Stack } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Search from '@mui/icons-material/Search';
 
-import {TodoColumn } from './TodoColumn';
+import { TodoColumn } from './TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
 import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser } from '../function/todoFirebase';
 import { auth } from '../database/firebase';
+import { useTodoContext } from './TodoContex';
 
 
 function GetLocalStorageData()
@@ -29,28 +30,28 @@ export default function TodoColumnPanel()
     const [open, setOpen] = useState(false);
     const [todoDocuments, setTodoDocuments] = useState([]);
 
-    const abort = new AbortController(); // code: abort.signal
+
+    const { isTriggered } = useTodoContext();
     
     const GetTodoDocuments = async () => {
         try
         {
-            await GetUserDocuments({GetDataOf:UserDocument.ID})
-                .then(response => setTodoDocuments(response))
-                .catch((error) => console.log("Failed Reasone ", error));
+            const response = await GetUserDocuments({ GetDataOf: UserDocument.ID });
+            setTodoDocuments(response);
         }
         catch (err) 
         {
-            console.log("Failed To Process Fetch");
+           console.log("Failed Reason ", err);
         }
     }
 
-    useEffect(() => {
-    },)
-
-    const GetSpecificDocument = async () => {
-        console.log(GetSpecificTodo({documentIndexIdentity:24}));
-        GetTodoDocuments();
+    const test1 = () => {
+       console.log("TEST 1 CALLED");
     }
+
+    useEffect(() => {
+        GetTodoDocuments();
+    }, [isTriggered])
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
@@ -88,3 +89,4 @@ export default function TodoColumnPanel()
         </section>
     )
 }
+
