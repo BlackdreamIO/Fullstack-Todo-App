@@ -11,6 +11,12 @@ export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onComple
 
     const { todoID } = useParams(); // app/blogs/shorts/<shortsID>
 
+    
+    function refreshPage() 
+    {
+        window.location.reload(false);
+    }
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -29,7 +35,8 @@ export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onComple
             .then((resp) => {
                 if(onDocumentDeletion != null)
                 {
-                     onDocumentDeletion();
+                    onDocumentDeletion();
+                    refreshPage();
                 }
             });
     }
