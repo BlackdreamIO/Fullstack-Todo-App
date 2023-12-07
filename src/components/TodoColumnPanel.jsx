@@ -7,7 +7,7 @@ import Search from '@mui/icons-material/Search';
 import {TodoColumn } from './TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
-import {  GetUserDocuments, UserDocument, GetSpecificTodo } from '../function/todoFirebase';
+import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser } from '../function/todoFirebase';
 import { auth } from '../database/firebase';
 
 
@@ -34,7 +34,7 @@ export default function TodoColumnPanel()
     const GetTodoDocuments = async () => {
         try
         {
-            const data = await GetUserDocuments({GetDataOf:UserDocument.ID})
+            await GetUserDocuments({GetDataOf:UserDocument.ID})
                 .then(response => setTodoDocuments(response))
                 .catch((error) => console.log("Failed Reasone ", error));
         }
@@ -45,9 +45,6 @@ export default function TodoColumnPanel()
     }
 
     useEffect(() => {
-        auth.onAuthStateChanged(() => {
-            
-        })
     },)
 
     const GetSpecificDocument = async () => {
@@ -75,7 +72,8 @@ export default function TodoColumnPanel()
                 }
                 {/* <TodoColumn Text='GURDIEN' completedTodoCount={10}/> */}
                 {/* <TodoColumn Text='TODO by creating a new todo column you can' completedTodoCount={4}/> */}
-                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetSpecificDocument()}>CREATE COLLECTION</button>
+                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateCollectionForUser()}>CREATE COLLECTION</button>
+                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetTodoDocuments()}>GET DOCUMENTS</button>
                 {/* <button className='dark:text-neutral-500 dark:hover:text-white mt-5' onClick={() => GetTodoDocuments()}>FETCH DOCUMENTS</button> */}
                 {/* <Input type='number' placeholder='Enter Document Index Identity ' onChange={(e) => setDocumentIndexIdentity(e.target.value)}/> */}
                 {/* <button className='dark:text-neutral-500 dark:hover:text-white mt-5' onClick={() => GetSpecificDocument()}>FIND DOCUMENTS</button> */}

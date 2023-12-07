@@ -1,7 +1,12 @@
 import { db, auth } from '../database/firebase';
 import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, deleteDoc } from 'firebase/firestore';
 
-export function CreateCollectionForUser()
+export const UserDocument = {
+    ID : 'id',
+    DATA : 'data'
+}
+
+export function CreateCollectionForUser() // @ CCFU
 {
     try 
     {
@@ -23,7 +28,7 @@ export function CreateCollectionForUser()
     }
 }
 
-export async function CreateDocumentForUser({collectionRef='app', data={}})
+export async function CreateDocumentForUser({collectionRef='app', data={}}) // @ CDFU
 {
     try
     {
@@ -39,12 +44,7 @@ export async function CreateDocumentForUser({collectionRef='app', data={}})
     }
 }
 
-export const UserDocument = {
-    ID : 'id',
-    DATA : 'data'
-}
-
-export async function GetUserDocuments({ GetDataOf = UserDocument.ID})
+export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
 {
     const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
     try 
@@ -69,7 +69,7 @@ export async function GetUserDocuments({ GetDataOf = UserDocument.ID})
     }
 }
 
-export async function GetSpecificTodo({documentIndexIdentity=0}) 
+export async function GetSpecificTodo({documentIndexIdentity=0}) // @ DST
 {
     try
     {
@@ -86,16 +86,31 @@ export async function GetSpecificTodo({documentIndexIdentity=0})
     }
 }
 
-export async function DeleteUserDocument({documentID=''})
+export async function DeleteUserDocument({documentID=''}) // @ DUD
 {
     try 
     {
-        const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
-        await deleteDoc(documentReference);
+        await GetUserDocuments({GetDataOf:UserDocument.ID})
+            .then((response) => {
+                if(response.length > 1)
+                {
+                    const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
+                    deleteDoc(documentReference);
+                }
+                else{
+                    alert("You Cant Delete This Document ! There Must Be Atleast 1 Document Left");
+                }
+            })
+            .catch((error) => console.log("err during deleteting document"))
     } 
     catch (error) 
     {
         alert("Failed To Delete Document");
         console.log(error);
     }
+}
+
+export function HandleSiblingCall({arg='false'})
+{
+    return true;
 }
