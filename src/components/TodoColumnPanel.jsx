@@ -9,7 +9,7 @@ import { ColumnCreateDialog } from './ColumnCreateDialog';
 
 import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser } from '../function/todoFirebase';
 import { auth } from '../database/firebase';
-import { useTodoContext } from './TodoContex';
+import { useTodoContext } from '../contextAPI/TodoContex';
 
 
 function GetLocalStorageData()
@@ -30,8 +30,7 @@ export default function TodoColumnPanel()
     const [open, setOpen] = useState(false);
     const [todoDocuments, setTodoDocuments] = useState([]);
 
-
-    const { isTriggered } = useTodoContext();
+    const { isDeleteCalled } = useTodoContext();
     
     const GetTodoDocuments = async () => {
         try
@@ -45,13 +44,9 @@ export default function TodoColumnPanel()
         }
     }
 
-    const test1 = () => {
-       console.log("TEST 1 CALLED");
-    }
-
     useEffect(() => {
         GetTodoDocuments();
-    }, [isTriggered])
+    }, [isDeleteCalled])
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
