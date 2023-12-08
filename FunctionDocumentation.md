@@ -1,6 +1,3 @@
-    CONTENT WAS WRRITEN BY CHATGPT BUT THE ACTUAL WAS WRITTENT BY ME NOW WHY DID I USE CHATGPT IN THIS
-        WELL MY ENGLISH IS NOT THAT PROFESSIONAL AND ALSO FOR TIME SAVING
-
 
 [CreateCollectionForUser] @ CCFU
     <CreateCollectionForUser>, is responsible for creating a set of default documents within a collection associated with a specific user. Here's what it does:

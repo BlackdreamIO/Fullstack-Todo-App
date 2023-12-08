@@ -7,7 +7,7 @@ import Search from '@mui/icons-material/Search';
 import { TodoColumn } from '../TodoColumn/TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
-import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser } from '../../function/todoFirebase';
+import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser, CreateDocumentForUser } from '../../function/todoFirebase';
 import { auth } from '../../database/firebase';
 import { useTodoContext } from '../../contextAPI/TodoContex';
 
@@ -15,8 +15,6 @@ export default function TodoColumnPanel()
 {
     const [open, setOpen] = useState(false);
     const [todoDocuments, setTodoDocuments] = useState([]);
-
-    const [todoItem, setTodoItem] = useState({});
 
     const { isDeleteCalled } = useTodoContext();
     
@@ -32,26 +30,21 @@ export default function TodoColumnPanel()
         }
     }
 
-        
-
-    const [data, setData] = useState({});
-    const [mapFields, setMapFields] = useState({});
+    const [mapFields, setMapFields] = useState([]);
 
     const GetTodo = async () => {
         try 
         {
             const response = await GetUserDocuments({ GetDataOf: UserDocument.DATA });
-            setData(response);
 
             const extractedMapFields = [];
 
             // Iterate through document data keys and filter map fields
             Object.keys(response).forEach(key => {
-                console.log(Object.values(response[key]).map((x) => x.status));
+                extractedMapFields.push(Object.values(response[key]));
             });
 
             setMapFields(extractedMapFields);
-            console.log(extractedMapFields);
         }  
         catch (error) 
         {
@@ -67,11 +60,11 @@ export default function TodoColumnPanel()
         }
     }, [isDeleteCalled, auth.currentUser])
 
-    useEffect(() => {
-        console.log(mapFields);
-    }, [mapFields])
-    
-
+    const createTodoVolume = () => {
+        CreateDocumentForUser({
+            documentName:"QU"
+        })
+    }
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
@@ -91,9 +84,26 @@ export default function TodoColumnPanel()
                         <TodoColumn key={value} Text={value} completedTodoCount={index}/>
                     ))
                 }
-                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateCollectionForUser()}>CREATE COLLECTION</button>
-                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetTodoDocuments()}>GET DOCUMENTS</button>
+                {/* <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateCollectionForUser()}>CREATE COLLECTION</button> */}
+                {/* <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetTodoDocuments()}>GET DOCUMENTS</button> */}
+                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => createTodoVolume()}>CREATE DOCUMENTS</button>
                 <br />
+                {/* {
+                    mapFields.map((value,index) => (
+                        <div key={index} className='m-0'>
+                            {
+                                value.map((x, i) => (
+                                    x && x.title && x.title.length > 2 && (
+                                        <div key={i} className='dark:bg-neutral-900 m-2'>
+                                            <h1 className='dark:text-white font-bold'> title : {x.title}</h1>
+                                            <h1 className='dark:text-white font-bold'> status : {x.status}</h1>
+                                        </div>
+                                    )
+                                ))
+                            }
+                        </div>
+                    ))
+                } */}
             </Stack>
             
             <div className='fixed bottom-1 mb-0 mt-0'>
