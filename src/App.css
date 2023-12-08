@@ -4,7 +4,6 @@
 
 body{
     background-color: black;
-    cursor: url('../arrow.cur') default;
 }
 ::-webkit-scrollbar{
     display: none;
