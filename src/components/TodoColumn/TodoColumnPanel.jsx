@@ -16,6 +16,8 @@ export default function TodoColumnPanel()
     const [open, setOpen] = useState(false);
     const [todoDocuments, setTodoDocuments] = useState([]);
 
+    const [todoItem, setTodoItem] = useState({});
+
     const { isDeleteCalled } = useTodoContext();
     
     const GetTodoDocuments = async () => {
@@ -30,13 +32,46 @@ export default function TodoColumnPanel()
         }
     }
 
+        
+
+    const [data, setData] = useState({});
+    const [mapFields, setMapFields] = useState({});
+
+    const GetTodo = async () => {
+        try 
+        {
+            const response = await GetUserDocuments({ GetDataOf: UserDocument.DATA });
+            setData(response);
+
+            const extractedMapFields = [];
+
+            // Iterate through document data keys and filter map fields
+            Object.keys(response).forEach(key => {
+                console.log(Object.values(response[key]).map((x) => x.status));
+            });
+
+            setMapFields(extractedMapFields);
+            console.log(extractedMapFields);
+        }  
+        catch (error) 
+        {
+            console.log("failed");
+        }
+    }
+
     useEffect(() => {
         if(auth.currentUser)
         {
             GetTodoDocuments();
+            GetTodo();
         }
     }, [isDeleteCalled, auth.currentUser])
+
+    useEffect(() => {
+        console.log(mapFields);
+    }, [mapFields])
     
+
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
@@ -58,6 +93,7 @@ export default function TodoColumnPanel()
                 }
                 <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateCollectionForUser()}>CREATE COLLECTION</button>
                 <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetTodoDocuments()}>GET DOCUMENTS</button>
+                <br />
             </Stack>
             
             <div className='fixed bottom-1 mb-0 mt-0'>
