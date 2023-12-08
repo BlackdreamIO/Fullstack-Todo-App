@@ -4,7 +4,6 @@ import CrudApp from "./CrudApp";
 
 import { Route, Routes, router } from "react-router-dom";
 import { Typography } from "@mui/material";
-import TodoListPanel from "./components/TodoListPanel";
 
 export default function App() 
 {

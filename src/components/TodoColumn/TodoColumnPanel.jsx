@@ -4,26 +4,12 @@ import { Input, Divider, Tooltip, Stack } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Search from '@mui/icons-material/Search';
 
-import { TodoColumn } from './TodoColumn';
+import { TodoColumn } from '../TodoColumn/TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
-import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser } from '../function/todoFirebase';
-import { auth } from '../database/firebase';
-import { useTodoContext } from '../contextAPI/TodoContex';
-
-
-function GetLocalStorageData()
-{
-    if(localStorage.getItem('todoDocuments'))
-    {
-        const todoDocuments = JSON.parse(localStorage.getItem('todoDocuments'));
-        return todoDocuments;
-    }
-    else 
-    {
-        return [];
-    }
-}
+import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser } from '../../function/todoFirebase';
+import { auth } from '../../database/firebase';
+import { useTodoContext } from '../../contextAPI/TodoContex';
 
 export default function TodoColumnPanel() 
 {
@@ -45,8 +31,12 @@ export default function TodoColumnPanel()
     }
 
     useEffect(() => {
-        GetTodoDocuments();
-    }, [isDeleteCalled])
+        if(auth.currentUser)
+        {
+            GetTodoDocuments();
+        }
+    }, [isDeleteCalled, auth.currentUser])
+    
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
@@ -66,13 +56,8 @@ export default function TodoColumnPanel()
                         <TodoColumn key={value} Text={value} completedTodoCount={index}/>
                     ))
                 }
-                {/* <TodoColumn Text='GURDIEN' completedTodoCount={10}/> */}
-                {/* <TodoColumn Text='TODO by creating a new todo column you can' completedTodoCount={4}/> */}
                 <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateCollectionForUser()}>CREATE COLLECTION</button>
                 <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetTodoDocuments()}>GET DOCUMENTS</button>
-                {/* <button className='dark:text-neutral-500 dark:hover:text-white mt-5' onClick={() => GetTodoDocuments()}>FETCH DOCUMENTS</button> */}
-                {/* <Input type='number' placeholder='Enter Document Index Identity ' onChange={(e) => setDocumentIndexIdentity(e.target.value)}/> */}
-                {/* <button className='dark:text-neutral-500 dark:hover:text-white mt-5' onClick={() => GetSpecificDocument()}>FIND DOCUMENTS</button> */}
             </Stack>
             
             <div className='fixed bottom-1 mb-0 mt-0'>
