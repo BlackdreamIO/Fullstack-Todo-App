@@ -27,7 +27,7 @@ export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onComple
         contextDeleteCall();
     }
     
-    const handleDocumentDeletion = () => DeleteUserDocument({documentID:todoID}).then(() => contextDeleteCall());
+    const handleDocumentDeletion = () => DeleteUserDocument({documentID:todoID}).then(() => contextDeleteCall()).catch((err) => console.log(err));
     
     const handleCompleteTodoAll = () => {
         if(onCompleteTodoAll != null) {

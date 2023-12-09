@@ -14,7 +14,7 @@ import { useTodoContext } from '../../contextAPI/TodoContex';
 export default function TodoColumnPanel() 
 {
     const [open, setOpen] = useState(false);
-    const [documentName, setDocumentName] = useState(false);
+    const [documentName, setDocumentName] = useState('');
     const [todoDocumentID, setTodoDocumentID] = useState([]);
 
     const { isDeleteCalled } = useTodoContext();
@@ -53,16 +53,6 @@ export default function TodoColumnPanel()
         }
     }
 
-    const sameDocumnetFound = () => {
-        if(todoDocumentID.length > 0) 
-        {
-            const filterID = todoDocumentID.find(id => id === todoDocumentID);
-            console.log(filterID);
-        }
-        return false;
-    }
-
-
     useEffect(() => {
         if(auth.currentUser)
         {
@@ -71,13 +61,13 @@ export default function TodoColumnPanel()
         }
     }, [isDeleteCalled, auth.currentUser])
 
-    useEffect(() => {
-        sameDocumnetFound(); 
-    },[todoDocumentID])
-
 
     const CreateNewTodoDocument = () => {
-        sameDocumnetFound();
+        if(todoDocumentID.includes(documentName)) 
+        {
+            alert("Existing Document Found");
+            return;
+        }
         CreateDocumentForUser({ documentName:documentName })
             .then(() => GetTodoDocuments())
             .catch(() => console.log("Failed To Create Todo Document"))

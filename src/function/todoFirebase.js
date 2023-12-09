@@ -33,12 +33,13 @@ export function CreateCollectionForUser() // @ CCFU
 export async function CreateDocumentForUser({documentName=''}) // @ CDFU
 {
     const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
-    
+    const trimmedDocumentID = documentName.trim();
+
     try
     {
-        if(documentName.length === 3 || documentName.length < 3) { alert("Document Length Must Be Greater Then 3"); return; }
+        if(trimmedDocumentID.length === 3 || trimmedDocumentID.length < 3) { alert("Document Length Must Be Greater Then 3"); return; }
         
-        const docRef = doc(db, collectionRef, documentName);
+        const docRef = doc(db, collectionRef, trimmedDocumentID);
 
         setDoc(docRef, {documentIdentity:Math.floor(Math.random() * 16)})
             .then(() => { console.log("Document has been added successfully"); })

@@ -16,7 +16,7 @@ export default function App()
             <Routes>
                 <Route path="/" element={<CrudApp />} />
                 <Route path="/todo/:todoID" element={<CrudApp />} />
-                <Route path="*" element={<Typography variant="h1" className='dark:text-white'> 404 NOT FOUND SERVER EXEPTION</Typography>} />
+                <Route path="*" element={<Typography variant="h1" className='dark:text-white text-center mt-10'>CLIENT SIDE EXEPTION HAS OCCURED</Typography>} />
             </Routes>
             {/* <CrudApp/> */}
         </div>
