@@ -14,7 +14,8 @@ import { useTodoContext } from '../../contextAPI/TodoContex';
 export default function TodoColumnPanel() 
 {
     const [open, setOpen] = useState(false);
-    const [todoDocuments, setTodoDocuments] = useState([]);
+    const [documentName, setDocumentName] = useState(false);
+    const [todoDocumentID, setTodoDocumentID] = useState([]);
 
     const { isDeleteCalled } = useTodoContext();
     
@@ -22,7 +23,7 @@ export default function TodoColumnPanel()
         try
         {
             const response = await GetUserDocuments({ GetDataOf: UserDocument.ID });
-            setTodoDocuments(response);
+            setTodoDocumentID(response);
         }
         catch (err) 
         {
@@ -52,6 +53,16 @@ export default function TodoColumnPanel()
         }
     }
 
+    const sameDocumnetFound = () => {
+        if(todoDocumentID.length > 0) 
+        {
+            const filterID = todoDocumentID.find(id => id === todoDocumentID);
+            console.log(filterID);
+        }
+        return false;
+    }
+
+
     useEffect(() => {
         if(auth.currentUser)
         {
@@ -60,11 +71,20 @@ export default function TodoColumnPanel()
         }
     }, [isDeleteCalled, auth.currentUser])
 
-    const createTodoVolume = () => {
-        CreateDocumentForUser({
-            documentName:"QU"
-        })
+    useEffect(() => {
+        sameDocumnetFound(); 
+    },[todoDocumentID])
+
+
+    const CreateNewTodoDocument = () => {
+        sameDocumnetFound();
+        CreateDocumentForUser({ documentName:documentName })
+            .then(() => GetTodoDocuments())
+            .catch(() => console.log("Failed To Create Todo Document"))
+            .finally(() => setOpen(false));
     }
+
+    const handleInputFromDialog = (inputVal) => setDocumentName(inputVal);
 
     return (
         <section className='bg-neutral-300 dark:bg-[rgb(5,5,5)] h-screen w-3/12 p-1'>
@@ -76,17 +96,17 @@ export default function TodoColumnPanel()
             
             <Divider orientation='horizontal' className='dark:bg-white mt-5 mb-5' />
 
-            <ColumnCreateDialog open={open} onCreate={() => alert("created")} onClose={() => setOpen(false)}/>
+            <ColumnCreateDialog open={open} onCreate={() => CreateNewTodoDocument()} onClose={() => setOpen(false)} onChange={handleInputFromDialog}/>
 
             <Stack direction="column"  spacing={1} marginTop={2}>
                 {
-                    todoDocuments.map((value,index) => (
+                    todoDocumentID.map((value,index) => (
                         <TodoColumn key={value} Text={value} completedTodoCount={index}/>
                     ))
                 }
                 {/* <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateCollectionForUser()}>CREATE COLLECTION</button> */}
                 {/* <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetTodoDocuments()}>GET DOCUMENTS</button> */}
-                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => createTodoVolume()}>CREATE DOCUMENTS</button>
+                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateNewTodoDocument()}>CREATE DOCUMENTS</button>
                 <br />
                 {/* {
                     mapFields.map((value,index) => (
