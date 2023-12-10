@@ -9,10 +9,9 @@ export const UserDocument = {
 
 export function CreateCollectionForUser() // @ CCFU
 {
-    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
     try 
     {
-        const collectionId = `UCID : ${'mdh560354@gmail.com'}`; // <USER COLLECTION ID>
+        const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
 
         const documents = ["ALL","IMPORTENT","COMPLETE"]; // Default Document
         const definedRandomNumber = [24, 99, 82];
@@ -32,11 +31,11 @@ export function CreateCollectionForUser() // @ CCFU
 
 export async function CreateDocumentForUser({documentName=''}) // @ CDFU
 {
-    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
-    const trimmedDocumentID = documentName.trim();
-
     try
     {
+        const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
+        const trimmedDocumentID = documentName.trim();
+
         if(trimmedDocumentID.length === 3 || trimmedDocumentID.length < 3) { alert("Document Length Must Be Greater Then 3"); return; }
         
         const docRef = doc(db, collectionRef, trimmedDocumentID);
@@ -53,10 +52,9 @@ export async function CreateDocumentForUser({documentName=''}) // @ CDFU
 
 export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
 {
-    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
-
     try 
     {
+        const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
         const collectionID = collection(db, collectionRef);
         const documents = await getDocs(collectionID);
 
@@ -79,14 +77,14 @@ export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
 
 export async function GetSpecificTodo({documentIndexIdentity=0}) // @ DST
 {
-    const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
     try
     {
-       const q = await query(collectionRef, where("documentIdentity", "==", parseInt(documentIndexIdentity)));
-       const documents = await getDocs(q);
-       const data = documents.docs.map((document) => ( document.data() ));
+        const collectionRef = `UCID : ${auth.currentUser.email}`; // <USER COLLECTION ID>
+        const q = await query(collectionRef, where("documentIdentity", "==", parseInt(documentIndexIdentity)));
+        const documents = await getDocs(q);
+        const data = documents.docs.map((document) => ( document.data() ));
 
-       return data ? data : [];
+        return data ? data : [];
     }
     catch 
     { 

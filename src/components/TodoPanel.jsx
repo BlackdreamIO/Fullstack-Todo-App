@@ -4,8 +4,8 @@ import { db, auth } from '../database/firebase';
 import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { CreateCollectionForUser, CreateDocumentForUser, UserDocument, GetUserDocuments } from '../function/todoFirebase';
 
-import TodoColumnPanel from './TodoColumn/TodoColumnPanel';
-import TodoListPanel from './TodoList/TodoListPanel';
+import TodoColumnPanel from './Todo/TodoColumn/TodoColumnPanel';
+import TodoListPanel from './Todo/TodoList/TodoListPanel';
 import { TodoContextProvider } from '../contextAPI/TodoContex';
 
 export default function TodoPanel() 

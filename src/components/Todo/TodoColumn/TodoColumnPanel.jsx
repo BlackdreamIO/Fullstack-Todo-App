@@ -7,9 +7,9 @@ import Search from '@mui/icons-material/Search';
 import { TodoColumn } from '../TodoColumn/TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
-import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser, CreateDocumentForUser } from '../../function/todoFirebase';
-import { auth } from '../../database/firebase';
-import { useTodoContext } from '../../contextAPI/TodoContex';
+import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser, CreateDocumentForUser } from '../../../function/todoFirebase';
+import { auth } from '../../../database/firebase';
+import { useTodoContext } from '../../../contextAPI/TodoContex';
 
 export default function TodoColumnPanel() 
 {
@@ -94,8 +94,6 @@ export default function TodoColumnPanel()
                         <TodoColumn key={value} Text={value} completedTodoCount={index}/>
                     ))
                 }
-                {/* <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateCollectionForUser()}>CREATE COLLECTION</button> */}
-                {/* <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => GetTodoDocuments()}>GET DOCUMENTS</button> */}
                 <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateNewTodoDocument()}>CREATE DOCUMENTS</button>
                 <br />
                 {/* {
