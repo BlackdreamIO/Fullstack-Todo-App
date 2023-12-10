@@ -26,7 +26,9 @@ export default function TodoListPanel()
         <Box className='w-9/12 bg-neutral-200 dark:bg-[rgb(5,5,5)] h-screen dark:border-neutral-800'>
             <TodoListPanelNavbar/>
 
-            <Stack className='dark:bg-neutral-900 w-full h-[80vh]'>
+            <Stack className='flex flex-wrap flex-col items-center justify-center dark:bg-neutral-900 w-full h-[80vh] p-1'>
+                <TodoItem/>
+                <TodoItem/>
                 <TodoItem/>
             </Stack>
 

@@ -66,8 +66,13 @@ export default function Navbar ()
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar className='bg-neutral-200 dark:bg-neutral-950' >
-                        <Typography className='text-black dark:text-white' variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Todo App
+                        <Typography className='text-black dark:text-white flex flex-row' variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            Todo App 
+                            <a className='ml-2 text-sm text-[mediumspringgreen] hover:text-black dark:hover:text-white cursor-pointer'
+                                href='https://blackdreamio.vercel.app'
+                                target='_blank'>
+                                BlackdreamIO 
+                            </a>
                         </Typography>
 
                         <Button onClick={() => handleAuthDialog('logIn')} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>LOG IN</Button>
