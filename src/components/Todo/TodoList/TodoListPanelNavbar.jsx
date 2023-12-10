@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Tooltip, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { DeleteUserDocument } from '../../function/todoFirebase';
+import { DeleteUserDocument } from '../../../function/todoFirebase';
 
-import { useTodoContext } from '../../contextAPI/TodoContex';
+import { useTodoContext } from '../../../contextAPI/TodoContex';
 
 export const TodoListPanelNavbar = ({onThemeSelect, onDocumentDeletion, onCompleteTodoAll}) => {
     
