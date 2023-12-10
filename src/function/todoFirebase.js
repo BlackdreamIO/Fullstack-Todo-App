@@ -115,8 +115,3 @@ export async function DeleteUserDocument({documentID=''}) // @ DUD
         console.log(error);
     }
 }
-
-export function HandleSiblingCall({arg='false'})
-{
-    return true;
-}

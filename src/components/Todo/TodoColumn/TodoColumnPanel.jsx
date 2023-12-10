@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { Input, Divider, Tooltip, Stack } from '@mui/material';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -7,7 +9,7 @@ import Search from '@mui/icons-material/Search';
 import { TodoColumn } from '../TodoColumn/TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
-import {  GetUserDocuments, UserDocument, GetSpecificTodo, HandleSiblingCall, CreateCollectionForUser, CreateDocumentForUser } from '../../../function/todoFirebase';
+import {  GetUserDocuments, UserDocument, GetSpecificTodo, CreateCollectionForUser, CreateDocumentForUser } from '../../../function/todoFirebase';
 import { auth } from '../../../database/firebase';
 import { useTodoContext } from '../../../contextAPI/TodoContex';
 
@@ -17,7 +19,9 @@ export default function TodoColumnPanel()
     const [documentName, setDocumentName] = useState('');
     const [todoDocumentID, setTodoDocumentID] = useState([]);
 
+    const { todoID } = useParams();
     const { isDeleteCalled } = useTodoContext();
+    const navigate = useNavigate();
     
     const GetTodoDocuments = async () => {
         try
@@ -61,6 +65,19 @@ export default function TodoColumnPanel()
         }
     }, [isDeleteCalled, auth.currentUser])
 
+    useEffect(() => {
+        if(todoDocumentID.includes(todoID) && todoDocumentID.length > 1)
+        {
+            try 
+            {
+                const todoDocumentLastID = todoDocumentID[todoDocumentID.length - 2];
+                navigate(`/todo/${todoDocumentLastID}`);
+                console.log(todoDocumentLastID);
+            } 
+            catch (error) { console.log("FAILED TO REDIRECT"); }
+        }
+    },[isDeleteCalled])
+
 
     const CreateNewTodoDocument = () => {
         if(todoDocumentID.includes(documentName)) 
@@ -94,7 +111,6 @@ export default function TodoColumnPanel()
                         <TodoColumn key={value} Text={value} completedTodoCount={index}/>
                     ))
                 }
-                <button className='dark:text-neutral-500 dark:hover:text-white' onClick={() => CreateNewTodoDocument()}>CREATE DOCUMENTS</button>
                 <br />
                 {/* {
                     mapFields.map((value,index) => (
