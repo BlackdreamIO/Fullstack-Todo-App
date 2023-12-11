@@ -70,11 +70,16 @@ export default function TodoColumnPanel()
         {
             try 
             {
-                const todoDocumentLastID = todoDocumentID[todoDocumentID.length - 2];
-                navigate(`/todo/${todoDocumentLastID}`);
-                console.log(todoDocumentLastID);
+                const documentLastID = todoDocumentID[todoDocumentID.length - 2];
+
+                const lastIsCurrent = documentLastID === todoID;
+                const firstIsCurrent = documentLastID === todoID && todoDocumentID.length < 2;
+
+                const finalDocumentID = firstIsCurrent ? todoDocumentID[1] : todoDocumentID[0];
+
+                navigate(`/todo/${lastIsCurrent ? finalDocumentID : documentLastID}`);
             } 
-            catch (error) { console.log("FAILED TO REDIRECT"); }
+            catch (error) { navigate(`/todo/${todoDocumentID[0]}`); window.location.reload(); console.log("FAILED TO REDIRECT"); }
         }
     },[isDeleteCalled])
 

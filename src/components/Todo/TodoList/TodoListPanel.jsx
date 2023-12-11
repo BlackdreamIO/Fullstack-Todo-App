@@ -26,10 +26,12 @@ export default function TodoListPanel()
         <Box className='w-9/12 bg-neutral-200 dark:bg-[rgb(5,5,5)] h-screen dark:border-neutral-800'>
             <TodoListPanelNavbar/>
 
-            <Stack className='flex flex-wrap flex-col items-center justify-center dark:bg-neutral-900 w-full h-[80vh] p-1'>
-                <TodoItem/>
-                <TodoItem/>
-                <TodoItem/>
+            <Stack className='flex flex-col items-center justify-start dark:bg-neutral-900 w-full h-[80vh] p-1'>
+                <TodoItem title='0x3f72a8d1'/>
+                <TodoItem title='0x9bc2e4f7'/>
+                <TodoItem title='0x5a9d8b10'/>
+                <TodoItem title='0x46f1c35a'/>
+                <TodoItem title='0x1e7a0b94'/>
             </Stack>
 
             <BottomNavigation className='w-full dark:bg-[rgb(5,5,5)]' value={value} onChange={handleChange}>
