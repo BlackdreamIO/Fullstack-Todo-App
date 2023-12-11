@@ -7,6 +7,8 @@ export const UserDocument = {
     DATA : 'data'
 }
 
+//.....................................................................................................
+
 export function CreateCollectionForUser() // @ CCFU
 {
     try 
@@ -29,6 +31,8 @@ export function CreateCollectionForUser() // @ CCFU
     }
 }
 
+//.....................................................................................................
+
 export async function CreateDocumentForUser({documentName=''}) // @ CDFU
 {
     try
@@ -49,6 +53,8 @@ export async function CreateDocumentForUser({documentName=''}) // @ CDFU
         alert('Failed To Create New Column');
     }
 }
+
+//.....................................................................................................
 
 export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
 {
@@ -75,6 +81,8 @@ export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
     }
 }
 
+//.....................................................................................................
+
 export async function GetSingleDocument({documentID=''})
 {
     try 
@@ -90,6 +98,8 @@ export async function GetSingleDocument({documentID=''})
         return [];
     }
 }
+
+//.....................................................................................................
 
 export async function GetSpecificTodo({documentIndexIdentity=0}) // @ DST
 {
@@ -107,6 +117,8 @@ export async function GetSpecificTodo({documentIndexIdentity=0}) // @ DST
         return []
     }
 }
+
+//.....................................................................................................
 
 export async function DeleteUserDocument({documentID=''}) // @ DUD
 {
@@ -131,3 +143,5 @@ export async function DeleteUserDocument({documentID=''}) // @ DUD
         console.log(error);
     }
 }
+
+//.....................................................................................................

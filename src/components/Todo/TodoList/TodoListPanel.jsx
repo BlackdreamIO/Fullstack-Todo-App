@@ -11,7 +11,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
 
-import {  GetUserDocuments, UserDocument, GetSingleDocument } from '../../../function/todoFirebase';
+import {  GetUserDocuments, UserDocument, GetSingleDocument, GetSpecificTodo } from '../../../function/todoFirebase';
 import { auth } from '../../../database/firebase';
 
 export default function TodoListPanel() 
@@ -22,22 +22,11 @@ export default function TodoListPanel()
 
     const { todoID } = useParams();
 
-    const GetTodo = async () => {
+    const GetTodos = async () => {
         try 
         {
             const response = await GetSingleDocument({ documentID: todoID});
-
-            const extractedMapFields = [];
-
-            // Iterate through document data keys and filter map fields
-            
-            //Object.keys(response).forEach(key => {
-                //extractedMapFields.push(Object.values(response[key]));
-            //});
-            
-
             setTodoItems(Object.values(response));
-            console.log(Object.values(response).map((x) => x.title));
         }  
         catch (error) 
         {
@@ -46,15 +35,29 @@ export default function TodoListPanel()
     }
 
     useEffect(() => {
-        if(auth.currentUser)
-        {
-            GetTodo();
+        if(auth.currentUser){ 
+            GetTodos(); 
         }
     }, [auth.currentUser, todoID])
+
+    useEffect(() => {
+        const filterTodo = todoItems.filter((todo) => todo.title === 'fullstack youtube clone');
+        console.log();
+    }, [todoItems])
+
+    const onTodoEdit = (title) => {
+        try 
+        {
+            const filterTodo = todoItems.filter((todo) => todo.title === title); 
+            console.log(filterTodo);  
+        } 
+        catch (error) {}
+    }
+    
     
     
     const handleChange = (event, newValue) => {
-      setValue(newValue);
+        setValue(newValue);
     };
 
     const BottomNavigationActionStyle = 'bg-black hover:text-black dark:hover:bg-white dark:hover:text-black dark:text-neutral-500 dark:focus:text-white dark:focus:hover:text-black transition-all'
@@ -71,11 +74,8 @@ export default function TodoListPanel()
                         <div key={i} className='w-full m-0'>
                             {
                                 todo && todo.title && todo.title.length > 2 && (
-                                        <TodoItem title={todo.title} key={i} />
-                                    )
-                                // todo.map((value, i) => (
-                                    
-                                // ))
+                                    <TodoItem onTodoEdit={onTodoEdit} title={todo.title} key={i} />
+                                )
                             }
                         </div>
                     ))
