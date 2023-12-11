@@ -75,6 +75,22 @@ export async function GetUserDocuments({ GetDataOf = UserDocument.ID}) // @ GUD
     }
 }
 
+export async function GetSingleDocument({documentID=''})
+{
+    try 
+    {
+        const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
+        const docSnap = await getDoc(documentReference);
+        return docSnap.data();
+    } 
+    catch (error) 
+    {
+        console.log("ERR FUNC => GetSingleDocument");
+        alert("Failed To Get Todo");
+        return [];
+    }
+}
+
 export async function GetSpecificTodo({documentIndexIdentity=0}) // @ DST
 {
     try
