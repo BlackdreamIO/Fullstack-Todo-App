@@ -27,9 +27,9 @@ export const TodoItem = ({title=''}) =>
 
     return (
        <AppBar position="static" className='dark:bg-black dark:hover:bg-[rgb(5,5,5)] dark:border-black dark:hover:border-neutral-800 border-[1px] p-0 w-full mb-2 mt-2'>
-            <Toolbar style={{padding:'0%'}}>
+            <Toolbar style={{padding:'0%'}} >
                 <Checkbox 
-                    defaultChecked={todoCheck}
+                    defaultChecked={false}
                     icon={<CheckCircleOutlineIcon />}
                     checkedIcon={<CheckCircleIcon />}
                     onChange={() => handleCheck()}
@@ -69,7 +69,7 @@ export const TodoItem = ({title=''}) =>
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                   <MenuItem className={menuItemStyle}>
+                   <MenuItem onClick={() => handleCheck()} className={menuItemStyle}>
                         <Typography textAlign="center" fontSize={"0.8rem"}>Add To Complete</Typography>
                     </MenuItem>
                     <MenuItem className={menuItemStyle}>

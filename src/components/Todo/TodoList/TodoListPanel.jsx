@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Box, Stack } from '@mui/material';
 import { TodoListPanelNavbar } from './TodoListPanelNavbar';
@@ -10,10 +11,48 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
 
+import {  GetUserDocuments, UserDocument, GetSingleDocument } from '../../../function/todoFirebase';
+import { auth } from '../../../database/firebase';
+
 export default function TodoListPanel() 
 {
     const [value, setValue] = React.useState('recents');
 
+    const [todoItems, setTodoItems] = useState([]);
+
+    const { todoID } = useParams();
+
+    const GetTodo = async () => {
+        try 
+        {
+            const response = await GetSingleDocument({ documentID: todoID});
+
+            const extractedMapFields = [];
+
+            // Iterate through document data keys and filter map fields
+            
+            //Object.keys(response).forEach(key => {
+                //extractedMapFields.push(Object.values(response[key]));
+            //});
+            
+
+            setTodoItems(Object.values(response));
+            console.log(Object.values(response).map((x) => x.title));
+        }  
+        catch (error) 
+        {
+            console.log("failed");
+        }
+    }
+
+    useEffect(() => {
+        if(auth.currentUser)
+        {
+            GetTodo();
+        }
+    }, [auth.currentUser, todoID])
+    
+    
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -27,11 +66,20 @@ export default function TodoListPanel()
             <TodoListPanelNavbar/>
 
             <Stack className='flex flex-col items-center justify-start dark:bg-neutral-900 w-full h-[80vh] p-1'>
-                <TodoItem title='0x3f72a8d1'/>
-                <TodoItem title='0x9bc2e4f7'/>
-                <TodoItem title='0x5a9d8b10'/>
-                <TodoItem title='0x46f1c35a'/>
-                <TodoItem title='0x1e7a0b94'/>
+                {
+                    todoItems.map((todo,i) => (
+                        <div key={i} className='w-full m-0'>
+                            {
+                                todo && todo.title && todo.title.length > 2 && (
+                                        <TodoItem title={todo.title} key={i} />
+                                    )
+                                // todo.map((value, i) => (
+                                    
+                                // ))
+                            }
+                        </div>
+                    ))
+                }
             </Stack>
 
             <BottomNavigation className='w-full dark:bg-[rgb(5,5,5)]' value={value} onChange={handleChange}>
