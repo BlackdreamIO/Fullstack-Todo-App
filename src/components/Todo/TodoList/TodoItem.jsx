@@ -2,19 +2,25 @@ import React, { useState, useEffect } from 'react';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-import { Checkbox, checkboxClasses, Menu, MenuItem, IconButton, Typography, Toolbar, AppBar, Button, Input } from '@mui/material';
+import { Checkbox, checkboxClasses, Menu, MenuItem, IconButton, Typography, Toolbar, AppBar, Button, Input, Box } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import LinearProgress from '@mui/material/LinearProgress';
 
 export const TodoItem = ({title='', onTodoEdit}) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorChild, setAnchorChild] = useState(null);
     const [todoCheck, setTodoCheck] = useState(true);
+    const [canCheck, setCanCheck] = useState(true);
 
     const [todoColor, setTodoColor] = useState('red');
     const [completeTodo, setCompleteTodo] = useState(true);
     const [pendingTodo, setPendingTodo] = useState(true);
+
+    const [editTodoName, setEditTodoName] = useState('');
+
+    const [loading, setLoading] = useState(false);
 
     const todoMode = {
         incomplete : 'red',
@@ -22,15 +28,17 @@ export const TodoItem = ({title='', onTodoEdit}) => {
         complete : '#00FF3C'
     }
 
-    const handleMenu = (event) => setAnchorEl(event.currentTarget); // open menu at target
+    const handleMenu = (event) => { setCanCheck(false); setAnchorEl(event.currentTarget) }; // open menu at target
 
-    const handleMenuClose = () => setAnchorEl(null); // close menu
+    const handleMenuClose = () => { setCanCheck(true); setAnchorEl(null) }; // close menu
 
-    const handleChildMenu = (event) => setAnchorChild(event.currentTarget);
+    const handleChildMenu = (event) => { setCanCheck(false); setAnchorChild(event.currentTarget) };
 
-    const handleCloseChildMenu = () => setAnchorChild(null);
+    const handleCloseChildMenu = () => { setCanCheck(true); setAnchorChild(null) };
 
     const handleCompleteClick = () => {
+        if(!canCheck) return;
+
         setCompleteTodo((prev) => !prev);
         setTodoColor(completeTodo ? todoMode.complete : todoMode.incomplete);
         if(!pendingTodo)
@@ -58,6 +66,9 @@ export const TodoItem = ({title='', onTodoEdit}) => {
 
     return (
        <AppBar position="static" className='dark:bg-black dark:hover:bg-[rgb(5,5,5)] dark:border-black dark:hover:border-neutral-800 border-[1px] p-0 w-full mb-2 mt-2'>
+            <Box sx={{ width: '100%' }}>
+                <LinearProgress disableShrink color='info' style={{display: loading ? 'block' : 'none'}} />
+            </Box>
             <Toolbar style={{padding:'0%'}} onDoubleClickCapture={() => handleCompleteClick()} onContextMenu={handleMenu} >
                 <Checkbox 
                     icon={<CircleOutlinedIcon />}
@@ -135,10 +146,16 @@ export const TodoItem = ({title='', onTodoEdit}) => {
                     onClose={handleCloseChildMenu}>
                     
                     <MenuItem onClick={() => {}} className={menuItemStyle}>
-                        <Input placeholder='Name'/>
+                        <Input 
+                            onChange={(e) => setEditTodoName(e.target.value)}
+                            value={editTodoName}
+                            disableUnderline 
+                            className='dark:text-white text-center !font-mono dark:placeholder:text-center selection:bg-black dark:selection:text-emerald-400' 
+                            placeholder='Name'
+                        />
                     </MenuItem>
-                    <MenuItem onClick={() => {}} className={menuItemStyle}>
-                        <Typography textAlign="center" fontSize={"0.8rem"}>Ok</Typography>
+                    <MenuItem onClick={() => { setAnchorChild(Boolean(false)); setLoading(true); handleOnTodoEdit()}} className={menuItemStyle}>
+                        <Typography textAlign="center" className='!text-center !m-auto' fontSize={"0.8rem"}>Ok</Typography>
                     </MenuItem>
                             
                 </Menu>
