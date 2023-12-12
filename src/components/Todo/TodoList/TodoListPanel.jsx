@@ -13,6 +13,7 @@ import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlin
 
 import {  GetUserDocuments, UserDocument, GetSingleDocument, GetSpecificTodo } from '../../../function/todoFirebase';
 import { auth } from '../../../database/firebase';
+import { CreateTodo } from './CreateTodo';
 
 export default function TodoListPanel() 
 {
@@ -81,6 +82,8 @@ export default function TodoListPanel()
                     ))
                 }
             </Stack>
+
+            <CreateTodo />
 
             <BottomNavigation className='w-full dark:bg-[rgb(5,5,5)]' value={value} onChange={handleChange}>
                 <BottomNavigationAction sx={{ '&.Mui-selected': { color: isDarkMode ? 'white' : 'black' }}} className={BottomNavigationActionStyle} label="Recents" value="recents" icon={<RestoreIcon />} />
