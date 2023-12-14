@@ -9,7 +9,7 @@ import Search from '@mui/icons-material/Search';
 import { TodoColumn } from '../TodoColumn/TodoColumn';
 import { ColumnCreateDialog } from './ColumnCreateDialog';
 
-import {  GetUserDocuments, UserDocument, GetSpecificTodo, CreateCollectionForUser, CreateDocumentForUser } from '../../../function/todoFirebase';
+import {  GetUserDocuments, UserDocument, CreateDocumentForUser } from '../../../function/todoFirebase';
 import { auth } from '../../../database/firebase';
 import { useTodoContext } from '../../../contextAPI/TodoContex';
 
@@ -17,7 +17,9 @@ export default function TodoColumnPanel()
 {
     const [open, setOpen] = useState(false);
     const [documentName, setDocumentName] = useState('');
+    
     const [todoDocumentID, setTodoDocumentID] = useState([]);
+    const [availableDocuments, setAvailableDocuments] = useState([]);
 
     const { todoID } = useParams();
     const { isDeleteCalled } = useTodoContext();
@@ -35,53 +37,26 @@ export default function TodoColumnPanel()
         }
     }
 
-    const [mapFields, setMapFields] = useState([]);
-
-    const GetTodo = async () => {
-        try 
-        {
-            const response = await GetUserDocuments({ GetDataOf: UserDocument.DATA });
-
-            const extractedMapFields = [];
-
-            // Iterate through document data keys and filter map fields
-            Object.keys(response).forEach(key => {
-                extractedMapFields.push(Object.values(response[key]));
-            });
-
-            setMapFields(extractedMapFields);
-        }  
-        catch (error) 
-        {
-            console.log("failed");
-        }
-    }
-
     useEffect(() => {
         if(auth.currentUser)
         {
             GetTodoDocuments();
-            GetTodo();
         }
     }, [isDeleteCalled, auth.currentUser])
 
     useEffect(() => {
-        if(todoDocumentID.includes(todoID) && todoDocumentID.length > 1)
+      setAvailableDocuments(todoDocumentID);
+    }, [todoDocumentID])
+
+    useEffect(() => {
+        // When a document is deleted, update availableDocuments to the last document
+        if (todoDocumentID.length > 0) 
         {
-            try 
-            {
-                const documentLastID = todoDocumentID[todoDocumentID.length - 2];
-
-                const lastIsCurrent = documentLastID === todoID;
-                const firstIsCurrent = documentLastID === todoID && todoDocumentID.length < 2;
-
-                const finalDocumentID = firstIsCurrent ? todoDocumentID[1] : todoDocumentID[0];
-
-                navigate(`/todo/${lastIsCurrent ? finalDocumentID : documentLastID}`);
-            } 
-            catch (error) { navigate(`/todo/${todoDocumentID[0]}`); window.location.reload(); console.log("FAILED TO REDIRECT"); }
+            const lastDocumentID = todoDocumentID[todoDocumentID.length - 1];
+            setAvailableDocuments([lastDocumentID]);
+            navigate(`/todo/${lastDocumentID}`);
         }
-    },[isDeleteCalled])
+    }, [isDeleteCalled, todoDocumentID]);
 
 
     const CreateNewTodoDocument = () => {

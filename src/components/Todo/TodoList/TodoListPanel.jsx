@@ -69,7 +69,7 @@ export default function TodoListPanel()
         <Box className='w-9/12 bg-neutral-200 dark:bg-[rgb(5,5,5)] h-screen dark:border-neutral-800'>
             <TodoListPanelNavbar/>
 
-            <Stack className='flex flex-col items-center justify-start dark:bg-neutral-900 w-full h-[80vh] p-1'>
+            <Stack className='flex flex-col items-center justify-start dark:bg-neutral-900 w-full h-[75vh] p-1'>
                 {
                     todoItems.map((todo,i) => (
                         <div key={i} className='w-full m-0'>
