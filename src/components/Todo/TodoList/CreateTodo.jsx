@@ -1,38 +1,31 @@
 import { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { Box, Input, Fab, Menu, MenuItem, Typography, Divider } from '@mui/material';
 
 import AddIcon from '@mui/icons-material/Add';
 import { InfoNotification, ErrorNotification } from '../../Tostify/NotificationManager';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 
 export const CreateTodo = ({ onCreate, onNameUpdate }) => {
     
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [todoName, setTodoName] = useState('');
 
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+    const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+    const handleCloseUserMenu = () =>  setAnchorElUser(null);
 
     const handleCreate = () => {
-        if(onCreate != null && todoName.length > 2)
-        {
-            onCreate();
-        }
-        else 
-        {
-            ErrorNotification({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher'})
-        }
+        todoName.length > 2 ? InfoNotification({message:`Created : ${todoName}`, icon : <BeenhereIcon />})
+                            : ErrorNotification({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher'})
+        
+        if(onCreate != null) { onCreate(); }
     }
     const handleInputChange = (e) => {
         setTodoName(e.target.value);
         if(onNameUpdate != null) 
         {
-            onNameUpdate(e.target.value);
+            const value = e.target.value;
+            onNameUpdate(value);
         }
     }
 

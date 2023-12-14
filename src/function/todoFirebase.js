@@ -120,9 +120,22 @@ export async function GetSpecificTodo({documentIndexIdentity=0}) // @ DST
 
 //.....................................................................................................
 
-export async function EditTodo({jsonData})
+export async function CreateNewTodo({documentID, title='', status=''})
 {
-    
+    try 
+    {
+        const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
+        setDoc(documentReference, {
+            title: {
+                'title': title,
+                'status': status,
+            }
+        }, { merge: true })
+    }
+    catch (err) 
+    {
+        alert("Failed To Create Todo");
+    }
 }
 
 //.....................................................................................................
