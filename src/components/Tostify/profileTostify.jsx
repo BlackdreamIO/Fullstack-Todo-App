@@ -1,6 +1,6 @@
 import toast, { Toaster } from 'react-hot-toast';
 
-export const CustomNotify = () => {
+export const StartNotification = () => {
 
     toast.custom((t) => (
         <div
