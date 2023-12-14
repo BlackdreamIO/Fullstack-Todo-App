@@ -11,16 +11,18 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
 
-import {  GetUserDocuments, UserDocument, GetSingleDocument, GetSpecificTodo } from '../../../function/todoFirebase';
+import { GetUserDocuments, UserDocument, GetSingleDocument, CreateNewTodo } from '../../../function/todoFirebase';
 import { auth } from '../../../database/firebase';
 import { CreateTodo } from './CreateTodo';
 
+import { Toaster } from 'react-hot-toast';
+import { InfoNotification, ErrorNotification } from '../../Tostify/NotificationManager';
+
 export default function TodoListPanel() 
 {
-    const [value, setValue] = React.useState('recents');
-
+    const [currentPanel, setCurrentPanel] = React.useState('recents');
     const [todoItems, setTodoItems] = useState([]);
-
+    const [todoName, setTodoName] = useState('');
     const { todoID } = useParams();
 
     const GetTodos = async () => {
@@ -35,11 +37,9 @@ export default function TodoListPanel()
         }
     }
 
-    useEffect(() => {
-        if(auth.currentUser){ 
-            GetTodos(); 
-        }
-    }, [auth.currentUser, todoID])
+    const handleTodoItemChange = (event, newValue) => setCurrentPanel(newValue);
+
+    useEffect(() => { if(auth.currentUser) { GetTodos(); } }, [auth.currentUser, todoID]);
 
     useEffect(() => {
         const filterTodo = todoItems.filter((todo) => todo.title === 'fullstack youtube clone');
@@ -54,12 +54,17 @@ export default function TodoListPanel()
         } 
         catch (error) {}
     }
-    
-    
-    
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+
+    const handleTodoCreate = async () => {
+        await CreateNewTodo({
+            documentID : 'crete new db',
+            status : 'pending',
+            title : 'auto generated merge'
+        }).then(() => InfoNotification({message:"Successfully Created"}))
+        .catch((err) => ErrorNotification({message:err}))
+    }
+
+    const handleTodoName = (value) => setTodoName(value);
 
     const BottomNavigationActionStyle = 'bg-black hover:text-black dark:hover:bg-white dark:hover:text-black dark:text-neutral-500 dark:focus:text-white dark:focus:hover:text-black transition-all'
 
@@ -83,14 +88,16 @@ export default function TodoListPanel()
                 }
             </Stack>
 
-            <CreateTodo />
+            <CreateTodo onCreate={(e) => handleTodoCreate(e)} onNameUpdate={handleTodoName} />
 
-            <BottomNavigation className='w-full dark:bg-[rgb(5,5,5)]' value={value} onChange={handleChange}>
+            <BottomNavigation className='w-full dark:bg-[rgb(5,5,5)]' value={currentPanel} onChange={handleTodoItemChange}>
                 <BottomNavigationAction sx={{ '&.Mui-selected': { color: isDarkMode ? 'white' : 'black' }}} className={BottomNavigationActionStyle} label="Recents" value="recents" icon={<RestoreIcon />} />
                 <BottomNavigationAction sx={{ '&.Mui-selected': { color: isDarkMode ? 'white' : 'black' }}} className={BottomNavigationActionStyle} label="Complete" value="Completed" icon={<AssignmentTurnedInOutlinedIcon />} />
                 <BottomNavigationAction sx={{ '&.Mui-selected': { color: isDarkMode ? 'white' : 'black' }}} className={BottomNavigationActionStyle} label="Pending" value="Pending" icon={<HourglassEmptyOutlinedIcon />} />
                 <BottomNavigationAction sx={{ '&.Mui-selected': { color: isDarkMode ? 'white' : 'black' }}} className={BottomNavigationActionStyle} label="Archive" value="Archive" icon={<ArchiveOutlinedIcon />} />
             </BottomNavigation>
+
+            <Toaster/>
         </Box>
     )
 }
