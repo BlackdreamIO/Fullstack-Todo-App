@@ -3,18 +3,12 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Box, Input, Fab, Menu, MenuItem, Typography, Divider } from '@mui/material';
 
 import AddIcon from '@mui/icons-material/Add';
-import { CustomNotify } from '../../Tostify/profileTostify';
+import { InfoNotification, ErrorNotification } from '../../Tostify/NotificationManager';
 
 export const CreateTodo = ({ onCreate, onNameUpdate }) => {
     
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [todoName, setTodoName] = useState('');
-
-    const notify = ({message=''}) => toast(message, {
-        duration: 3000,
-        position: 'top-center',
-
-    });
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -31,11 +25,9 @@ export const CreateTodo = ({ onCreate, onNameUpdate }) => {
         }
         else 
         {
-            //notify({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher'});
-            CustomNotify();
+            ErrorNotification({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher'})
         }
     }
-
     const handleInputChange = (e) => {
         setTodoName(e.target.value);
         if(onNameUpdate != null) 
