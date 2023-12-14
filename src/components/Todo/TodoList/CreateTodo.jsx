@@ -1,12 +1,20 @@
 import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Box, Input, Fab, Menu, MenuItem, Typography, Divider } from '@mui/material';
 
 import AddIcon from '@mui/icons-material/Add';
+import { CustomNotify } from '../../Tostify/profileTostify';
 
 export const CreateTodo = ({ onCreate, onNameUpdate }) => {
     
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [todoName, setTodoName] = useState('');
+
+    const notify = ({message=''}) => toast(message, {
+        duration: 3000,
+        position: 'top-center',
+
+    });
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -23,7 +31,8 @@ export const CreateTodo = ({ onCreate, onNameUpdate }) => {
         }
         else 
         {
-            alert('Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher')
+            //notify({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher'});
+            CustomNotify();
         }
     }
 
@@ -34,7 +43,6 @@ export const CreateTodo = ({ onCreate, onNameUpdate }) => {
             onNameUpdate(e.target.value);
         }
     }
-
 
     const handleKeyInput = (e) => {
         if(e.key === 'Enter') { handleCreate(); }
@@ -79,16 +87,17 @@ export const CreateTodo = ({ onCreate, onNameUpdate }) => {
 
                 <Divider className='dark:bg-white mb-5' />
 
-                <MenuItem className={menuItemStyle} onClick={() => handleCloseUserMenu()}>
+                <MenuItem className={menuItemStyle} onClick={() => {}}>
                     <Typography textAlign="center" fontSize={"0.8rem"}>INCOMPLETE</Typography>
                 </MenuItem>
-                <MenuItem className={menuItemStyle} onClick={() => handleCloseUserMenu()}>
+                <MenuItem className={menuItemStyle} onClick={() => {}}>
                     <Typography textAlign="center" fontSize={"0.8rem"}>PENDING</Typography>
                 </MenuItem>
-                <MenuItem className={menuItemStyle} onClick={() => handleCloseUserMenu()}>
+                <MenuItem className={menuItemStyle} onClick={() => {}}>
                     <Typography textAlign="center" fontSize={"0.8rem"}>COMPLETE</Typography>
                 </MenuItem>
             </Menu>
+            <Toaster/>
         </Box>
     )
 }
