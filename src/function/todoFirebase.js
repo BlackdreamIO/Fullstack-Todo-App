@@ -126,9 +126,9 @@ export async function CreateNewTodo({documentID, title='', status=''})
     {
         const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
         setDoc(documentReference, {
-            title: {
-                'title': title,
-                'status': status,
+            [title]: {
+                title: title,
+                status: status,
             }
         }, { merge: true })
     }
@@ -164,3 +164,19 @@ export async function DeleteUserDocument({documentID=''}) // @ DUD
 }
 
 //.....................................................................................................
+
+function hamimDromSyndom(inputString)
+{
+    const userInput = inputString;
+
+    const inputArray = userInput.split('');
+    const reversArray = inputArray.reverse();
+
+    const reversedString = reversArray.join();
+
+    const isPalindrom = userInput.lowercase().trim() === reversedString.lowercase().trim() ? true : false;
+
+    return isPalindrom;
+}
+
+//output true

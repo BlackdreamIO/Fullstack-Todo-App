@@ -61,11 +61,11 @@ export const TodoItem = ({title='', onTodoEdit}) => {
         }
     }
 
-    const menuItemStyle = `dark:!bg-neutral-950 dark:hover:!bg-neutral-900 dark:!text-neutral-500 dark:hover:!text-white !text-black hover:!text-white !bg-neutral-200 hover:!bg-neutral-900`;
+    const menuItemStyle = `dark:!bg-neutral-950 dark:hover:!bg-neutral-900 dark:!text-neutral-500 dark:hover:!text-white !text-black hover:!text-neutral-900 !bg-neutral-200 hover:!bg-white`;
     const isDarkMode = document.documentElement.className === 'dark' ? true : false;
 
     return (
-       <AppBar position="static" className='dark:bg-black dark:hover:bg-[rgb(5,5,5)] dark:border-black dark:hover:border-neutral-800 border-[1px] p-0 w-full mb-2 mt-2'>
+       <AppBar position="static" className='dark:!bg-black dark:hover:!bg-[rgb(5,5,5)] dark:!border-black dark:hover:!border-neutral-800 !bg-neutral-200 hover:!border-neutral-800 border-[1px] p-0 w-full mb-2 mt-2'>
             <Box sx={{ width: '100%' }}>
                 <LinearProgress disableShrink color='info' style={{display: loading ? 'block' : 'none'}} />
             </Box>
@@ -89,7 +89,7 @@ export const TodoItem = ({title='', onTodoEdit}) => {
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
                     onClick={handleMenu}
-                    color="inherit"
+                    className='dark:text-white text-black'
                 >
                     <MoreHorizIcon />
                 </IconButton>

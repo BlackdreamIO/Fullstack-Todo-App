@@ -4,9 +4,9 @@ import { Box, Input, Fab, Menu, MenuItem, Typography, Divider } from '@mui/mater
 
 import AddIcon from '@mui/icons-material/Add';
 import { InfoNotification, ErrorNotification } from '../../Tostify/NotificationManager';
-import BeenhereIcon from '@mui/icons-material/Beenhere';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-export const CreateTodo = ({ onCreate, onNameUpdate }) => {
+export const CreateTodo = ({ onCreate, onNameUpdate, ref }) => {
     
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [todoName, setTodoName] = useState('');
@@ -15,17 +15,21 @@ export const CreateTodo = ({ onCreate, onNameUpdate }) => {
     const handleCloseUserMenu = () =>  setAnchorElUser(null);
 
     const handleCreate = () => {
-        todoName.length > 2 ? InfoNotification({message:`Created : ${todoName}`, icon : <BeenhereIcon />})
-                            : ErrorNotification({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher'})
-        
-        if(onCreate != null) { onCreate(); }
+        if(todoName.length > 2)
+        {
+            if(onCreate != null) { onCreate(todoName); }
+        }
+        else
+        {
+            ErrorNotification({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher', icon : <ErrorOutlineIcon/>});
+        }
     }
     const handleInputChange = (e) => {
         setTodoName(e.target.value);
         if(onNameUpdate != null) 
         {
             const value = e.target.value;
-            onNameUpdate(value);
+            onNameUpdate(e);
         }
     }
 
@@ -43,9 +47,11 @@ export const CreateTodo = ({ onCreate, onNameUpdate }) => {
                 placeholder='Todo Name'
                 onKeyDown={handleKeyInput}
                 onChange={handleInputChange}
+                ref={ref}
                 className='w-11/12 dark:text-neutral-400 dark:bg-black dark:hover:bg-neutral-950 dark:hover:text-white 
                 ml-2 pt-1 pb-1 pl-4 pr-4 mb-2 rounded-[10px] transition duration-300 !cursor-default !font-mono
-                border-[1px] dark:border-neutral-900 dark:hover:border-neutral-100 border-black dark:selection:bg-emerald-200 dark:selection:text-black' 
+                border-[1px] dark:border-neutral-900 dark:hover:border-neutral-100 border-black dark:selection:bg-emerald-200 dark:selection:text-black
+                shadow-md shadow-transparent hover:shadow-black focus:shadow-black checked:shadow-black' 
             />
             <Fab onClick={handleOpenUserMenu} size="small" aria-label="add" className='!mb-4 !ml-5 !mr-5'>
                 <AddIcon />
