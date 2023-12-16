@@ -12,9 +12,9 @@ export const InfoNotification = ({message='', style, icon}) => toast.success(mes
     }
 });
 
-export const ErrorNotification = ({message=''}) => toast.error(message, {
+export const ErrorNotification = ({message='', icon}) => toast.error(message, {
     duration:1500,
-    icon:'',
+    icon: icon,
     position:'top-right',
     style:{
         background:'#f83e4b',

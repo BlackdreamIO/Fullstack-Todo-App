@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Box, Stack } from '@mui/material';
@@ -17,19 +17,23 @@ import { CreateTodo } from './CreateTodo';
 
 import { Toaster } from 'react-hot-toast';
 import { InfoNotification, ErrorNotification } from '../../Tostify/NotificationManager';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 
 export default function TodoListPanel() 
 {
     const [currentPanel, setCurrentPanel] = React.useState('recents');
+    const [responseTodo, setResponseTodo] = useState([]);
     const [todoItems, setTodoItems] = useState([]);
     const [todoName, setTodoName] = useState('');
     const { todoID } = useParams();
+
+    const inputRef = useRef();
 
     const GetTodos = async () => {
         try 
         {
             const response = await GetSingleDocument({ documentID: todoID});
-            setTodoItems(Object.values(response));
+            setResponseTodo(Object.values(response));
         }  
         catch (error) 
         {
@@ -41,10 +45,8 @@ export default function TodoListPanel()
 
     useEffect(() => { if(auth.currentUser) { GetTodos(); } }, [auth.currentUser, todoID]);
 
-    useEffect(() => {
-        const filterTodo = todoItems.filter((todo) => todo.title === 'fullstack youtube clone');
-        console.log();
-    }, [todoItems])
+    useEffect(() => { setTodoItems(responseTodo); },[responseTodo]);
+    
 
     const onTodoEdit = (title) => {
         try 
@@ -55,16 +57,29 @@ export default function TodoListPanel()
         catch (error) {}
     }
 
-    const handleTodoCreate = async () => {
-        await CreateNewTodo({
-            documentID : 'crete new db',
-            status : 'pending',
-            title : 'auto generated merge'
-        }).then(() => InfoNotification({message:"Successfully Created"}))
-        .catch((err) => ErrorNotification({message:err}))
+    const handleTodoCreate = async (value) => {
+
+        setTimeout(() => {
+            const foundTodo = todoItems.find((todo) => todo.title === value);
+            const todoExist = foundTodo != null ? true : false;
+            if(todoExist) 
+            {
+                ErrorNotification({message:"An Todo Already Exist ! ", icon : <BeenhereIcon />});
+                return;
+            }
+            else if(!todoExist)
+            {
+                CreateNewTodo({ documentID : todoID, status : 'pending', title : value })
+                    .then(() => {
+                        GetTodos();
+                        InfoNotification({message:`Created : ${value}`, icon : <BeenhereIcon />})
+                    })
+                    .catch((err) => ErrorNotification({message:err}));
+            }
+        }, 500);
     }
 
-    const handleTodoName = (value) => setTodoName(value);
+    const handleTodoName = (value) => setTodoName(value.target.value);
 
     const BottomNavigationActionStyle = 'bg-black hover:text-black dark:hover:bg-white dark:hover:text-black dark:text-neutral-500 dark:focus:text-white dark:focus:hover:text-black transition-all'
 
@@ -74,7 +89,7 @@ export default function TodoListPanel()
         <Box className='w-9/12 bg-neutral-200 dark:bg-[rgb(5,5,5)] h-screen dark:border-neutral-800'>
             <TodoListPanelNavbar/>
 
-            <Stack className='flex flex-col items-center justify-start dark:bg-neutral-900 w-full h-[72vh] p-1'>
+            <Stack className='flex flex-col items-center justify-start dark:bg-yellow-500 w-full h-[72vh] p-1 overflow-y-scroll overflow-x-hidden'>
                 {
                     todoItems.map((todo,i) => (
                         <div key={i} className='w-full m-0'>
@@ -88,7 +103,7 @@ export default function TodoListPanel()
                 }
             </Stack>
 
-            <CreateTodo onCreate={(e) => handleTodoCreate(e)} onNameUpdate={handleTodoName} />
+            <CreateTodo onCreate={handleTodoCreate} ref={inputRef} />
 
             <BottomNavigation className='w-full dark:bg-[rgb(5,5,5)]' value={currentPanel} onChange={handleTodoItemChange}>
                 <BottomNavigationAction sx={{ '&.Mui-selected': { color: isDarkMode ? 'white' : 'black' }}} className={BottomNavigationActionStyle} label="Recents" value="recents" icon={<RestoreIcon />} />
