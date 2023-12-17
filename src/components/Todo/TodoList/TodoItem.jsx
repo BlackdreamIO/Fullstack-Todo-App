@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-import { Checkbox, checkboxClasses, Menu, MenuItem, IconButton, Typography, Toolbar, AppBar, Button, Input, Box } from '@mui/material';
+import { 
+    Checkbox, checkboxClasses, 
+    Menu, MenuItem, IconButton, 
+    Typography, Toolbar, 
+    AppBar, Input, 
+    Box, LinearProgress 
+} from '@mui/material';
+
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import LinearProgress from '@mui/material/LinearProgress';
 
-export const TodoItem = ({title='', onTodoEdit}) => {
+export const TodoItem = ({title='', onTodoEdit, onDelete, ref}) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorChild, setAnchorChild] = useState(null);
@@ -58,6 +64,12 @@ export const TodoItem = ({title='', onTodoEdit}) => {
     const handleOnTodoEdit = () => {
         if(onTodoEdit != null){
             onTodoEdit(title);
+        }
+    }
+s
+    const handleOnDelete = () => {
+        if(onDelete != null) {
+            onDelete(title);
         }
     }
 
@@ -124,7 +136,7 @@ export const TodoItem = ({title='', onTodoEdit}) => {
                     <MenuItem onClick={handleChildMenu} className={menuItemStyle}>
                         <Typography textAlign="center" fontSize={"0.8rem"}>Open Child</Typography>
                     </MenuItem>
-                    <MenuItem onClick={() => {}} className={menuItemStyle}>
+                    <MenuItem onClick={() => handleOnDelete()} className={menuItemStyle}>
                         <Typography textAlign="center" fontSize={"0.8rem"}>Delete</Typography>
                     </MenuItem>
                 </Menu>
@@ -149,12 +161,18 @@ export const TodoItem = ({title='', onTodoEdit}) => {
                         <Input 
                             onChange={(e) => setEditTodoName(e.target.value)}
                             value={editTodoName}
+                            ref={ref}
                             disableUnderline 
                             className='dark:text-white text-center !font-mono dark:placeholder:text-center selection:bg-black dark:selection:text-emerald-400' 
                             placeholder='Name'
                         />
                     </MenuItem>
-                    <MenuItem onClick={() => { setAnchorChild(Boolean(false)); setLoading(true); handleOnTodoEdit()}} className={menuItemStyle}>
+                    <MenuItem onClick={() => { 
+                            setAnchorChild(Boolean(false)); 
+                            setLoading(true); 
+                            handleOnTodoEdit()
+                            }} 
+                        className={menuItemStyle}>
                         <Typography textAlign="center" className='!text-center !m-auto' fontSize={"0.8rem"}>Ok</Typography>
                     </MenuItem>
                             
