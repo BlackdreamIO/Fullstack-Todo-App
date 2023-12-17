@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { InfoNotification, ErrorNotification } from '../../Tostify/NotificationManager';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-export const CreateTodo = ({ onCreate, onNameUpdate, ref }) => {
+export const CreateTodo = ({ onCreate, ref }) => {
     
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [todoName, setTodoName] = useState('');
@@ -24,14 +24,6 @@ export const CreateTodo = ({ onCreate, onNameUpdate, ref }) => {
             ErrorNotification({message:'Failed To Create New Todo Please Enter A Name With Then Length Of 3 Or Higher', icon : <ErrorOutlineIcon/>});
         }
     }
-    const handleInputChange = (e) => {
-        setTodoName(e.target.value);
-        if(onNameUpdate != null) 
-        {
-            const value = e.target.value;
-            onNameUpdate(e);
-        }
-    }
 
     const handleKeyInput = (e) => {
         if(e.key === 'Enter') { handleCreate(); }
@@ -46,7 +38,7 @@ export const CreateTodo = ({ onCreate, onNameUpdate, ref }) => {
                 disableUnderline
                 placeholder='Todo Name'
                 onKeyDown={handleKeyInput}
-                onChange={handleInputChange}
+                onChange={(e) => setTodoName(e.target.value)}
                 ref={ref}
                 className='w-11/12 dark:text-neutral-400 dark:bg-black dark:hover:bg-neutral-950 dark:hover:text-white 
                 ml-2 pt-1 pb-1 pl-4 pr-4 mb-2 rounded-[10px] transition duration-300 !cursor-default !font-mono

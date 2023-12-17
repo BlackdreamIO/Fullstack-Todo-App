@@ -1,5 +1,5 @@
 import { db, auth } from '../database/firebase';
-import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, deleteDoc } from 'firebase/firestore';
+import { updateDoc, collection, doc, getDoc, getDocs, setDoc, query, where, deleteField, deleteDoc } from 'firebase/firestore';
 
 
 export const UserDocument = {
@@ -135,6 +135,39 @@ export async function CreateNewTodo({documentID, title='', status=''})
     catch (err) 
     {
         alert("Failed To Create Todo");
+    }
+}
+
+//.....................................................................................................
+
+export async function UpdateTodo({documentID, todoName, newTitle, newState})
+{
+    try 
+    {
+        const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
+        updateDoc(documentReference, { [todoName]: {
+            title : newTitle,
+            status : newState
+        }})
+    } 
+    catch (error) 
+    {
+        alert("Failed To Update Todo");
+    }
+}
+
+//.....................................................................................................
+
+export async function DeleteTodo({documentID, title})
+{
+    try 
+    {
+        const documentReference = doc(db, `UCID : ${auth.currentUser.email}`, documentID);
+        updateDoc(documentReference, { [title]: deleteField() })
+    } 
+    catch (error) 
+    {
+        alert("Failed To Delete Todo");
     }
 }
 

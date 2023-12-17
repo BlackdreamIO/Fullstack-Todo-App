@@ -11,7 +11,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
 
-import { GetUserDocuments, UserDocument, GetSingleDocument, CreateNewTodo } from '../../../function/todoFirebase';
+import { GetUserDocuments, DeleteTodo, GetSingleDocument, CreateNewTodo, UpdateTodo } from '../../../function/todoFirebase';
 import { auth } from '../../../database/firebase';
 import { CreateTodo } from './CreateTodo';
 
@@ -24,16 +24,17 @@ export default function TodoListPanel()
     const [currentPanel, setCurrentPanel] = React.useState('recents');
     const [responseTodo, setResponseTodo] = useState([]);
     const [todoItems, setTodoItems] = useState([]);
-    const [todoName, setTodoName] = useState('');
     const { todoID } = useParams();
 
     const inputRef = useRef();
+    const editInputRef = useRef();
 
     const GetTodos = async () => {
         try 
         {
             const response = await GetSingleDocument({ documentID: todoID});
             setResponseTodo(Object.values(response));
+            setTodoItems(Object.values(response));
         }  
         catch (error) 
         {
@@ -45,16 +46,16 @@ export default function TodoListPanel()
 
     useEffect(() => { if(auth.currentUser) { GetTodos(); } }, [auth.currentUser, todoID]);
 
-    useEffect(() => { setTodoItems(responseTodo); },[responseTodo]);
+    useEffect(() => {
+        // Filter and update todoItems based on responseTodo
+        const filteredTodos = responseTodo.filter(todo => todo && todo.title && todo.title.length > 2);
+        setTodoItems(filteredTodos);
+    }, [responseTodo]);
     
 
-    const onTodoEdit = (title) => {
-        try 
-        {
-            const filterTodo = todoItems.filter((todo) => todo.title === title); 
-            console.log(filterTodo);  
-        } 
-        catch (error) {}
+    const onTodoEdit = async (title) => {
+        await UpdateTodo({documentID: todoID, newState : 'pending', todoName: title})
+            .finally(() => GetTodos());
     }
 
     const handleTodoCreate = async (value) => {
@@ -79,7 +80,12 @@ export default function TodoListPanel()
         }, 500);
     }
 
-    const handleTodoName = (value) => setTodoName(value.target.value);
+    const onTodoDelete = async (todoName) => {
+        await DeleteTodo({documentID: todoID, title: todoName})
+            .then(() => InfoNotification({message:`Deleted : ${todoName}`, icon : <BeenhereIcon />}))
+            .catch(() => ErrorNotification({message:"Failed To Delete", icon : <BeenhereIcon />}))
+            .finally(() => GetTodos());
+    }
 
     const BottomNavigationActionStyle = 'bg-black hover:text-black dark:hover:bg-white dark:hover:text-black dark:text-neutral-500 dark:focus:text-white dark:focus:hover:text-black transition-all'
 
@@ -95,7 +101,13 @@ export default function TodoListPanel()
                         <div key={i} className='w-full m-0'>
                             {
                                 todo && todo.title && todo.title.length > 2 && (
-                                    <TodoItem onTodoEdit={onTodoEdit} title={todo.title} key={i} />
+                                    <TodoItem 
+                                        onTodoEdit={onTodoEdit} 
+                                        onDelete={onTodoDelete} 
+                                        title={todo.title} 
+                                        key={i}
+                                        ref={editInputRef}
+                                    />
                                 )
                             }
                         </div>
