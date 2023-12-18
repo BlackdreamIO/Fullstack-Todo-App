@@ -54,7 +54,7 @@ export default function TodoColumnPanel()
         {
             const lastDocumentID = todoDocumentID[todoDocumentID.length - 1];
             setAvailableDocuments([lastDocumentID]);
-            navigate(`/todo/${lastDocumentID}`);
+            navigate(`/${lastDocumentID}`);
         }
     }, [isDeleteCalled, todoDocumentID]);
 

@@ -17,6 +17,7 @@ export const TodoItem = ({title='', onTodoEdit, onDelete, ref}) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorChild, setAnchorChild] = useState(null);
+
     const [todoCheck, setTodoCheck] = useState(true);
     const [canCheck, setCanCheck] = useState(true);
 
@@ -25,7 +26,6 @@ export const TodoItem = ({title='', onTodoEdit, onDelete, ref}) => {
     const [pendingTodo, setPendingTodo] = useState(true);
 
     const [editTodoName, setEditTodoName] = useState('');
-
     const [loading, setLoading] = useState(false);
 
     const todoMode = {
@@ -66,7 +66,7 @@ export const TodoItem = ({title='', onTodoEdit, onDelete, ref}) => {
             onTodoEdit(title);
         }
     }
-s
+
     const handleOnDelete = () => {
         if(onDelete != null) {
             onDelete(title);

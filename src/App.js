@@ -24,8 +24,8 @@ export default function App()
         <div className="h-screen dark:bg-black select-none">
             <Routes>
                 <Route path="/" element={<CrudApp />} />
-                <Route path="/todo/:todoID" element={<CrudApp />} />
-                <Route path="*" element={<Typography variant="h1" className='dark:text-white text-center mt-10'>CLIENT SIDE EXEPTION HAS OCCURED</Typography>} />
+                <Route path="/:todoID" element={<CrudApp />} />
+                <Route path="*" element={<Typography variant="h1" className='dark:text-white text-blue-50 text-center mt-10'>CLIENT SIDE EXEPTION HAS OCCURED</Typography>} />
             </Routes>
             <Toaster/>
         </div>
