@@ -8,35 +8,46 @@ import { ThemeSwitch } from './ThemeToggle';
 import SwitchThemeFunction from '../function/themeManager';
 import AuthPanel from './AuthPanel';
 import { IsLoggedIn, LogOutUser } from '../function/authenticator';
+import { useCurrentAuthState, useThemeManager } from '../hooks/hooksExporter';
+
+function GET_SAVED_THEME () 
+{
+    if(localStorage.getItem('selectedTheme')) 
+    {
+        return localStorage.getItem('selectedTheme');
+    }
+    else {
+        return true;
+    }
+}
 
 export default function Navbar () 
 {
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(GET_SAVED_THEME());
     const [showStack, setShowStack] = useState(false);
     const [hasUser, setHasUser] = useState(false);
+
+    const [isLoggedIn, setIsLoggedIn] = useCurrentAuthState();
+    const [isDarkMode, setIsDarkMode] = useThemeManager();
 
     const childRef = useRef(null);
 
     useEffect(() => {
-      window.addEventListener('resize', () => {
-        setShowStack(window.innerWidth < 375 ? true : false);
-      })
-      handleUserLogIn();
+        window.addEventListener('resize', () => {
+            setShowStack(window.innerWidth < 375 ? true : false);
+        })
     }, [])
     
 
-    const handleThemeClick = () => {
-        if(darkMode) 
-        {
-            setDarkMode(false);
-            SwitchThemeFunction(darkMode);
-        }
-        else if(!darkMode)
-        {
-            setDarkMode(true);
-            SwitchThemeFunction(darkMode);
-        }
-    }
+    useEffect(() => {
+        handleUserLogIn();
+    }, [])
+
+    useEffect(() => {
+        setIsDarkMode(darkMode);
+    }, [darkMode])
+
+    const handleThemeClick = () => setDarkMode((prev) => prev =! prev);
 
     const handleUserLogIn = () => {
         setHasUser(JSON.parse(localStorage.getItem("user")));
@@ -61,6 +72,10 @@ export default function Navbar ()
         }
     }
 
+    const handleAuthState = () => {
+        console.log(isLoggedIn);
+    }
+
     return (
         <nav className='w-full'>
             <Box sx={{ flexGrow: 1 }}>
@@ -76,7 +91,24 @@ export default function Navbar ()
                         </Typography>
 
                         <Button onClick={() => handleAuthDialog('logIn')} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>LOG IN</Button>
-                        <Button onClick={() => handleAuthDialog('signUp')} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>SIGN UP</Button>
+                        <Button 
+                            onClick={() => handleAuthDialog('signUp')} 
+                            className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' 
+                            variant='contained' 
+                            size='small' 
+                            style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "none" : "block"}}>
+                                
+                                SIGN UP
+                        </Button>
+                        <Button 
+                            onClick={() => handleAuthState()} 
+                            className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' 
+                            variant='contained' 
+                            size='small' 
+                            style={{marginRight:'2%', display: showStack ? "none" : "block"}}>
+                                
+                                AUTH STATUS
+                        </Button>
                         
                         <Button disableRipple sx={{color:"black"}} className='dark:text-neutral-400 dark:hover:text-white' style={{display : hasUser ? "block" : "none"}}>
                             <Tooltip title={localStorage.getItem("email")}>
