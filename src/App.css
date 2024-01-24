@@ -2,9 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+:root
+{
+    --primaryBG : #1E1F24;
+    --secondaryBG : #21232C;
+    --thirdBG : #242633;
+}
+html 
+{
     background-color: black;
 }
+@font-face {
+    font-family: "RobotoReguler";
+    src: url("./Assets/font/Roboto/RobotoRegular.ttf");
+}
+@font-face {
+    font-family: "RobotoMedium";
+    src: url("./Assets/font/Roboto/RobotoMedium.ttf");
+}
+@font-face {
+    font-family: "RobotoBold";
+    src: url("./Assets/font/Roboto/RobotoBold.ttf");
+}
+
 ::-webkit-scrollbar{
     display: none;
 }
+
+/* raisin-black: #1e1f24ff;
+raisin-black-2: #202128ff;
+raisin-black-3: #21232cff;
+raisin-black-4: #242633ff; */
+
