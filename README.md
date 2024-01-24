@@ -1,7 +1,6 @@
 # Tech Used
   # Firebase
   # React
-  # Material UI
   # Tailwind
 
 # Getting Started with Create React App
