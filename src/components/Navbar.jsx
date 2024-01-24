@@ -1,29 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { AppBar, Box, Toolbar, Typography, Button, Container, Stack, Tooltip } from '@mui/material';
-import { Person } from '@mui/icons-material';
+import { Person, TroubleshootRounded } from '@mui/icons-material';
 
 import { ThemeSwitch } from './ThemeToggle';
 
-import SwitchThemeFunction from '../function/themeManager';
 import AuthPanel from './AuthPanel';
 import { IsLoggedIn, LogOutUser } from '../function/authenticator';
-import { useCurrentAuthState, useThemeManager } from '../hooks/hooksExporter';
+import { useCurrentAuthState, useThemeManager, useWindowResize } from '../hooks/hooksExporter';
 
-function GET_SAVED_THEME () 
-{
-    if(localStorage.getItem('selectedTheme')) 
-    {
-        return localStorage.getItem('selectedTheme');
-    }
-    else {
-        return true;
-    }
-}
+import { useCookies } from 'react-cookie';
 
 export default function Navbar () 
 {
-    const [darkMode, setDarkMode] = useState(GET_SAVED_THEME());
+    const [cookie, setCookie ] = useCookies(['themeCookie']);
+
+    const [darkMode, setDarkMode] = useState(cookie.themeCookie);
     const [showStack, setShowStack] = useState(false);
     const [hasUser, setHasUser] = useState(false);
 
@@ -32,12 +24,11 @@ export default function Navbar ()
 
     const childRef = useRef(null);
 
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            setShowStack(window.innerWidth < 375 ? true : false);
-        })
-    }, [])
-    
+    useWindowResize({
+        onTriggerEnter : () => setShowStack(true),
+        onTriggerOut : () => setShowStack(false),
+        thresholdWidth : 375
+    })
 
     useEffect(() => {
         handleUserLogIn();
@@ -117,7 +108,7 @@ export default function Navbar ()
                         </Button>
                         <Button onClick={() => { LogOutUser(); handleUserLogIn() }} className='dark:text-white hover:dark:text-black dark:bg-neutral-900 hover:dark:bg-[aquamarine] bg-neutral-500' variant='contained' size='small' style={{marginRight:'2%', display: showStack ? "none" : "block" | hasUser ? "block" : "none"}}>LOG OUT</Button>
                         
-                        <ThemeSwitch className={`${showStack} ? 'hidden' : 'visited:'`} defaultChecked={true} onClick={() => handleThemeClick()} />
+                        <ThemeSwitch className={`${showStack} ? 'hidden' : 'visited:'`} defaultChecked={isDarkMode} onClick={() => handleThemeClick()} />
                     </Toolbar>
                     <Stack className='dark:bg-neutral-950 bg-neutral-200' sx={{ display: showStack ? 'flex' : 'none'}}>
                         <Container sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'flex-end'}}>
