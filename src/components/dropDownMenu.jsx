@@ -9,13 +9,13 @@ export const DropDownMenu = ({ children }) => {
         setIsOpen(!isOpen);
     }
 
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        };
+    const handleOutsideClick = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
 
+    useEffect(() => {
         window.addEventListener('click', handleOutsideClick);
 
         return () => {
@@ -27,16 +27,53 @@ export const DropDownMenu = ({ children }) => {
     return (
         <div className='relative inline-block' ref={dropdownRef}>
             <div onClick={toggleMenu}>
-                {children}
+                {children[0]}
             </div>
             {
-                isOpen && 
-                (
-                    <div className='dark:bg-white w-[150px] h-[200px] absolute right-0 dark:text-black m-2'>
-                        <p>This is the dropdown content</p>
-                    </div>
+                isOpen && children[1] && (
+                //    <DropDownContent>{children[1]}</DropDownContent>
+                    <DropDownContentManager render={isOpen} />
                 )
             }
         </div>
+    )
+}
+
+export const DropDownHeader = ({ children }) => {
+    return <>{children}</>;
+};
+
+export const DropDownContent = ({children, onChildrenChange}) => {
+    onChildrenChange(children);
+
+    return (
+        <div className='dark:bg-neutral-950 w-[150px] h-[200px] absolute right-0 dark:text-black m-2
+        rounded-[5px] z-20 shadow-[5px_5px_20px_5px_rgb(0,0,0,1)] dark:border-neutral-700 border-black 
+        border-[1px]'>
+            {children}
+        </div>
+    )
+}
+
+const DropDownContentManager = ({render=false}) => {
+    const [contentFromDropDown, setContentFromDropDown] = useState(null);
+
+    const handleChildrenChange = (children) => {
+        setContentFromDropDown(children);
+    };
+
+    useEffect(() => {
+        DropDownContent({
+            onChildrenChange : handleChildrenChange()
+        })
+    }, [])
+    
+
+    return (
+        render && (
+            <div>
+                {contentFromDropDown}
+            </div>
+        )
     )
 }
