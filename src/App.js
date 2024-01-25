@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 
 import toast, { Toaster } from 'react-hot-toast';
 import { StartNotification } from "./components/Tostify/profileTostify";
+import TodoPage from "./app/TodoPage/TodoPage";
 
 export default function App() 
 {
@@ -21,9 +22,9 @@ export default function App()
     }, [])
     
     return (
-        <div className="h-screen dark:bg-black select-none">
+        <div className="h-screen dark:bg-black">
             <Routes>
-                <Route path="/" element={<CrudApp />} />
+                <Route path="/" element={<TodoPage />} />
                 <Route path="/:todoID" element={<CrudApp />} />
                 <Route path="*" element={<Typography variant="h1" className='dark:text-white text-blue-50 text-center mt-10'>CLIENT SIDE EXEPTION HAS OCCURED</Typography>} />
             </Routes>
