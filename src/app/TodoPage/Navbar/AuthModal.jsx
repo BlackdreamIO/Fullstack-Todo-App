@@ -20,11 +20,11 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
     }, [mode])
     
     const handleLogIn = () => {
-
+        alert(inputNotEmpty())
     }
     
     const handleSignUp = () => {
-
+        alert(inputNotEmpty())
     }
 
     const handleSwitchAuthMode = () => {
@@ -42,6 +42,20 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
             onCloseRequest();
         }
     }
+
+    const isEmailValid = (email) => {
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return emailRegex.test(email);
+    }
+
+    const inputNotEmpty = () => {
+        const empty = (value) => value.trim().length === 0;
+
+        if (authMethod === 'SignUp') { return !(empty(email) || !isEmailValid(email) || empty(password) || empty(userName)); } 
+        else if (authMethod === 'LogIn') { return !(empty(email) || !isEmailValid(email) || empty(password)); }
+
+        return false;
+    };
 
     return (
         <div className="dark:bg-[--primaryBG] bg-neutral-100 w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
@@ -79,7 +93,7 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
                     onChange={(e) => setUserName(e.target.value)}
                 />
                 <Input
-                    higlight={email.length > 0}
+                    higlight={isEmailValid(email)}
                     placeHolder={'Enter Email'} 
                     className="w-[90%] min-[1200px]:h-[60px]"
                     onChange={(e) => setEmail(e.target.value)}
