@@ -11,7 +11,7 @@ export default function DialogContent()
             dark:bg-[rgb(5,5,5,0.1)] w-[100%] h-screen backdrop-blur-[5px] flex flex-col items-center justify-center">
 
             <div className="dark:bg-[--primaryBG] w-[500px] min-h-auto h-auto m-auto p-2 pt-3 pb-3 rounded-md flex flex-col
-            items-center justify-center space-y-5 min-[1200px]:w-[60vw]">
+            items-center justify-center space-y-5 min-[1200px]:w-[600px]">
                 
                 <div className="w-full">
                     <h1 className="dark:text-white text-center uppercase text-2xl min-[1200px]:text-3xl">
