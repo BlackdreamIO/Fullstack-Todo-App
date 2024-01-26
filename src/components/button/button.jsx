@@ -1,3 +1,4 @@
+import cn from "../../utils/utis"
 
 export const buttonVarient = {
     primary : `dark:bg-neutral-200 dark:hover:bg-neutral-300 bg-neutral-100 hover:bg-neutral-300 
@@ -19,11 +20,11 @@ export const buttonVarient = {
         w-full rounded-md font-bold font-robotoReguler text-sm pt-1 pb-1`
 }
 
-export const Button = ({children, varient=buttonVarient.primary, ...rest}) => {
+export const Button = ({children, className, varient=buttonVarient.primary, ...rest}) => {
 
     return (
         <button
-        className={varient} 
+        className={cn(varient, className)} 
         {...rest}>
             {children}
         </button>
