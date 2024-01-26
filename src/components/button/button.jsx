@@ -1,7 +1,7 @@
 import cn from "../../utils/utis"
 
 export const buttonVarient = {
-    primary : `dark:bg-neutral-200 dark:hover:bg-neutral-300 bg-neutral-100 hover:bg-neutral-300 
+    primary : `dark:bg-neutral-200 dark:hover:bg-neutral-300 bg-neutral-200 hover:bg-neutral-300 
         dark:text-black w-full rounded-md font-bold font-robotoReguler text-sm pt-1 pb-1`,
 
     secondary : `dark:bg-[#21232C] dark:hover:bg-[#242633] bg-green-500 hover:bg-green-700 

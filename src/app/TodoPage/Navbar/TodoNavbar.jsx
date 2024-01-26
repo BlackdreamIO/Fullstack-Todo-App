@@ -8,7 +8,12 @@ import { Button, buttonVarient } from '../../../components/button/button';
 
 import dummyImage from '../../../Assets/images/dummyImage.webp';
 import loggedInUser from '../../../Assets/images/loggedInUser.webp';
+
 import Dialog from '../../../components/dialog/dialog';
+import DialogContent from '../../../components/dialog/dialogContent';
+import AuthMoadal from './AuthModal';
+
+
 
 export default function TodoNavbar() 
 {
@@ -19,9 +24,10 @@ export default function TodoNavbar()
 
     //const [isLoggedIn, setIsLoggedIn] = useCurrentAuthState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useThemeManager();
+    //const [isDarkMode, setIsDarkMode] = useThemeManager();
 
     const [openDropDown, setOpenDropDown] = useState(false);
+    const [openAuthDialog, setOpenAuthDialog] = useState(false);
 
     useWindowResize({
         onTriggerEnter : () => setShowNavbar(true),
@@ -29,9 +35,9 @@ export default function TodoNavbar()
         thresholdWidth : 375
     })
 
-    useEffect(() => {
-        setIsDarkMode(darkMode);
-    }, [darkMode])
+    //useEffect(() => {
+        //setIsDarkMode(darkMode);
+    //}, [darkMode])
 
     const handleThemeClick = () => setDarkMode((prev) => prev =! prev);
 
@@ -83,10 +89,10 @@ export default function TodoNavbar()
                         : 
                         (
                             <>
-                                <Button varient={buttonVarient.primary} onClick={() => alert("clicked")} >
+                                <Button varient={buttonVarient.primary} onClick={() => alert("not logged in create")} >
                                     Create Account
                                 </Button>
-                                <Button varient={buttonVarient.primary} onClick={() => alert("clicked")} >
+                                <Button varient={buttonVarient.primary} onClick={() => setOpenAuthDialog(true)}>
                                     Log In
                                 </Button>
                             </>
@@ -94,7 +100,11 @@ export default function TodoNavbar()
                     }
                 </DropDownContent>
 
-                <Dialog/>
+                <Dialog open={openAuthDialog}>
+                    <DialogContent isOpen={openAuthDialog} onClose={() => setOpenAuthDialog(false)}>
+                        <AuthMoadal mode='SignUp' onCloseRequest={() => setOpenAuthDialog(false)}/>
+                    </DialogContent>
+                </Dialog>
 
             </DropDownMenu>
         </nav>

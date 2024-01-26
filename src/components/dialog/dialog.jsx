@@ -1,12 +1,17 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import DialogContent from './dialogContent';
 
-export default function Dialog() 
+export default function Dialog({children, open}) 
 {
     return createPortal(
-        <div>
-            <DialogContent />
+        <div className='w-full'>
+            {
+                open && (
+                    <div>
+                        {children}
+                    </div>
+                )
+            }
         </div>, document.body
     )
 }
