@@ -9,7 +9,7 @@ import { Button, buttonVarient } from '../../../components/button/button';
 import dummyImage from '../../../Assets/images/dummyImage.webp';
 import loggedInUser from '../../../Assets/images/loggedInUser.webp';
 
-import { Dialog, DialogContent  } from '../../../components/dialog/DialogComponent';
+import { Dialog, DialogContent } from '../../../components/dialog/DialogComponent';
 import AuthMoadal from './AuthModal';
 
 

@@ -4,9 +4,11 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { Button, buttonVarient } from '../../../../components/button/button';
 import { Dialog, DialogContent } from '../../../../components/dialog/DialogComponent';
 
+import {  Tabs, TabTrigger, TabContent } from '../../../../components/tabs/TabsComponent';
+
 export default function ProfileSection() 
 {
-    const [openDropdown, setOpenDropdown] = useState(false);
+    const [openSetting, setOpenSetting] = useState(false);
 
     const profilePicUrl = `https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/333739394/original/8a4daaeb4e10a5fc1c95359d43d4528f3bb30219/design-a-logo-of-all-kinds-which-will-fascinate-public-toward-your-business.jpeg`
 
@@ -30,7 +32,20 @@ export default function ProfileSection()
                         <IoSettingsOutline />
                     </Button>
                 </div>
-               
+                <Dialog open={true}>
+                    <DialogContent isOpen={openSetting} onClose={() => setOpenSetting(false)}>
+                        <div className='w-11/12 h-[500px] m-auto dark:bg-neutral-950 rounded-lg'>
+                           <Tabs>
+                                <TabTrigger value="tabOne">Tab One</TabTrigger>
+                                <TabTrigger value="tabTwo">Tab Two</TabTrigger>
+                                <TabTrigger value="tabThree">Tab Three</TabTrigger>
+                                <TabContent value="tabOne">Content for Tab One</TabContent>
+                                <TabContent value="tabTwo">Content for Tab Two</TabContent>
+                                <TabContent value="tabThree">Content for Tab Three</TabContent>
+                            </Tabs>
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </ul>
         </section>
     )
