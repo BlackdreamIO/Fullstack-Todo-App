@@ -14,7 +14,7 @@ export const TodoColumnItem = ({title, active=false, onClick}) => {
         cursor-default`} 
         onClick={() => handleClick()}>
 
-            <h2 className="font-bold mb-1 dark:text-neutral-500 dark:group-hover:text-white">
+            <h2 className="font-bold mb-1 dark:text-neutral-500 dark:group-hover:text-neutral-300">
                 {title}
             </h2>
         </div>

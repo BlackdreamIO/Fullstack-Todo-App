@@ -1,9 +1,13 @@
 import { useState, useEffect  } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
+
 import { Button, buttonVarient } from '../../../../components/button/button';
+import { Dialog, DialogContent } from '../../../../components/dialog/DialogComponent';
 
 export default function ProfileSection() 
 {
+    const [openDropdown, setOpenDropdown] = useState(false);
+
     const profilePicUrl = `https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/333739394/original/8a4daaeb4e10a5fc1c95359d43d4528f3bb30219/design-a-logo-of-all-kinds-which-will-fascinate-public-toward-your-business.jpeg`
 
     return (
@@ -26,6 +30,7 @@ export default function ProfileSection()
                         <IoSettingsOutline />
                     </Button>
                 </div>
+               
             </ul>
         </section>
     )

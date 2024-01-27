@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import cn from "../../utils/utis";
 
-export default function DialogContent({children, className, onClose, isOpen}) 
+export function DialogContent({children, className, onClose, isOpen}) 
 {
     const dialogRef = useRef(null);
 
