@@ -1,9 +1,9 @@
 // Tabs.js
 import React, { useState } from 'react';
-import TabTrigger from './TabTrigger';
-import TabContent from './TabContent';
+import { TabTriggerList } from './TabTriggerList';
+import { TabContentList } from './TabContentList';
 
-export const Tabs = ({ children }) => {
+export const Tabs = ({ children, ...rest }) => {
     const [activeTab, setActiveTab] = useState(children[0].props.value);
 
     const handleTabClick = (value) => {
@@ -11,29 +11,32 @@ export const Tabs = ({ children }) => {
     }
 
     const renderTabs = () => {
-        return React.Children.map(children, (child) => {
-            if (child.type === TabTrigger) {
-                return React.cloneElement(child, {
-                  isActive: child.props.value === activeTab,
-                  onClick: () => handleTabClick(child.props.value),
+        let tabList = null;
+        let contentList = null;
+
+        React.Children.forEach(children, (child) => {
+            if (child.type === TabTriggerList) {
+                tabList = React.cloneElement(child, {
+                    onClick: handleTabClick,
+                    activeTab: activeTab,
                 })
             }
-        })
-    }
 
-    const renderContent = () => {
-        return React.Children.map(children, (child) => {
-            if (child.type === TabContent && child.props.value === activeTab) {
-                return child.props.children;
+            if (child.type=== TabContentList) 
+            {
+                contentList = React.cloneElement(child, {
+                    activeTab: activeTab,
+                })
             }
+            return (
+                <div>
+                    {tabList}
+                    {contentList}
+                </div>
+            )
         })
     }
 
-    return (
-        <div>
-            <div>{renderTabs()}</div>
-            <div>{renderContent()}</div>
-        </div>
-    )
+    return renderTabs();
 }
 

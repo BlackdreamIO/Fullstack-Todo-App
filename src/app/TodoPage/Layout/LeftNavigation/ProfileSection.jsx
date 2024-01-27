@@ -4,7 +4,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { Button, buttonVarient } from '../../../../components/button/button';
 import { Dialog, DialogContent } from '../../../../components/dialog/DialogComponent';
 
-import {  Tabs, TabTrigger, TabContent } from '../../../../components/tabs/TabsComponent';
+import {  Tabs, TabTrigger, TabContent, TabTriggerList, TabContentList } from '../../../../components/tabs/TabsComponent';
 
 export default function ProfileSection() 
 {
@@ -34,14 +34,18 @@ export default function ProfileSection()
                 </div>
                 <Dialog open={true}>
                     <DialogContent isOpen={openSetting} onClose={() => setOpenSetting(false)}>
-                        <div className='w-11/12 h-[500px] m-auto dark:bg-neutral-950 rounded-lg'>
+                        <div className='w-[800px] h-[500px] m-auto dark:bg-neutral-950 rounded-lg'>
                            <Tabs>
-                                <TabTrigger value="tabOne">Tab One</TabTrigger>
-                                <TabTrigger value="tabTwo">Tab Two</TabTrigger>
-                                <TabTrigger value="tabThree">Tab Three</TabTrigger>
-                                <TabContent value="tabOne">Content for Tab One</TabContent>
-                                <TabContent value="tabTwo">Content for Tab Two</TabContent>
-                                <TabContent value="tabThree">Content for Tab Three</TabContent>
+                                <TabTriggerList>
+                                    <TabTrigger value="tabOne">Tab One</TabTrigger>
+                                    <TabTrigger value="tabTwo">Tab Two</TabTrigger>
+                                    <TabTrigger value="tabThree">Tab Three</TabTrigger>
+                                </TabTriggerList>
+                                <TabContentList>
+                                    <TabContent value="tabOne">Content for Tab One</TabContent>
+                                    <TabContent value="tabTwo">Content for Tab Two</TabContent>
+                                    <TabContent value="tabThree">Content for Tab Three</TabContent>
+                                </TabContentList>
                             </Tabs>
                         </div>
                     </DialogContent>

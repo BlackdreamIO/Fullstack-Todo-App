@@ -1,9 +1,10 @@
 import React from 'react';
+import { Button } from '../button/button';
 
 export const TabTrigger = ({ value, isActive, onClick, children }) => {
     return (
-        <button onClick={onClick}>
+        <Button onClick={onClick}>
             {children}
-        </button>
+        </Button>
     )
 }
