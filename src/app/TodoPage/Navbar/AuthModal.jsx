@@ -58,7 +58,7 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
     };
 
     return (
-        <div className="dark:bg-[--primaryBG] bg-neutral-100 w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
+        <div className="dark:bg-[--darkPrimary] bg-neutral-100 w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
             items-center justify-center space-y-5 min-[1200px]:w-[600px] max-[550px]:w-[90vw] transition-transform duration-300">
 
             <div className="w-full">

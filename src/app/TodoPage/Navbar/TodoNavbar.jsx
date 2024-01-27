@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useCurrentAuthState, useThemeManager, useWindowResize } from '../../../hooks/hooksExporter';
 
@@ -14,7 +14,6 @@ import DialogContent from '../../../components/dialog/dialogContent';
 import AuthMoadal from './AuthModal';
 
 
-
 export default function TodoNavbar() 
 {
     const [cookie, setCookie ] = useCookies(['themeCookie']);
@@ -23,7 +22,7 @@ export default function TodoNavbar()
     const [showNavbar, setShowNavbar] = useState(false);
 
     //const [isLoggedIn, setIsLoggedIn] = useCurrentAuthState();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     //const [isDarkMode, setIsDarkMode] = useThemeManager();
 
     const [openDropDown, setOpenDropDown] = useState(false);
@@ -42,8 +41,9 @@ export default function TodoNavbar()
     const handleThemeClick = () => setDarkMode((prev) => prev =! prev);
 
     return (
-        <nav className='flex flex-row items-center justify-between w-full h-auto dark:bg-[--primaryBG] gap-2 p-2'>
-            <h1 className='dark:text-white font-robotoMedium text-xl mb-1 uppercase'>Task Flow</h1>            
+        <nav className='flex flex-row items-center justify-between w-full h-auto dark:bg-[--darkPrimary] 
+            bg-neutral-100 gap-2 p-2 shadow-lg dark:shadow-white'>
+            <h1 className='dark:text-white text-neutral-700 font-robotoMedium text-xl mb-1 uppercase'>Task Flow</h1>            
             
             <DropDownMenu onClose={() => setOpenDropDown(false)} isOpen={openDropDown}>
                 
@@ -51,10 +51,10 @@ export default function TodoNavbar()
                     {
                         isLoggedIn ? (
                             <section className='group flex flex-row items-center justify-center dark:bg-black dark:hover:border-neutral-800 border-black 
-                                border-[1px] space-x-3 box-border mr-3 pl-2 pr-2 rounded-lg max-w-auto max-h-[35px] overflow-hidden whitespace-wrap cursor-pointer'
+                                border-[1px] space-x-3 box-border mr-3 pl-2 pr-2 rounded-lg max-w-auto overflow-hidden whitespace-wrap cursor-pointer'
                                 onClick={() => setOpenDropDown(!openDropDown)}>
                                 <img 
-                                    className='w-[40px] h-[40px] p-2 dark:bg-black rounded-[50%]'
+                                    className='w-[35px] h-[35px] p-2 dark:bg-black rounded-[50%]'
                                     src={loggedInUser} 
                                     alt="profile not found"
                                 />
@@ -62,10 +62,10 @@ export default function TodoNavbar()
                             </section>
                         )
                         : (
-                            <section className='mr-3 mb-1 pl-2 pr-2 max-h-[35px] overflow-hidden cursor-pointer'
+                            <section className='mr-3 pl-2 pr-2 max-h-auto overflow-hidden cursor-pointer'
                                 onClick={() => setOpenDropDown(!openDropDown)}>
                                 <img 
-                                    className='w-[40px] p-2 rounded-[50%]'
+                                    className='w-[35px] p-2 rounded-[50%] border-[1px] border-black'
                                     src={dummyImage}
                                     alt="img not found"
                                 />

@@ -4,6 +4,13 @@
 
 :root
 {
+    --darkPrimary: #1E1F24;
+    --darkSecondary: #1e1f24;
+    --darkThird : #21232C;
+    --darkFour : #19191f;
+    
+    --lightPrimary : #ebebeb;
+    
     --primaryBG : #1E1F24;
     --secondaryBG : #21232C;
     --thirdBG : #242633;
@@ -28,9 +35,3 @@ html
 ::-webkit-scrollbar{
     display: none;
 }
-
-/* raisin-black: #1e1f24ff;
-raisin-black-2: #202128ff;
-raisin-black-3: #21232cff;
-raisin-black-4: #242633ff; */
-
