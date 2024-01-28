@@ -1,9 +1,12 @@
-import React from 'react';
-import { Button } from '../button/button';
+import React, { useEffect } from 'react';
+import { Button, buttonVarient } from '../button/button';
 
-export const TabTrigger = ({ value, isActive, onClick, children }) => {
+export const TabTrigger = ({ isActive, onClick, children, className, value, parentProps, ...rest }) => {
+
+    const handleClick = () => onClick(value);
+
     return (
-        <Button onClick={onClick}>
+        <Button varient={buttonVarient.outlined} className={className} onClick={handleClick} {...rest}>
             {children}
         </Button>
     )

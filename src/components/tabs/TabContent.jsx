@@ -1,5 +1,12 @@
 import React from 'react';
 
-export const TabContent = ({ value, children, activeTab }) => {
-    return <div style={{ display: value === activeTab ? 'block' : 'none' }}>{children}</div>;
+export const TabContent = ({ children, value, activeTab, className, ...rest }) => {
+
+    const isActive = activeTab === value;
+
+    return (
+        <div className={isActive ?className : 'dark:text-[aquamarine]'} {...rest}>
+            {children}
+        </div>
+    )
 }

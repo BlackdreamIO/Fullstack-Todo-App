@@ -1,42 +1,27 @@
-// Tabs.js
 import React, { useState } from 'react';
 import { TabTriggerList } from './TabTriggerList';
 import { TabContentList } from './TabContentList';
 
-export const Tabs = ({ children, ...rest }) => {
-    const [activeTab, setActiveTab] = useState(children[0].props.value);
+export const Tabs = ({ children, defaultTab='', ...rest }) => {
+    
+    const [currentSelectedTab, setCurrentSelectedTab] = useState(defaultTab || '');
 
-    const handleTabClick = (value) => {
-        setActiveTab(value);
+    const handleTabSelection = (tab) => {
+        setCurrentSelectedTab(tab)
     }
 
-    const renderTabs = () => {
-        let tabList = null;
-        let contentList = null;
-
-        React.Children.forEach(children, (child) => {
-            if (child.type === TabTriggerList) {
-                tabList = React.cloneElement(child, {
-                    onClick: handleTabClick,
-                    activeTab: activeTab,
-                })
-            }
-
-            if (child.type=== TabContentList) 
+    return (
+        <div>
             {
-                contentList = React.cloneElement(child, {
-                    activeTab: activeTab,
+                React.Children.map(children, (child) => {
+                    if (React.isValidElement(child)) 
+                    {
+                        return React.cloneElement(child, { onTabSelected: handleTabSelection, active: currentSelectedTab });
+                    }
+                    return child;
                 })
             }
-            return (
-                <div>
-                    {tabList}
-                    {contentList}
-                </div>
-            )
-        })
-    }
-
-    return renderTabs();
+        </div>
+    )
 }
 
