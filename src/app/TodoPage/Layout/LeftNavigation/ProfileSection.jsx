@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from '../../../../components/dialog/DialogCompo
 
 import {  Tabs, TabTrigger, TabContent, TabTriggerList, TabContentList } from '../../../../components/tabs/TabsComponent';
 import { GeneralSetting } from './Settings/GeneralSetting';
+import { AccountSetting } from './Settings/AccountSetting';
 
 export default function ProfileSection() 
 {
@@ -38,7 +39,7 @@ export default function ProfileSection()
                 </div>
                 <Dialog open={openSetting}>
                     <DialogContent isOpen={openSetting} onClose={() => setOpenSetting(false)}>
-                        <div className='w-[950px] h-[500px] m-auto dark:bg-neutral-950 rounded-lg p-2'>
+                        <div className='w-[950px] min-h-[500px] m-auto dark:bg-neutral-950 rounded-lg p-2'>
                            <Tabs defaultTab={'general'}>
                                 <TabTriggerList className='w-full dark:bg-neutral-900'>
                                     <TabTrigger value="general">General</TabTrigger>
@@ -49,7 +50,7 @@ export default function ProfileSection()
                                 </TabTriggerList>
                                 <TabContentList>
                                     <TabContent value="general" className='dark:text-white'><GeneralSetting/></TabContent>
-                                    <TabContent value="account" className='dark:text-white'>Content for Tab Two</TabContent>
+                                    <TabContent value="account" className='dark:text-white'><AccountSetting/></TabContent>
                                     <TabContent value="personalization" className='dark:text-white'>Content for Tab Three</TabContent>
                                     <TabContent value="notification" className='dark:text-white'>Content for Tab Four</TabContent>
                                     <TabContent value="sound" className='dark:text-white'>Content for Tab Five</TabContent>
