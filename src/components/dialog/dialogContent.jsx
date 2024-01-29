@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import cn from "../../utils/utis";
 
-export function DialogContent({children, className, onClose, isOpen}) 
+export function DialogContent({children, className, onClose, isOpen, ...rest}) 
 {
     const dialogRef = useRef(null);
 
@@ -29,8 +29,8 @@ export function DialogContent({children, className, onClose, isOpen})
             dark:bg-[rgb(5,5,5,0.1)] w-full h-screen backdrop-blur-[5px] flex flex-col items-center justify-center`
 
     return (
-        <div className={cn(defaultClassName, className)}>
-            <div ref={dialogRef} >
+        <div className={cn(defaultClassName, className)} {...rest}>
+            <div ref={dialogRef}>
                 {children}
             </div>
         </div>
