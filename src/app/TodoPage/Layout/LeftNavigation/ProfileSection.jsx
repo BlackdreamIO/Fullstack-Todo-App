@@ -5,15 +5,15 @@ import { Button, buttonVarient } from '../../../../components/button/button';
 import { Dialog, DialogContent } from '../../../../components/dialog/DialogComponent';
 
 import {  Tabs, TabTrigger, TabContent, TabTriggerList, TabContentList } from '../../../../components/tabs/TabsComponent';
+import { GeneralSetting } from './Settings/GeneralSetting';
 
 export default function ProfileSection() 
 {
     const [openSetting, setOpenSetting] = useState(false);
-    const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
     const profilePicUrl = `https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/333739394/original/8a4daaeb4e10a5fc1c95359d43d4528f3bb30219/design-a-logo-of-all-kinds-which-will-fascinate-public-toward-your-business.jpeg`
 
-    const tabTriggerStyle = `dark:text-neutral-500 dark:hover:text-neutral-200 dark:hover:bg-neutral-700`
+    const tabTriggerStyle = `dark:text-neutral-600 dark:hover:text-neutral-200 dark:hover:bg-neutral-700`
 
     return (
         <section className='dark:bg-black max-h-[10vh] w-full'>
@@ -39,18 +39,20 @@ export default function ProfileSection()
                 <Dialog open={openSetting}>
                     <DialogContent isOpen={openSetting} onClose={() => setOpenSetting(false)}>
                         <div className='w-[950px] h-[500px] m-auto dark:bg-neutral-950 rounded-lg p-2'>
-                           <Tabs defaultTab={'tabOne'}>
-                                <TabTriggerList>
-                                    <TabTrigger className={tabTriggerStyle} value="tabOne">General</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="tabTwo">Account</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="tabThree">Personilazation</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="tabThree">Notification</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="tabThree">Sound</TabTrigger>
+                           <Tabs defaultTab={'general'}>
+                                <TabTriggerList className='w-full dark:bg-neutral-900'>
+                                    <TabTrigger className={tabTriggerStyle} value="general">General</TabTrigger>
+                                    <TabTrigger className={tabTriggerStyle} value="account">Account</TabTrigger>
+                                    <TabTrigger className={tabTriggerStyle} value="personalization">Personalization</TabTrigger>
+                                    <TabTrigger className={tabTriggerStyle} value="notification">Notification</TabTrigger>
+                                    <TabTrigger className={tabTriggerStyle} value="sound">Sound</TabTrigger>
                                 </TabTriggerList>
                                 <TabContentList>
-                                    <TabContent value="tabOne" className='dark:text-white'>Content for Tab One</TabContent>
-                                    <TabContent value="tabTwo" className='dark:text-white'>Content for Tab Two</TabContent>
-                                    <TabContent value="tabThree" className='dark:text-white'>Content for Tab Three</TabContent>
+                                    <TabContent value="general" className='dark:text-white'><GeneralSetting/></TabContent>
+                                    <TabContent value="account" className='dark:text-white'>Content for Tab Two</TabContent>
+                                    <TabContent value="personalization" className='dark:text-white'>Content for Tab Three</TabContent>
+                                    <TabContent value="notification" className='dark:text-white'>Content for Tab Four</TabContent>
+                                    <TabContent value="sound" className='dark:text-white'>Content for Tab Five</TabContent>
                                 </TabContentList>
                             </Tabs>
                         </div>
