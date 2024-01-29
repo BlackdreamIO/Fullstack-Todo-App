@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import cn from '../../utils/utis';
 
-export const DropDownMenu = ({ children, onClose, isOpen=false }) => {
+export const DropDownMenu = ({ children, onClose, className, isOpen=false, ...rest }) => {
     const dropdownRef = useRef(null);
 
     const handleOutsideClick = (event) => {
@@ -21,7 +22,7 @@ export const DropDownMenu = ({ children, onClose, isOpen=false }) => {
     
 
     return (
-        <div className='relative inline-block' ref={dropdownRef}>
+        <div className={cn('relative inline-block', className)} ref={dropdownRef} {...rest}>
             {children}
         </div>
     )

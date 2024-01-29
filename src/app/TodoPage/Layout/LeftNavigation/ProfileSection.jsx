@@ -41,11 +41,11 @@ export default function ProfileSection()
                         <div className='w-[950px] h-[500px] m-auto dark:bg-neutral-950 rounded-lg p-2'>
                            <Tabs defaultTab={'general'}>
                                 <TabTriggerList className='w-full dark:bg-neutral-900'>
-                                    <TabTrigger className={tabTriggerStyle} value="general">General</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="account">Account</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="personalization">Personalization</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="notification">Notification</TabTrigger>
-                                    <TabTrigger className={tabTriggerStyle} value="sound">Sound</TabTrigger>
+                                    <TabTrigger value="general">General</TabTrigger>
+                                    <TabTrigger value="account">Account</TabTrigger>
+                                    <TabTrigger value="personalization">Personalization</TabTrigger>
+                                    <TabTrigger value="notification">Notification</TabTrigger>
+                                    <TabTrigger value="sound">Sound</TabTrigger>
                                 </TabTriggerList>
                                 <TabContentList>
                                     <TabContent value="general" className='dark:text-white'><GeneralSetting/></TabContent>

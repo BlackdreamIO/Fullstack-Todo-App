@@ -5,7 +5,7 @@ export const TabContent = ({ children, value, activeTab, className, ...rest }) =
     const isActive = activeTab === value;
 
     return (
-        <div className={isActive ?className : 'dark:text-[aquamarine]'} {...rest}>
+        <div className={isActive ? className : 'hidden'} {...rest}>
             {children}
         </div>
     )
