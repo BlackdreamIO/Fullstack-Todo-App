@@ -2,14 +2,17 @@ import { useState } from 'react';
 
 import { Input } from '../../../../../components/input/input';
 import { Button, buttonVarient } from '../../../../../components/button/button';
-import { Dialog, DialogHeader, DialogContent } from '../../../../../components/dialog/DialogComponent';
+
+import Confirmation from '../../../../../components/confirmation/Confirmation';
+import { ConfirmationHeader } from '../../../../../components/confirmation/ConfirmationHeader';
+import { ConfirmationFooter } from '../../../../../components/confirmation/ConfirmationFooter';
 
 export function AccountSetting() 
 {
     const [username, setUsername] = useState('USERNAME_STR');
-    const [openAccountDialog, setOpenAccountDialog] = useState(true);
+    const [openAccountDialog, setOpenAccountDialog] = useState(false);
 
-    const accountDialogStyle = `dark:bg-black p-2 w-[500px] h-auto`
+    const accountDialogStyle = `dark:bg-[--darkPrimary] p-2 w-[50%] h-[150px] rounded-lg z-[2000]`
 
     return (
         <section className='w-full h-auto mt-5'>
@@ -43,14 +46,12 @@ export function AccountSetting()
                     </div>
                 </main>
             </div>
-            <Dialog open={openAccountDialog}>
-                <DialogHeader>
-                    <h1>ACCOUNT DELETION AREA</h1>
-                </DialogHeader>
-                <DialogContent className={accountDialogStyle} isOpen={openAccountDialog} onClose={() => setOpenAccountDialog(false)}>
-                    <Button onClick={(e) => e.stopPropagation()} varient={buttonVarient.error} className={'w-3/12'}>Delete This Account</Button>
-                </DialogContent>
-            </Dialog>
+            <Confirmation open={openAccountDialog} onClose={() => setOpenAccountDialog(false)}>
+                <ConfirmationHeader className='mb-10'>
+                    <h1 className='text-2xl font-sans'>Do You Want To Delete The Account</h1>
+                </ConfirmationHeader>
+                <ConfirmationFooter/>
+            </Confirmation>
         </section>
     )
 }
