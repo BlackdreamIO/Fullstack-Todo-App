@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Input } from '../../../../../components/input/input';
-import { Button, buttonVarient } from '../../../../../components/button/button';
+import { Button } from '../../../../../components/cva/button/cvaButton';
 
 import Confirmation from '../../../../../components/confirmation/Confirmation';
 import { ConfirmationHeader } from '../../../../../components/confirmation/ConfirmationHeader';
@@ -42,13 +42,16 @@ export function AccountSetting()
                     <div className='flex flex-col gap-3 mt-5 w-full'>
                         <h2 className='text-yellow-400 font-bold'>Dnager Zone</h2>
                         <div className='w-full bg-neutral-700 h-[1px]'></div>
-                        <Button onClick={() => setOpenAccountDialog(true)} varient={buttonVarient.error} className={'w-3/12'}>Delete This Account</Button>
+                        <Button onClick={() => setOpenAccountDialog(true)} intent='error' className={'w-3/12'}>Delete This Account</Button>
                     </div>
                 </main>
             </div>
             <Confirmation open={openAccountDialog} onClose={() => setOpenAccountDialog(false)}>
-                <ConfirmationHeader className='mb-10'>
-                    <h1 className='text-2xl font-sans'>Do You Want To Delete The Account</h1>
+                <ConfirmationHeader className='mb-5'>
+                    <h1 className='text-2xl font-mono mb-3'>Do You Want To Delete The Account</h1>
+                    <p className='text-base font-mono text-neutral-500'>
+                        if you delete your account then you will lose all of your progress from our server
+                    </p>
                 </ConfirmationHeader>
                 <ConfirmationFooter/>
             </Confirmation>

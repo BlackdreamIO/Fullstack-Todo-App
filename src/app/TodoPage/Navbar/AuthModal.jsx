@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Button, buttonVarient } from '../../../components/button/button';
+import { Button } from '../../../components/cva/button/cvaButton';
 import { Input } from '../../../components/input/input';
 
 import GoogleIcon from '../../../Assets/images/googleIcon.png'
@@ -58,13 +58,13 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
     };
 
     return (
-        <div className="dark:bg-[--darkPrimary] bg-neutral-100 w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
+        <div className="dark:bg-[--darkSecondary] bg-neutral-100 w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
             items-center justify-center space-y-5 min-[1200px]:w-[600px] max-[550px]:w-[90vw] transition-transform duration-300">
 
             <div className="w-full">
                 <Button 
-                    className='!bg-red-600 !hover:bg-red-700 w-[20px] h-[20px] float-right text-xl p-0 m-auto text-center'
-                    varient={buttonVarient.primary}
+                    intent='error'
+                    className='w-[30px] float-right'
                     onClick={() => handleClose()}>
                         -
                 </Button>
@@ -74,11 +74,11 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
             </div>
 
             <ul className="flex flex-row items-center justify-center gap-5 w-full dark:bg-black p-2">
-                <Button className='w-[250px] flex flex-row items-center justify-center gap-2 font-normal' varient={buttonVarient.primary}>
+                <Button width={'large'} className='flex flex-row items-center justify-center gap-2 font-normal'>
                     <img src={GoogleIcon} className="w-[30px] h-[30px] rounded-[50%]" alt="google icon were not found" />
                     Google 
                 </Button>
-                <Button className='w-[250px] flex flex-row items-center justify-center gap-2 font-normal' varient={buttonVarient.primary}>
+                <Button width={'large'} className='flex flex-row items-center justify-center gap-2 font-normal'>
                     <img src={GithubIcon} className="w-[30px] h-[30px] rounded-[50%]" alt="google icon were not found" />
                     GitHub 
                 </Button>
@@ -106,18 +106,18 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
                 />
                 <Button 
                     className='w-[50%] min-[1200px]:h-[40px]' 
-                    varient={buttonVarient.primary}
                     onClick={() => authMethod == 'LogIn' ? handleLogIn() : handleSignUp()}>
                         {authMethod == 'LogIn' ? 'Log In' : 'Sign Up'}
                 </Button>
             </div>
 
-            <div className="w-full space-y-5 flex flex-col items-center justify-center">
-                <p className="dark:text-white text-center uppercase text-sm min-[1200px]:text-md">OR</p>
+            <div className="w-full space-y-3 flex flex-col items-center justify-center">
+                <p className="dark:text-white text-center uppercase text-sm min-[1200px]:text-base">OR</p>
                 <Button 
                     className='w-auto font-normal dark:text-neutral-500 dark:hover:text-neutral-100
                     min-[1200px]:text-lg' 
-                    varient={buttonVarient.ghost}
+                    intent='transparent'
+                    outline='off'
                     onClick={() => handleSwitchAuthMode()}>
                         {authMethod == 'LogIn' ? 'Create New Account' : 'Already Have A Account !'}
                 </Button>

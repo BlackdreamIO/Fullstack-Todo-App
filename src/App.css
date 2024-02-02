@@ -4,8 +4,8 @@
 
 :root
 {
-    --darkPrimary: #1E1F24;
-    --darkSecondary: #1e1f24;
+    --darkPrimary: rgb(5,5,5);
+    --darkSecondary: rgb(10,10,10);
     --darkThird : #21232C;
     --darkFour : #19191f;
     

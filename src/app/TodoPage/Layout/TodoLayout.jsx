@@ -4,7 +4,7 @@ import TodoColumnPanel from './LeftNavigation/TodoColumnPanel';
 export default function TodoLayout() 
 {
     return (
-        <div className='dark:bg-[--darkFour] border-t-[1px] border-black '>
+        <div className='border-t-[1px] border-neutral-500 '>
             <TodoColumnPanel/>
         </div>
     )

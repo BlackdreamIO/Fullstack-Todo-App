@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Button, buttonVarient } from '../../../../../components/button/button';
+import { Button } from '../../../../../components/cva/button/cvaButton';
 import { DropDownMenu, DropDownHeader, DropDownContent } from '../../../../../components/dropDown/DropDown';
 
 export function GeneralSetting() 

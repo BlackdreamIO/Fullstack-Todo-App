@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { TabTriggerList } from './TabTriggerList';
-import { TabContentList } from './TabContentList';
+import cn from '../../utils/utis';
 
-export const Tabs = ({ children, defaultTab='', ...rest }) => {
+export const Tabs = ({ children, defaultTab='', className, ...rest }) => {
     
     const [currentSelectedTab, setCurrentSelectedTab] = useState(defaultTab || '');
 
@@ -11,7 +10,7 @@ export const Tabs = ({ children, defaultTab='', ...rest }) => {
     }
 
     return (
-        <div>
+        <div className={cn('w-[95%] min-h-[550px] overflow-y-scroll m-auto dark:bg-neutral-950 rounded-lg p-2', className)} { ...rest}>
             {
                 React.Children.map(children, (child) => {
                     if (React.isValidElement(child)) 
