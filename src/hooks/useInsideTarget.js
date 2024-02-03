@@ -1,23 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect } from 'react';
 
-export function useInsideTarget({ref}) 
-{
-    const [inTarget, setInTarget] = useState(false);
+export function useOutsideClick(ref, callback) {
+    const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          callback();
+        }
+    }
 
     useEffect(() => {
-        const handleOutsideClick = (cevent) => {
-            if(cevent.current && !ref.current.contains(cevent.target)) {
-                setInTarget(false);
-            }
-            setInTarget(true);
-        }
-       
-        window.addEventListener('click', handleOutsideClick);
+        const handleClick = (event) => handleClickOutside(event);
         
-        return () => {
-            window.removeEventListener('click', handleOutsideClick);
-        }
-    }, [])
+        document.addEventListener('click', handleClick);
+        document.addEventListener('contextmenu', handleClick);
 
-    return [inTarget, setInTarget];
+        return () => {
+            document.removeEventListener('click', handleClick);
+            document.addEventListener('contextmenu', handleClick);
+        }
+    }, [ref, callback])
 }

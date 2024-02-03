@@ -1,6 +1,8 @@
 import { useRef, useEffect } from "react";
 import cn from "../../utils/utis";
 
+//import { useInsideTarget } from "../../hooks/useInsideTarget";
+
 export function DialogContent({children, className, onClose, isOpen, ...rest}) 
 {
     const dialogRef = useRef(null);

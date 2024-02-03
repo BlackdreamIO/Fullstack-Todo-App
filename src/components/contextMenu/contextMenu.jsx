@@ -1,26 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useOutsideClick } from '../../hooks/hooksExporter'
 
-export const ContextMenu = ({children, ...rest}) => {
+export const ContextMenu = ({enableContextMenu=false, onContextShow, onContextHide, children, ...rest}) => {
 
-    const [contextMenuShow, setContextMenuShow] = useState(false);
+    const [contextMenuShow, setContextMenuShow] = useState(enableContextMenu);
     const contextMenuRef = useRef(null);
 
     const handleContextClick = (event) => {
         event.preventDefault();
         setContextMenuShow(true);
+        if(onContextShow) { onContextShow() }
     }
-
-    const handleContextClose = (event) => {
-        if(event.current && !contextMenuRef.current.contains(event.target)) {
-            setContextMenuShow(false);
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener('click', handleContextClose);
-        return () => window.removeEventListener('click', handleContextClose);
-    }, [])
     
+    const handleContextClose = () => {
+        setContextMenuShow(false);
+        if(onContextHide) { onContextHide() }
+    }
+
+    useOutsideClick(contextMenuRef, () => handleContextClose());
 
     return (
         <div ref={contextMenuRef} {...rest}>

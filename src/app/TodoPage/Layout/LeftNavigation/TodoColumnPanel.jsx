@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import ProfileSection from './ProfileSection';
 import { TodoColumnItem } from './TodoColum';
-import { Container } from '../../../../components/container/container';
+import { Container } from 'components/container/container';
 
 export default function TodoColumnPanel() 
 {
