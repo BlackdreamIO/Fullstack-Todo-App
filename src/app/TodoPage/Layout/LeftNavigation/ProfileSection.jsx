@@ -1,10 +1,10 @@
 import { useState, useEffect  } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
 
-import { Button } from '../../../../components/cva/button/cvaButton';
-import { Dialog, DialogContent } from '../../../../components/dialog/DialogComponent';
+import { Button } from '@/components/cva/button/cvaButton';
+import { Dialog, DialogContent } from '@/components/dialog/DialogComponent';
 
-import {  Tabs, TabTrigger, TabContent, TabTriggerList, TabContentList } from '../../../../components/tabs/TabsComponent';
+import {  Tabs, TabTrigger, TabContent, TabTriggerList, TabContentList } from '@/components/tabs/TabsComponent';
 import { GeneralSetting } from './Settings/GeneralSetting';
 import { AccountSetting } from './Settings/AccountSetting';
 

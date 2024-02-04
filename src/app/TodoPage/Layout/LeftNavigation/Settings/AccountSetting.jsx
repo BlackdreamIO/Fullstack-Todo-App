@@ -1,11 +1,8 @@
 import { useState } from 'react';
 
-import { Input } from '../../../../../components/input/input';
-import { Button } from '../../../../../components/cva/button/cvaButton';
-
-import Confirmation from '../../../../../components/confirmation/Confirmation';
-import { ConfirmationHeader } from '../../../../../components/confirmation/ConfirmationHeader';
-import { ConfirmationFooter } from '../../../../../components/confirmation/ConfirmationFooter';
+import { Input } from '@/components/input/input';
+import { Button } from '@/components/cva/button/cvaButton';
+import { Confirmation, ConfirmationHeader, ConfirmationFooter } from '@/components/confirmation/ConfirmationComponent';
 
 export function AccountSetting() 
 {

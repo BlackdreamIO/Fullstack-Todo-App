@@ -1,10 +1,10 @@
 import { forwardRef } from "react";
 import { cva } from 'class-variance-authority'
-import cn from "../../../utils/utis";
+import cn from "@/utils/utis";
 
 const ButtonVariants = cva(
     /* button base style */
-    "w-[150px] h-fit text-white transition-colors duration-150",
+    "w-[150px] h-fit text-white transition-colors duration-150 flex flex-row items-center justify-center gap-2",
     {
         variants: {
             intent: {

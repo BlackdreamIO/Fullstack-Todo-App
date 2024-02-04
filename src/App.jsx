@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./App.css";
 //import CrudApp from "./CrudApp";
 
-import { Route, Routes, router } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 //import { StartNotification } from "./components/Tostify/profileTostify";
 import TodoPage from "./app/TodoPage/TodoPage";

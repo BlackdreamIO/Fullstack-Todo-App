@@ -3,17 +3,17 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { useCurrentAuthState, useThemeManager, useWindowResize } from '../../../hooks/hooksExporter';
 
 import { useCookies } from 'react-cookie';
-import { DropDownMenu, DropDownContent, DropDownHeader  } from '../../../components/dropDown/DropDown';
-import { Button } from '../../../components/cva/button/cvaButton';
 
-import dummyImage from '../../../Assets/images/dummyImage.webp';
-import loggedInUser from '../../../Assets/images/loggedInUser.webp';
+import { DropDownMenu, DropDownContent, DropDownHeader  } from '@/components/dropDown/DropDown';
+import { Button } from '@/components/cva/button/cvaButton';
+import { Container } from '@/components/container/container';
+import { Wrapper } from '@/components/wrapper/wrapper';
 
-import { Dialog, DialogContent } from '../../../components/dialog/DialogComponent';
+import dummyImage from '@/Assets/images/dummyImage.webp';
+import loggedInUser from '@/Assets/images/loggedInUser.webp';
+
+import { Dialog, DialogContent } from '@/components/dialog/DialogComponent';
 import AuthMoadal from './AuthModal';
-import { Container } from '../../../components/container/container';
-import { Wrapper } from '../../../components/wrapper/wrapper';
-
 
 export default function TodoNavbar() 
 {

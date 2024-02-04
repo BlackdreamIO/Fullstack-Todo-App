@@ -3,7 +3,7 @@ import cn from '../../utils/utis';
 
 import { ConfirmationFooter } from './ConfirmationFooter';
 
-export default function Confirmation({children, overlayClassName, contentClassName, onConfirm, onClose, open=false, ...rest}) 
+export function Confirmation({children, overlayClassName, contentClassName, onConfirm, onClose, open=false, ...rest}) 
 {
     const handleConfirmClick = () => {
         if(onConfirm) {

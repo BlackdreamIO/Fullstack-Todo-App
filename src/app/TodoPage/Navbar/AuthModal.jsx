@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
-import { Button } from '../../../components/cva/button/cvaButton';
-import { Input } from '../../../components/input/input';
+import { Button } from '@/components/cva/button/cvaButton';
+import { Input } from '@/components/input/input';
 
-import GoogleIcon from '../../../Assets/images/googleIcon.png'
-import GithubIcon from '../../../Assets/images/GithubIcon.webp'
+import GoogleIcon from '@/Assets/images/googleIcon.png'
+import GithubIcon from '@/Assets/images/GithubIcon.webp'
 
 
 export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}) 

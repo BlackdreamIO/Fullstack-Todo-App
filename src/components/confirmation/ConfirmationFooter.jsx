@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from '../cva/button/cvaButton'
 
-export function ConfirmationFooter({children, OnConfirm, OnCancell}) 
+export function ConfirmationFooter({children, className, OnConfirm, OnCancell}) 
 {
     const handleFooterRender = () => {
         if(React.Children.count(children) < 1) 
@@ -20,7 +20,7 @@ export function ConfirmationFooter({children, OnConfirm, OnCancell})
     }
 
     return (
-        <div>
+        <div className={className}>
             {handleFooterRender()}
         </div>
     )
