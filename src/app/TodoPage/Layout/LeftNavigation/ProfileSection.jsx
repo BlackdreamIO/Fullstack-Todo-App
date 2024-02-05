@@ -17,7 +17,7 @@ export default function ProfileSection()
     const tabTriggerStyle = `dark:text-neutral-600 dark:hover:text-neutral-200 dark:hover:bg-neutral-700`
 
     return (
-        <section className='dark:bg-black max-h-[10vh] w-full'>
+        <section className='dark:bg-black max-h-[8vh] w-full hidden'>
             <ul className='flex flex-row items-center justify-center gap-2 h-auto w-full'>
                 <div className='flex flex-row items-center justify-center dark:bg-black w-10/12 h-full pl-2 pr-2 pt-1 pb-1'>
                     <img
@@ -26,7 +26,7 @@ export default function ProfileSection()
                         alt={`${profilePicUrl} not found`} 
                     />
                     <div className='w-full ml-2'>
-                        <h1 className='dark:text-white'>Blackdream io intersect observer</h1>
+                        <h1 className='dark:text-white'>Blackdream</h1>
                     </div>
                 </div>
                 <div className='w-2/12 flex items-center justify-center'>
