@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 
 //import { StartNotification } from "./components/Tostify/profileTostify";
 import TodoPage from "./app/TodoPage/TodoPage";
+import SettingPage from "./app/SettingPage/SettingPage";
 
 export default function App() 
 {
@@ -22,6 +23,7 @@ export default function App()
         <div className="h-screen dark:bg-black">
             <Routes>
                 <Route path="/" element={<TodoPage />} />
+                <Route path="/settings" element={<SettingPage />} />
                 {/* <Route path="/:todoID" element={<CrudApp />} /> */}
                 <Route path="*" element={<h1 className='dark:text-white text-blue-50 text-center mt-10'>CLIENT SIDE EXEPTION HAS OCCURED</h1>} />
             </Routes>
