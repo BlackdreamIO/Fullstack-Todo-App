@@ -12,8 +12,8 @@ export default function TodoColumnPanel()
     const [columnItem, setColumnItem] = useState(Array(15).fill(true).map((x, i) => `Todo Column Test ${i}`))
 
     return (
-        <div className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[250px] h-[95vh]'>
-            <Container flow='col' alignItem='start' justifyItem='start' wrap='no-wrap' className='h-[90%] w-[250px] pt-5 overflow-y-scroll'>
+        <div className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[250px] h-[87vh]'>
+            <Container flow='col' alignItem='start' justifyItem='start' wrap='no-wrap' className=' h-[82vh] w-[250px] pt-5 overflow-y-scroll'>
                 {
                     columnItem.map((v, i) => (
                         <TodoColumnItem 
@@ -26,7 +26,7 @@ export default function TodoColumnPanel()
                 }
             </Container>
             {/* <ProfileSection/> */}
-            <BottomNavigationStatus/>
+            {/* <BottomNavigationStatus/> */}
         </div>
     )
 }

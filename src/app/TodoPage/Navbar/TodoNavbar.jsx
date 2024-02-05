@@ -43,7 +43,7 @@ export default function TodoNavbar()
     const handleThemeClick = () => setDarkMode((prev) => prev =! prev);
 
     return (
-        <Wrapper justifyItem='between' className='w-full h-auto dark:bg-[--darkSecondary] bg-neutral-100 gap-2 px-2 py-1'>
+        <Wrapper justifyItem='between' className='w-full h-[8vh] dark:bg-[--darkSecondary] bg-neutral-100 gap-2 px-2 py-1'>
             <NavbarLeftArea />
             <NavbarRightArea/>
         </Wrapper>

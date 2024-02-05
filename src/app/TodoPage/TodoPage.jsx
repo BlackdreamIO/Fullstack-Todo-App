@@ -12,7 +12,7 @@ export default function TodoPage()
         <div className='h-screen dark:bg-black'>
             <TodoNavbar/>
             <TodoLayout/>
-            
+            <BottomNavigationStatus/>
         </div>
     )
 }
