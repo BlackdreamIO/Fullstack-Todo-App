@@ -4,7 +4,7 @@ import cn from "@/utils/utis";
 
 const ButtonVariants = cva(
     /* button base style */
-    "w-[150px] h-fit text-white transition-colors duration-150 flex flex-row items-center justify-center gap-2",
+    "w-[150px] h-fit text-white text-center transition-colors duration-150 flex flex-row items-center justify-center gap-2",
     {
         variants: {
             intent: {
@@ -25,6 +25,7 @@ const ButtonVariants = cva(
 
             /* button sizes */
             size: {
+                xs : ["text-xs", "py-0", "px-0"],
                 small: ["text-sm", "py-1", "px-2"],
                 normal: ["text-base", "py-1", "px-4"],
                 medium: ["text-base", "py-2", "px-4"],
@@ -32,6 +33,7 @@ const ButtonVariants = cva(
             },
 
             width : {
+                xs : ['w-[40px]'],
                 small : ['w-auto'],
                 medium : ['w-[150px]'],
                 large : ['w-[300px]'],
