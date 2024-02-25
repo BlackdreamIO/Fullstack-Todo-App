@@ -18,7 +18,7 @@ export default function TodoColumnPanel()
     const [todos, setTodos] = useState([]);
     const ref = useRef(null);
 
-    const [useInTarget, setUseInTarget] = useInsideClick(ref);
+    const [useInTarget] = useInsideClick(ref);
 
     useEffect(() => {
         if(localStorage.key('todos') && localStorage.getItem('todos')) 
@@ -52,21 +52,19 @@ export default function TodoColumnPanel()
         setActiveIndex(index);
     }
 
-    useEffect(() => {
-        console.log(`Active Focus : ${useInTarget}`);
-    }, [useInTarget])
-
     useKeyPressEvent('ArrowUp', () => {
         // same as arrowDown function this one does the revert when the user press arrowUp then it will |
         // decrease activeIndex by untill these condition become true |
         // activeIndex should be greater then 0 and also it should be smaller then the todo length array |
-        setActiveIndex(activeIndex - 2 <= todos.length && activeIndex > 0 ? (activeIndex - 1) : todos.length - 1);
+        if(useInTarget) {
+            setActiveIndex(activeIndex - 2 <= todos.length && activeIndex > 0 ? (activeIndex - 1) : todos.length - 1);
+        }
     })
 
     useKeyPressEvent('ArrowDown', () => {
         // increase the active number by 1 until activeIndex reach todo Array Length |
         // if the activeIndex reach the end then set it back to first element or _0_ |
-        setActiveIndex(activeIndex + 2 <= todos.length ? ( activeIndex + 1) : 0);
+        if (useInTarget) setActiveIndex(activeIndex + 2 <= todos.length ? ( activeIndex + 1) : 0);
     })
 
     const handleClick = (e) => {
