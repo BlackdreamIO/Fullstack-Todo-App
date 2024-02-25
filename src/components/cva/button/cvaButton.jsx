@@ -23,6 +23,8 @@ const ButtonVariants = cva(
                     dark:text-neutral-500 dark:hover:text-white text-neutral-500 hover:text-black`,
                 transparent:
                     "bg-transparent dark:bg-transparent dark:text-neutral-500 dark:hover:text-white text-neutral-500 hover:text-black",
+                odd : 
+                    "dark:bg-blue-500 bg-blue-500 dark:text-neutral-400 dark:hover:text-white text-neutral-500 hover:text-black"
             },
 
             /* button sizes */

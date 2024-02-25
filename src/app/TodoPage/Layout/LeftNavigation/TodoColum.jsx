@@ -10,6 +10,7 @@ import { Container } from '@/components/container/container';
 import { DropDownMenu, DropDownHeader, DropDownContent } from '@/components/dropDown/DropDown';
 import { ContextMenu, ContextMenuHeader, ContextMenuContent } from '@/components/contextMenu/contextMenuComponent';
 import { Confirmation, ConfirmationHeader, ConfirmationFooter } from '@/components/confirmation/ConfirmationComponent';
+import { Wrapper } from '@/components/wrapper/wrapper';
 
 export const TodoColumnItem = memo(({title, active=false, onClick, onKeyboardInput}) => {
 
@@ -23,11 +24,6 @@ export const TodoColumnItem = memo(({title, active=false, onClick, onKeyboardInp
             setOpenOptions(true);
         }
     }
-
-    const handleCursorPosition = () => {
-
-    }
-
     
     // x y cordinate  
     const [position, setPosition] = useState({ x: 200, y: 0 });
@@ -98,9 +94,11 @@ export const TodoColumnItem = memo(({title, active=false, onClick, onKeyboardInp
                         <DropDownHeader onClick={(e) => handleEventClick(e)}>
                             <IoEllipsisVerticalSharp className={`${active ? 'dark:text-black' : 'dark:text-neutral-600'} cursor-pointer`} />
                         </DropDownHeader>
-                        <DropDownContent open={openOptions && !openConfirmation} className={`fixed left-40 top-[${20}%] z-[8000] max-w-[200px] flex flex-col items-center justify-center`}>
-                            {DropDownMenuContents()}
-                        </DropDownContent>
+                        <Wrapper style={{top : `${position.y}px`}} className='fixed w-full left-20 pointer-events-none flex-col flex-nowrap items-start justify-start' >
+                            <DropDownContent open={openOptions && !openConfirmation} className={`relative left-40 z-[8000] max-w-[200px] flex flex-col items-center justify-center pointer-events-auto`}>
+                                {DropDownMenuContents()}
+                            </DropDownContent>
+                        </Wrapper>
                     </DropDownMenu>
                 </Container>
             </ContextMenuHeader>
@@ -108,7 +106,7 @@ export const TodoColumnItem = memo(({title, active=false, onClick, onKeyboardInp
           
             <ContextMenuContent className={`fixed dark:bg-slate-800 pointer-events-none z-[1000] top-0`}>
                 <DropDownMenu className={`fixed w-full left-20`} style={{top : `${position.y}px`}} isOpen={true}>
-                    <DropDownContent open={true && !openConfirmation} className={`relative left-40 z-[1000] max-w-[200px] flex flex-col items-center justify-center dark:border-sky-300 pointer-events-auto `}>
+                    <DropDownContent open={true && !openConfirmation} className={`relative left-40 z-[1000] max-w-[200px] flex flex-col items-center justify-center dark:border-sky-300 pointer-events-auto`}>
                         {DropDownMenuContents()}
                     </DropDownContent>
                 </DropDownMenu>

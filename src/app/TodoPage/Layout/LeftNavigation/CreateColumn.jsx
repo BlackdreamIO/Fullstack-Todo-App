@@ -6,9 +6,16 @@ import React from 'react'
 export default function CreateColumn() 
 {
     return (
-        <Container className={'w-full dark:bg-slate-900'} flow='row'>
-            <Input className='w-full' placeholder='text' />
-            <Button intent='primary' className='p-0' size='small' width='xs'>+</Button>
+        <Container className={'w-full'} flow='row'>
+            <Input className='w-full dark:bg-black' placeholder='text' />
+            <Button 
+                intent='primary' 
+                size='small' 
+                width='xs'
+                className='dark:bg-amber-500 dark:hover:bg-amber-500 bg-amber-500
+                p-1'>
+                    +
+            </Button>
         </Container>
     )
 }

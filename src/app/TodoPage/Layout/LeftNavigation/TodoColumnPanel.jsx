@@ -1,30 +1,25 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useKeyPressEvent } from 'react-use';
+import { useInsideClick } from '@/hooks/useRefFocus';
 
-import ProfileSection from './ProfileSection';
 import { TodoColumnItem } from './TodoColum';
 import { Container } from '@/components/container/container';
-import BottomNavigationStatus from '../BottomNavigation/BottomNavigationStatus';
 import CreateColumn from './CreateColumn';
-
-import { useInsideClick } from '@/hooks/useRefFocus';
 
 export default function TodoColumnPanel() 
 {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [isFocused, setIsFocused] = useState(false);
     const [columnItem, setColumnItem] = useState(Array(40).fill(true).map((x, i) => `Todo Column Test ${i}`))
-
     const [todos, setTodos] = useState([]);
+    
     const ref = useRef(null);
-
-    const [useInTarget] = useInsideClick(ref);
+    const [isFocused] = useInsideClick(ref); // if the ref element is focused or not (boolean)
 
     useEffect(() => {
         if(localStorage.key('todos') && localStorage.getItem('todos')) 
         {
             const localStorageTodos = JSON.parse(localStorage.getItem('todos'));
-            const slicedData = localStorageTodos.slice(0, 5);
+            const slicedData = localStorageTodos.slice(0, 15);
             setTodos(slicedData);
         }
         else {
@@ -48,15 +43,15 @@ export default function TodoColumnPanel()
         }
     }, [])
     
-    const handleTodoClick = (index) => {
+    const handleTodoClick = useCallback((index) => {
         setActiveIndex(index);
-    }
+    })
 
     useKeyPressEvent('ArrowUp', () => {
         // same as arrowDown function this one does the revert when the user press arrowUp then it will |
         // decrease activeIndex by untill these condition become true |
         // activeIndex should be greater then 0 and also it should be smaller then the todo length array |
-        if(useInTarget) {
+        if(isFocused) {
             setActiveIndex(activeIndex - 2 <= todos.length && activeIndex > 0 ? (activeIndex - 1) : todos.length - 1);
         }
     })
@@ -64,27 +59,18 @@ export default function TodoColumnPanel()
     useKeyPressEvent('ArrowDown', () => {
         // increase the active number by 1 until activeIndex reach todo Array Length |
         // if the activeIndex reach the end then set it back to first element or _0_ |
-        if (useInTarget) setActiveIndex(activeIndex + 2 <= todos.length ? ( activeIndex + 1) : 0);
+        if (isFocused) setActiveIndex(activeIndex + 2 <= todos.length ? (activeIndex + 1) : 0);
     })
 
-    const handleClick = (e) => {
-        if(ref.current.contains(e.target)) {
-            console.log('Mouse clicked inside the div');
-        }
-    }
-
     return (
-        <div ref={ref} className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[250px] h-[87vh]'>
+        <div ref={ref} className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[25%] h-[87vh] space-y-2 pt-2 pl-1'>
             <CreateColumn/>
             <Container 
                 flow='col' 
                 alignItem='start' 
                 justifyItem='start' 
                 wrap='no-wrap' 
-                className=' h-[75vh] w-[250px] pt-2 overflow-y-scroll'
-                
-                onClick={(e) => handleClick(e)}
-                >
+                className=' h-[75vh] w-full pt-2 overflow-y-scroll'>
                 {
                     todos.map((todo, index) => (
                         <TodoColumnItem 
@@ -96,8 +82,6 @@ export default function TodoColumnPanel()
                     ))
                 }
             </Container>
-            
-            {/* <BottomNavigationStatus/> */}
         </div>
     )
 }
