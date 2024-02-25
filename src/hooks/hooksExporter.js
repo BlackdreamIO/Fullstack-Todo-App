@@ -5,6 +5,6 @@ export { useCurrentAuthState } from "./useAuthState";
 
 export { useWindowResize } from './useWindowResize';
 
-export { useOutsideClick } from './useInsideTarget';
+export { useOutsideClick } from './useOutsideClick';
 
 // ...

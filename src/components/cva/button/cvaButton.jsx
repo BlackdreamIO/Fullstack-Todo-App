@@ -12,6 +12,8 @@ const ButtonVariants = cva(
                     "dark:bg-neutral-100 dark:hover:bg-neutral-300 dark:text-black",
                 secondary : 
                     "dark:bg-neutral-950 dark:hover:bg-neutral-900 dark:text-neutral-500 dark:hover:text-white",
+                secondaryError : 
+                    "dark:bg-red-900 dark:hover:bg-red-800 dark:text-white",
                 error:
                     "bg-red-500 hover:bg-red-600",
                 sucess:
@@ -76,13 +78,17 @@ const ButtonVariants = cva(
 
 
 export const Button = forwardRef((
-    { intent, size, fontWeight, width, border, children, outline, className, ...rest }, ref) => {
+    { intent, size, fontWeight, width, border, children, outline, className, loading=false, loadingText='Loading...', ...rest }, ref) => {
     return (
         <button
             ref={ref}
             className={cn(ButtonVariants({ intent, size, border, fontWeight, width, outline }), className)}
+            disabled={loading}
             {...rest}>
-                {children}
+                {
+                    loading == true ? ( <p className="dark:text-white "> {loadingText} </p> )
+                    : ( <> {children} </> )
+                }
         </button>
     )
 })

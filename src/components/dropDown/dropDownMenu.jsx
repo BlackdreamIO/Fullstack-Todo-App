@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import cn from '../../utils/utis';
-import { useOutsideClick } from '../../hooks/useInsideTarget';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 export const DropDownMenu = ({ children, onClose, className, isOpen=false, ...rest }) => {
     const dropdownRef = useRef(null);
