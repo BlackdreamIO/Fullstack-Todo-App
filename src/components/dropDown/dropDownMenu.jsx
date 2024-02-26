@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import cn from '../../utils/utis';
-import { useOutsideClick } from '../../hooks/useOutsideClick';
-import { useKeyPress } from 'react-use';
+import { useOutsideClick, useKeyPress } from '@/hooks/hooksExporter';
 
 export const DropDownMenu = ({ children, onClose, className, isOpen=false, ...rest }) => {
     const dropdownRef = useRef(null);
@@ -10,9 +9,13 @@ export const DropDownMenu = ({ children, onClose, className, isOpen=false, ...re
         if(onClose != null) {
             onClose();
         }
-    });
+    })
 
-    useKeyPress('Escape', () => onClose());
+    useKeyPress('Escape', () => {
+        if(onClose != null) {
+            onClose();
+        }
+    });
 
     return (
         <div className={cn('relative inline-block', className)} ref={dropdownRef} {...rest}>
