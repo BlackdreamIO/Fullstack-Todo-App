@@ -9,8 +9,9 @@ export { useOutsideClick } from './useOutsideClick';
 
 export { useInsideClick } from './useInsideClick';
 
-//export {  } from './useLocalStorage';
+export { useLocalStorage } from './useLocalStorage';
 
 export { useKeyPress } from './useKeyPress';
 
+export { useFetch } from './useFetch';
 // ...

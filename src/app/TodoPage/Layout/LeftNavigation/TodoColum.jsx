@@ -58,8 +58,6 @@ export const TodoColumnItem = memo(({title, active=false, keyboardFocus=false, o
 
     const titleStyle = `mb-1 font-sans font-bold text-[0.9rem] ${active ? 'dark:text-black text-black' : 'text-neutral-500 group-hover:text-neutral-200'}`
 
-    console.count('component re render count');
-
     return (
         <ContextMenu onContextMenu={(e) => handleDropdownOpen(e)} onContextShow={() => setOpenOptions(false)} className={'w-full'}>
 

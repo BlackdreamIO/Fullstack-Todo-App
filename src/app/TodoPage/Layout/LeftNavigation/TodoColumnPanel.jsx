@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
-import { useInsideClick, useKeyPress } from '@/hooks/hooksExporter';
+import { useInsideClick, useKeyPress, useFetch, useLocalStorage } from '@/hooks/hooksExporter';
 
 import { TodoColumnItem } from './TodoColum';
 import { Container } from '@/components/container/container';
@@ -17,11 +17,15 @@ export default function TodoColumnPanel()
     const ref = useRef(null);
     const [isFocused] = useInsideClick(ref); // if the ref element is focused or not (boolean)
 
+    const { localStorageData, hasValue, keyExist } = useLocalStorage('todos');
+
+    //const { response } = useFetch('https://jsonplaceholder.typicode.com/todos', hasValue ? false : true);
+
     useEffect(() => {
-        if(localStorage.key('todos') && localStorage.getItem('todos')) 
+        if(hasValue && keyExist) 
         {
             const localStorageTodos = JSON.parse(localStorage.getItem('todos'));
-            const slicedData = localStorageTodos.slice(0, 15);
+            const slicedData = localStorageData.slice(0, 15);
             setTodos(slicedData);
         }
         else {
@@ -43,9 +47,9 @@ export default function TodoColumnPanel()
                     console.error('There was a problem with the fetch operation:', error);
                 });
         }
-        console.log('MESSAGES');
     }, [])
     
+
     useEffect(() => {
         if(focusIndex === activeIndex) setShowFocus(false);
     }, [focusIndex])
@@ -82,7 +86,7 @@ export default function TodoColumnPanel()
     useKeyPress('Enter', handleEnter);
 
 
-    // Optimization -------------------------
+    // ------------------------- Optimization -------------------------
 
     // Memoized version of TodoColumnItem component
     const MemoizedTodoColumnItem = useMemo(() => {
@@ -92,7 +96,7 @@ export default function TodoColumnPanel()
         })
     }, [])
 
-    return (
+    return useMemo(() => (
         <div ref={ref} className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[250px] h-[87vh] space-y-2 pt-2 pl-1'>
             <CreateColumn/>
             <Container 
@@ -114,5 +118,5 @@ export default function TodoColumnPanel()
                 }
             </Container>
         </div>
-    )
+    ))
 }
