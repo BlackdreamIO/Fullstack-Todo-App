@@ -1,48 +1,38 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-export function useFetch(url='', enabled=true, ...options)
+export function useFetch(url='', method='GET', data = null, enable=true) 
 {
+    
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    let isMounted = true;
-
-    const UseAxios = async () => {
-        const abortController = new AbortController();
-        const signal = abortController.signal;
-
-        try
-        {
-            setIsLoading(true);
-            const res = await axios.get(url, {...options, signal});
-            console.log('Fetching Data From Server[...[], ...[]]...');
-            if (isMounted) {
-                setResponse(res.data);
-            }
-            setIsLoading(false);
-        } 
-        catch (error) 
-        {
-            if (error.name === 'AbortError') {
-                console.log('Request aborted');
-            } 
-            else if(isMounted) setError(error);
-            setIsLoading(false);
-        }
-        finally 
-        {
-            setIsLoading(false);
-        }
-    }
-
     useEffect(() => {
-        if (enabled) {
-            UseAxios();
-        } 
-        return () => isMounted = false; // Cleanup function to set isMounted to false when component unmounts
-    }, []);
+        const fetchData = async () => {
+            setIsLoading(true);
+            try 
+            {
+                const options = {
+                    method: method.toUpperCase(),
+                    headers: { 'Content-Type': 'application/json', },
+                    body: data ? JSON.stringify(data) : null,
+                }
+                const res = await fetch(url, options);
+                const json = await res.json();
+                setResponse(json);
+                setIsLoading(false);
+            } 
+            catch (error) 
+            {
+                setError(error);
+                setIsLoading(false);
+            }
+        }
 
-  return { response, error, isLoading };
+        enable ? fetchData() : setIsLoading(false);
+
+        return () => setIsLoading(false);
+    }, [url, method, data, enable]);
+
+    return { response, error, isLoading };
 }

@@ -17,37 +17,21 @@ export default function TodoColumnPanel()
     const ref = useRef(null);
     const [isFocused] = useInsideClick(ref); // if the ref element is focused or not (boolean)
 
-    const { localStorageData, hasValue, keyExist } = useLocalStorage('todos');
+    const [ todo, setTodo ] = useLocalStorage('todos', []);
 
-    //const { response } = useFetch('https://jsonplaceholder.typicode.com/todos', hasValue ? false : true);
+    // const { response } = useFetch('https://jsonplaceholder.typicode.com/todos', 'GET', [], true);
 
-    useEffect(() => {
-        if(hasValue && keyExist) 
-        {
-            const localStorageTodos = JSON.parse(localStorage.getItem('todos'));
-            const slicedData = localStorageData.slice(0, 15);
-            setTodos(slicedData);
-        }
-        else {
-            fetch('https://jsonplaceholder.typicode.com/todos')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Set the fetched todos to the state
-                    console.log('Request has been send');
-                    const slicedData = data.slice(0, 50);
-                    setTodos(slicedData);
-                    localStorage.setItem('todos', JSON.stringify(data));
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-        }
-    }, [])
+    // useEffect(() => {
+    //     if(todo.length > 0) {
+    //         console.log('Request Refuged !');    
+    //         //setTodos(todo);
+    //     }
+    //     else {
+    //         console.log('Response : ', response);
+    //         setTodo(response);
+    //         //setTodos(response);
+    //     }
+    // }, [response])
     
 
     useEffect(() => {
@@ -84,6 +68,7 @@ export default function TodoColumnPanel()
     useKeyPress('ArrowUp', handleArrowUp);
     useKeyPress('ArrowDown', handleArrowDown);
     useKeyPress('Enter', handleEnter);
+    useKeyPress('ArrowLeft', () => setTodo([]));
 
 
     // ------------------------- Optimization -------------------------
@@ -106,15 +91,21 @@ export default function TodoColumnPanel()
                 wrap='no-wrap' 
                 className=' h-[75vh] w-full pt-2 overflow-y-scroll'>
                 {
-                    todos.map((todo, index) => (
-                        <MemoizedTodoColumnItem
-                            key={todo.id}
-                            title={todo.title}
-                            active={activeIndex === index}
-                            keyboardFocus={focusIndex === index && isFocused && showFocus}
-                            onClick={() => handleTodoClick(index)}
-                        />
-                    ))
+                    todos.length > 0 ? (
+                        todos.map((todo, index) => (
+                            <MemoizedTodoColumnItem
+                                key={todo.id}
+                                title={todo.title}
+                                active={activeIndex === index}
+                                keyboardFocus={focusIndex === index && isFocused && showFocus}
+                                onClick={() => handleTodoClick(index)}
+                            />
+                        ))
+                    )
+                    :
+                    (
+                        <p className='dark:text-neutral-400 text-center'>No Document</p>
+                    )
                 }
             </Container>
         </div>
