@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import cn from '../../utils/utis';
 import { useOutsideClick, useKeyPress } from '@/hooks/hooksExporter';
 
-export const DropDownMenu = ({ children, onClose, className, isOpen=false, ...rest }) => {
+export const DropDownMenu = forwardRef(({ children, onClose, className, isOpen=false, ...rest }, ref) => {
     const dropdownRef = useRef(null);
 
     useOutsideClick(dropdownRef, () => {
@@ -22,4 +22,4 @@ export const DropDownMenu = ({ children, onClose, className, isOpen=false, ...re
             {children}
         </div>
     )
-}
+})

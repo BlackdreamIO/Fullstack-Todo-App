@@ -1,28 +1,27 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
-export function useInsideClick(ref) 
-{
-    const [useInTarget, setUseInTarget] = useState(false);
+export function useInsideClick(ref, defaultValue = false) {
+    const [isInside, setIsInside] = useState(defaultValue);
     
     const handleClickOutside = useCallback((e) => {
         if (ref.current && ref.current.contains(e.target)) 
         {
-            setUseInTarget(true);
+            setIsInside(true);
         }
-        else setUseInTarget(false);
-    })
+        else setIsInside(false);
+    }, [ref]);
 
     useEffect(() => {
         const handleClick = (e) => handleClickOutside(e);
         
-        document.addEventListener('click', handleClick);
+        document.addEventListener('mousedown', handleClick);
         document.addEventListener('contextmenu', handleClick);
 
         return () => {
-            document.removeEventListener('click', handleClick);
+            document.removeEventListener('mousedown', handleClick);
             document.removeEventListener('contextmenu', handleClick);
         }
-    }, [ref])
+    }, [handleClickOutside, ref, defaultValue]);
 
-    return [useInTarget];
+    return [isInside];
 }

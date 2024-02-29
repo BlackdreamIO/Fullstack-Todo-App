@@ -5,33 +5,31 @@ import { TodoColumnItem } from './TodoColum';
 import { Container } from '@/components/container/container';
 import CreateColumn from './CreateColumn';
 
+import { BarLoader } from 'react-spinners';
+
 export default function TodoColumnPanel() 
 {
     const [activeIndex, setActiveIndex] = useState(0);
     const [focusIndex, setFocusIndex] = useState(0);
     const [showFocus, setShowFocus] = useState(false);
-
-    const [columnItem, setColumnItem] = useState(Array(40).fill(true).map((x, i) => `Todo Column Test ${i}`))
     const [todos, setTodos] = useState([]);
-    
+
+    const [ localstoredTodo, setLocalstoredTodo ] = useLocalStorage('todos', []);
+    const { response } = useFetch('https://jsonplaceholder.typicode.com/todos', 'GET', localstoredTodo?.length < 1);
+
     const ref = useRef(null);
     const [isFocused] = useInsideClick(ref); // if the ref element is focused or not (boolean)
 
-    const [ todo, setTodo ] = useLocalStorage('todos', []);
-
-    // const { response } = useFetch('https://jsonplaceholder.typicode.com/todos', 'GET', [], true);
-
-    // useEffect(() => {
-    //     if(todo.length > 0) {
-    //         console.log('Request Refuged !');    
-    //         //setTodos(todo);
-    //     }
-    //     else {
-    //         console.log('Response : ', response);
-    //         setTodo(response);
-    //         //setTodos(response);
-    //     }
-    // }, [response])
+    useEffect(() => {
+        const localStorageDataExist = localstoredTodo && localstoredTodo?.length > 0;
+        if(localStorageDataExist) {
+            setTodos(localstoredTodo);
+        }
+        else {
+            setLocalstoredTodo(response);
+            setTodos(response);
+        }
+    }, [response, localstoredTodo])
     
 
     useEffect(() => {
@@ -55,7 +53,7 @@ export default function TodoColumnPanel()
             setShowFocus(true);
             setFocusIndex(prevIndex => Math.min(prevIndex + 1, todos.length - 1));
         }
-    }, [isFocused, todos.length]);
+    }, [isFocused, todos?.length]);
 
     const handleEnter = useCallback(() => {
         if (isFocused) {
@@ -68,8 +66,7 @@ export default function TodoColumnPanel()
     useKeyPress('ArrowUp', handleArrowUp);
     useKeyPress('ArrowDown', handleArrowDown);
     useKeyPress('Enter', handleEnter);
-    useKeyPress('ArrowLeft', () => setTodo([]));
-
+    useKeyPress('Escape', () => setShowFocus(false));
 
     // ------------------------- Optimization -------------------------
 
@@ -81,6 +78,11 @@ export default function TodoColumnPanel()
         })
     }, [])
 
+    const override = {
+        backgroundColor: "black",
+        width : '100%'
+    }
+
     return useMemo(() => (
         <div ref={ref} className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[250px] h-[87vh] space-y-2 pt-2 pl-1'>
             <CreateColumn/>
@@ -91,7 +93,7 @@ export default function TodoColumnPanel()
                 wrap='no-wrap' 
                 className=' h-[75vh] w-full pt-2 overflow-y-scroll'>
                 {
-                    todos.length > 0 ? (
+                    todos?.length && todos.length > 0 ? (
                         todos.map((todo, index) => (
                             <MemoizedTodoColumnItem
                                 key={todo.id}
@@ -104,7 +106,11 @@ export default function TodoColumnPanel()
                     )
                     :
                     (
-                        <p className='dark:text-neutral-400 text-center'>No Document</p>
+                        <BarLoader 
+                            color='white' 
+                            loading={todos?.length < 1}
+                            cssOverride={override}
+                        />
                     )
                 }
             </Container>

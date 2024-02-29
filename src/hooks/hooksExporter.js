@@ -13,5 +13,7 @@ export { useLocalStorage } from './useLocalStorage';
 
 export { useKeyPress } from './useKeyPress';
 
+export { useMouseEvent } from './useClick';
+
 export { useFetch } from './useFetch';
 // ...
