@@ -8,132 +8,109 @@ import { MdCreateNewFolder } from "react-icons/md";
 import { BsBox2Fill } from "react-icons/bs";
 import { FaStickyNote } from "react-icons/fa";
 
-import { DropDownMenu, DropDownContent, DropDownHeader  } from '@/components/dropDown/DropDown';
 import { Container } from '@/components/container/container';
+import { DropDownMenu, DropDownContent, DropDownHeader  } from '@/components/dropDown/DropDown';
 import { useKeyPress, useInsideClick } from '@/hooks/hooksExporter';
+import { Wrapper } from '@/components/wrapper/wrapper';
 
-export const NavbarLeftArea = () => {
-
-    const [isOptionsOpen, setIsOptionsOpen] = useState(false);
-    const [isCreateOptionsOpen, setIsCreateOptionsOpen] = useState(false);
+export function NavbarLeftArea()
+{
+    const [isSettingDropdownOpen, setIsSettingDropdownOpen] = useState(false);
     const [isItemFocused, setIsItemFocused] = useState(false);
-
-    const [selectedPrimaryIndex, setSelectedPrimaryIndex] = useState(-1);
-    const [selectedCreateIndex, setSelectedCreateIndex] = useState(-1);
-
+    const [selectedIndex, setSelectedIndex] = useState(-1);
+    const [selectedDropdownContent, setSelectedDropdownContent] = useState([]);
 
     const optionsRef = useRef(null);
-    const createOptionRef = useRef(null);
-    
     const [ isInsideOptions ] = useInsideClick(optionsRef);
-    const [ isInsideCreateOption ] = useInsideClick(createOptionRef);
 
 
-    const optionsStyle = `dark:text-white text-neutral-700 dark:hover:bg-neutral-600 text-xs text-left 
-                        capitilize py-1 px-1 flex flex-row gap-2 items-center justify-start rounded-md`;
+    const optionsStyle = `dark:text-white text-neutral-700 dark:hover:bg-neutral-800 text-xs text-left 
+                        capitilize py-2 px-1 flex flex-row gap-2 items-center justify-start rounded-md
+                        flex flex-row justify-between`;
 
     const settingOptions = [
-        { name: 'Create', icon: <MdCreateNewFolder size='1rem'/>, onClick : () => setIsCreateOptionsOpen(true)},
-        { name: 'Sync', icon: <IoSyncCircle size='1rem'/>, onClick : () => {} },
-        { name: 'Preference', icon: <LuPresentation size='1rem'/>, onClick : () => {} },
+        { name: 'Create', key : 'CTRL + N', icon: <MdCreateNewFolder size='1rem'/>, onClick : () => changeDropdownContent(createOptions)},
+        { name: 'Sync', key : 'CTRL + S', icon: <IoSyncCircle size='1rem'/>, onClick : () => {} },
+        { name: 'Preference', key : 'ctrl + i', icon: <LuPresentation size='1rem'/>, onClick : () => {} },
         { name: 'Manage Account', icon: <RiAccountPinBoxFill size='1rem'/>, onClick : () => {} },
         { name: 'Settings', icon: <IoMdSettings size='1rem'/>, onClick : () => {} }
     ]
     const createOptions = [
         { name: 'Create New Todo Board', icon: <BsBox2Fill size='1rem'/> },
-        { name: 'Create New Note Board', icon: <FaStickyNote size='1rem'/> }
+        { name: 'Create New Note Board', icon: <FaStickyNote size='1rem'/> },
+        { name: 'Back', onClick : () => changeDropdownContent(settingOptions) }
     ]
 
     useEffect(() => {
-        if(!isInsideCreateOption || !isInsideOptions) {
-            setIsCreateOptionsOpen(false);
-        }
-    }, [isInsideCreateOption])
+        setSelectedDropdownContent(settingOptions);
+    }, [])
     
-
-    const handleOptionsClose = () => { setIsOptionsOpen(false); setIsCreateOptionsOpen(false); }
+    const handleOptionsClose = () => { 
+        if(!isInsideOptions) setIsSettingDropdownOpen(false);
+    }
 
     const handleArrowUp = useCallback(() => {
         if(isInsideOptions) {
             setIsItemFocused(true);
-            setSelectedPrimaryIndex(prev => (prev - 1 + settingOptions.length) % settingOptions.length);
+            setSelectedIndex(prev => (prev - 1 + selectedDropdownContent.length) % selectedDropdownContent.length);
         }
-        // if(isInsideOptions && openCreateOptions) {
-        //     setSelectedCreateOption(prev => (prev - 1 + createOptions.length) % createOptions.length);
-        // }
         else {
             setIsItemFocused(false);
         }
-    }, [isInsideOptions])
+    }, [isInsideOptions, selectedDropdownContent.length])
 
     const handleArrowDown = useCallback(() => {
         if(isInsideOptions) {
             setIsItemFocused(true);
-            setSelectedPrimaryIndex(prev => (prev + 1) % settingOptions.length);
+            setSelectedIndex(prev => (prev + 1) % selectedDropdownContent.length);
         }
-        // if(isInsideOptions && openCreateOptions) {
-        //     setSelectedCreateOption(prev => (prev + 1) % createOptions.length);
-        //     setIsItemFocused(true);
-        // }
-        else{
+        else {
             setIsItemFocused(false);
         }
-    }, [isInsideOptions, settingOptions.length])
+    }, [isInsideOptions, selectedDropdownContent.length])
 
     const handleEnterPress = () => {
-        setIsCreateOptionsOpen(false);
-        settingOptions.map((setting, index) => {
-            if(selectedPrimaryIndex == index) {
-                settingOptions[index].onClick();
+        selectedDropdownContent.map((option, index) => {
+            if(selectedIndex == index) {
+                selectedDropdownContent[index].onClick();
             }
         })
-    }
-
-    const handleMouseClicks = () => {
-        setIsItemFocused(false);
-        if(isInsideCreateOption == false) {
-            setIsCreateOptionsOpen(false);
-        }
     }
 
     useKeyPress('ArrowUp', handleArrowUp);
     useKeyPress('ArrowDown', handleArrowDown);
     useKeyPress('Enter', handleEnterPress);
-    document.addEventListener('mousedown', handleMouseClicks);
+    document.addEventListener('mousedown', () => setIsItemFocused(false));
+
+    const changeDropdownContent = (content) => {
+        setSelectedDropdownContent(content);
+    }
 
     return (
         <Container ref={optionsRef} className={'gap-5 cursor-default select-none'}>
-            <DropDownMenu onClose={() => handleOptionsClose()} isOpen={isOptionsOpen}>
+            <DropDownMenu className='w-full' onClose={() => handleOptionsClose()} isOpen={isSettingDropdownOpen}>
                 <DropDownHeader>
-                    <h1 onClick={() => setIsOptionsOpen(true)} className='dark:text-neutral-500 dark:hover:text-neutral-100 text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase'>
+                    <h1 onClick={() => setIsSettingDropdownOpen(true)} className='dark:text-neutral-500 dark:hover:text-neutral-100 text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase'>
                         <IoReorderThreeOutline/>
                     </h1>
                 </DropDownHeader>
-                <DropDownContent className='dark:bg-neutral-900 left-0 w-[450%] px-1 py-3 cursor-default' open={isOptionsOpen}>
+                <DropDownContent className='dark:bg-neutral-950 left-0 w-[400%] px-1 py-3 mt-3 cursor-default' open={isSettingDropdownOpen}>
                     {
-                        settingOptions.map((setting, index) => (
+                        selectedDropdownContent.map((option, index) => (
                             <h1
-                                key={setting.name}
-                                onClick={setting.onClick}
-                                className={`${optionsStyle} ${selectedPrimaryIndex == index && isItemFocused ? 'bg-neutral-700' : ''}`}>
-                                {setting.icon} {setting.name}
+                                key={option.name}
+                                onClick={option.onClick}
+                                className={`${optionsStyle} ${selectedIndex == index && isItemFocused ? 'dark:bg-blue-600' : ''}`}>
+                                <Wrapper flow='row' wrap='no-wrap' key={index}>
+                                    {option.icon} {option.name}
+                                </Wrapper>
+                                {option.key}
                             </h1>
                         ))
                     }
                 </DropDownContent>
-                <DropDownContent ref={createOptionRef} className='dark:bg-neutral-900 left-44 w-[600%] top-9 px-1 py-3 cursor-default' open={isCreateOptionsOpen}>
-                    {
-                        createOptions.map((option, index) => (
-                            <h1 className={`${optionsStyle} ${selectedCreateIndex == index && isItemFocused ? 'bg-neutral-700' : ''}`} 
-                                onClick={option.onClick}
-                                key={option.name}>
-                                {option.icon} {option.name}
-                            </h1> 
-                        ))
-                    }
-                </DropDownContent>
             </DropDownMenu>
-            <h1 className='dark:text-white text-neutral-700 text-left  font-mono text-xl mb-1 uppercase'>Task Flow</h1>            
+            <h1 className='dark:text-white text-neutral-700 text-left font-mono text-xl mb-1 uppercase w-full'>Task Flow</h1>            
         </Container>
     )
 }
