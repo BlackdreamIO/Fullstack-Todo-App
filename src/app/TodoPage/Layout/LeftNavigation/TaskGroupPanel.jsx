@@ -111,7 +111,7 @@ export default function TaskGroupPanel()
     }
 
     return useMemo(() => (
-        <div  className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[30vw] h-[87vh] space-y-2 pt-2 pl-1'>
+        <div  className='dark:text-white dark:bg-[--dark-bg-secondary] bg-[--light-primary] w-[30vw] h-[87vh] space-y-2 pt-2 pl-1'>
             <Container 
                 flow='col' 
                 alignItem='start' 

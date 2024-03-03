@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
-import { useCurrentAuthState, useThemeManager, useWindowResize } from '../../../hooks/hooksExporter';
+import { useCurrentAuthState, useThemeManager, useWindowResize } from '../../../../hooks/hooksExporter';
 
 import { useCookies } from 'react-cookie';
 
