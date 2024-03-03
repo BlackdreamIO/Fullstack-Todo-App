@@ -12,21 +12,23 @@ import { DropDownMenu, DropDownHeader, DropDownContent } from '@/components/drop
 import { Confirmation, ConfirmationHeader, ConfirmationFooter } from '@/components/confirmation/ConfirmationComponent';
 import { useKeyPress } from '@/hooks/useKeyPress';
 
-export const TaskPanelItem = memo(({title, active=false, keyboardFocus=false, onClick}) => {
+export const TaskGroupPanelItem = memo(({title, active=false, keyboardFocus=false, isFocused=false, onClick}) => {
 
     const [openOptions, setOpenOptions] = useState(false);
     const [openConfirmation, setOpenConfirmation] = useState(false);
     const [renamedText, setRenamedText] = useState('');
-    const [position, setPosition] = useState({ x: 200, y: 0 });
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
     const containerRef = useRef(null);
+    const dropdownAnchorRef = useRef(null);
 
     const handleClick = () => {
         if(onClick != null) onClick();
     }
 
     const handleDropdownOpen = (e) => {
-        setPosition({ x: 200, y: getCalculatedPosition(e.clientX, e.clientY) });
+        const anchorRect = dropdownAnchorRef.current.getBoundingClientRect();
+        setPosition({ x: getCalculatedPosition(anchorRect.left, 50, 20), y: getCalculatedPosition(e.clientY)});
         setOpenOptions(true);
     } 
    
@@ -35,33 +37,23 @@ export const TaskPanelItem = memo(({title, active=false, keyboardFocus=false, on
     }, [active])
     
     // calculate the x and y position so that element doesnt get out of bound
-    const getCalculatedPosition = (x, y) => {
-        const calculatedX = 0;
-        const calculatedY =  y < 375 ? y : y - 120;
-        return calculatedY;
+    const getCalculatedPosition = (value, threashold=375, minusOffset=120) => {
+        const calculatedAxis =  value < threashold ? value : value - minusOffset;
+        return calculatedAxis;
     }
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (position.y + 100 > window.innerHeight) 
-            {
-                setPosition((prevPosition) => ({ ...prevPosition, y: window.innerHeight - 100 }));
-            }
-            if (position.x + 100 > window.innerWidth) 
-            {
-                setPosition((prevPosition) => ({ ...prevPosition, x: window.innerWidth - 100 }));
-            }
-        }
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-
-    }, [position]);
     
     const handleKeyPress = () => {
-        if(active) {
-            setOpenOptions(true);
+        if(active && isFocused) 
+        {
             const rect = containerRef.current.getBoundingClientRect();
-            setPosition({ x: 200, y: getCalculatedPosition(0, rect.top) });
+            const anchorRect = dropdownAnchorRef.current.getBoundingClientRect();
+
+            setPosition({ 
+                x: getCalculatedPosition(anchorRect.left, 50, 20), 
+                y: getCalculatedPosition(rect.top) 
+            });
+
+            setOpenOptions(true);
         }
         else {
             setOpenOptions(false);
@@ -74,20 +66,22 @@ export const TaskPanelItem = memo(({title, active=false, keyboardFocus=false, on
         ${active ? 'dark:bg-white bg-neutral-100 dark:border-neutral-500 border-indigo-500' : 'dark:bg-transparent dark:border-transparent'}
         ${keyboardFocus ? 'border-[3px] dark:border-blue-500' : 'text-neutral-500 group-hover:text-neutral-200'}`
 
-    const titleStyle = `mb-1 font-sans font-bold text-[0.9rem] ${active ? 'dark:text-black text-black' : 'text-neutral-500 group-hover:text-neutral-200'}`
+    const titleStyle = `mb-1 font-sans font-bold text-[0.9rem] flex gap-2 items-center justify-center ${active ? 'dark:text-black text-black' : 'text-neutral-500 group-hover:text-neutral-200'}`
 
     return (
         <Wrapper className={'w-full'}>
             <Container ref={containerRef} wrap='no-wrap' flow='row' justifyItem='between' className={ColStyle} onClick={() => handleClick()}>
                     <Wrapper flow='col' >
-                        <h2 className={titleStyle}> {title} </h2>
+                        <h2 className={titleStyle}> 
+                            {title} 
+                        </h2>
                     </Wrapper>
                     <DropDownMenu isOpen={openOptions} onClose={() => setOpenOptions(false)}>
-                        <DropDownHeader onClick={(e) => handleDropdownOpen(e)}>
+                        <DropDownHeader ref={dropdownAnchorRef} onClick={(e) => handleDropdownOpen(e)}>
                             <IoEllipsisVerticalSharp className={`${active ? 'dark:text-black' : 'dark:text-neutral-600'} cursor-pointer`} />
                         </DropDownHeader>
-                        <Wrapper style={{top : `${position.y}px`}} className='fixed w-full left-32 pointer-events-none flex-col flex-nowrap items-start justify-start' >
-                            <DropDownContent open={openOptions && !openConfirmation} className={`relative left-40 z-[8000] max-w-[200px] flex flex-col items-center justify-center pointer-events-auto`}>
+                        <Wrapper style={{top : `${position.y}px`, left : `${position.x}px`}} className='fixed w-full  pointer-events-none flex-col flex-nowrap items-start justify-start' >
+                            <DropDownContent open={openOptions && !openConfirmation} className={`relative left-12 z-[8000] max-w-[200px] flex flex-col items-center justify-center pointer-events-auto`}>
                                 <Fragment>
                                     <Input width='full' value={title} onChange={(e) => setRenamedText(e.target.value)} placeholder='text'/>
                                     <Button width='full' LoadingText='Renaming' loading  outline='off' intent='secondary'> <CiEdit/> Rename</Button>

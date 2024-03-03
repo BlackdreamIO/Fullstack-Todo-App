@@ -2,7 +2,7 @@ import React from 'react';
 
 import TodoColumnPanel from './Todo/TodoColumn/TodoColumnPanel';
 import TodoListPanel from './Todo/TodoList/TodoListPanel';
-import { TodoContextProvider } from '../contextAPI/TodoContex';
+import { TodoContextProvider } from '../contextAPI/TaskContextAPI';
 
 export default function TodoPanel() 
 {  

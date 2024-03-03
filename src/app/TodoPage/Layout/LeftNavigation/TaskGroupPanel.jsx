@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
-import { useInsideClick, useKeyPress, useFetch, useLocalStorage } from '@/hooks/hooksExporter';
+import { useState, useEffect, useCallback, useRef, useMemo, memo, useContext } from 'react';
 
-import { TaskPanelItem } from './TaskPanelItem';
+import { TaskGroupPanelItem } from './TaskPanelItem';
 import { Container } from '@/components/container/container';
 import CreateColumn from './CreateColumn';
 
 import { BarLoader } from 'react-spinners';
+
+import { useTaskContext } from '@/contextAPI/TaskContextAPI';
+import { useInsideClick, useKeyPress, useFetch, useLocalStorage } from '@/hooks/hooksExporter';
 
 export default function TaskGroupPanel() 
 {
@@ -19,6 +21,8 @@ export default function TaskGroupPanel()
 
     const ref = useRef(null);
     const [isFocused] = useInsideClick(ref); // if the ref element is focused or not (boolean)
+    
+    const taskContext = useTaskContext(); // TaskContextAPI { selectedGroup, setSelectedGroup }
 
     useEffect(() => {
         const localStorageDataExist = localstoredTodo && localstoredTodo?.length > 0;
@@ -31,6 +35,12 @@ export default function TaskGroupPanel()
         }
     }, [response, localstoredTodo])
     
+    useEffect(() => {
+        if(todos.length > 0) {
+            taskContext.setSelectedTaskGroup(todos[0].title);
+        }
+    }, [todos])
+    
 
     useEffect(() => {
         if(focusIndex === activeIndex) setShowFocus(false);
@@ -39,7 +49,8 @@ export default function TaskGroupPanel()
     const handleTodoClick = useCallback((index) => {
         setActiveIndex(index);
         setFocusIndex(index);
-    }, [])
+        taskContext.setSelectedTaskGroup(todos[index].title);
+    }, [todos])
 
     const handleArrowUp = useCallback(() => {
         if (isFocused) {
@@ -59,6 +70,7 @@ export default function TaskGroupPanel()
         if (isFocused) {
             setActiveIndex(focusIndex);
             setShowFocus(false);
+            taskContext.setSelectedTaskGroup(todos[focusIndex].title);
         }
     }, [focusIndex, isFocused]);
 
@@ -86,10 +98,10 @@ export default function TaskGroupPanel()
     // ------------------------- Optimization -------------------------
 
     // Memoized version of TodoColumnItem component
-    const MemoizedTaskPanelItem = useMemo(() => {
-        return memo(TaskPanelItem, (prevProps, nextProps) => {
+    const MemoizedTaskGroupPanelItem = useMemo(() => {
+        return memo(TaskGroupPanelItem, (prevProps, nextProps) => {
             // Only re-render if active or keyboardFocus props change
-            return prevProps.active === nextProps.active && prevProps.keyboardFocus === nextProps.keyboardFocus;
+            return prevProps.active === nextProps.active && prevProps.keyboardFocus === nextProps.keyboardFocus && prevProps.isFocused === nextProps.isFocused;
         })
     }, [])
 
@@ -99,22 +111,23 @@ export default function TaskGroupPanel()
     }
 
     return useMemo(() => (
-        <div ref={ref} className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[300px] h-[87vh] space-y-2 pt-2 pl-1'>
-            <CreateColumn/>
+        <div  className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[30vw] h-[87vh] space-y-2 pt-2 pl-1'>
             <Container 
                 flow='col' 
                 alignItem='start' 
                 justifyItem='start' 
                 wrap='no-wrap' 
-                className=' h-[75vh] w-full pt-2 overflow-y-scroll'>
+                className=' h-[75vh] w-full pt-2 overflow-y-scroll'
+                ref={ref}>
                 {
                     todos?.length && todos.length > 0 ? (
                         todos.map((todo, index) => (
-                            <MemoizedTaskPanelItem
-                                key={todo.id}
+                            <MemoizedTaskGroupPanelItem
+                                key={todo.title}
                                 title={todo.title}
                                 active={activeIndex === index}
                                 keyboardFocus={focusIndex === index && isFocused && showFocus}
+                                isFocused={isFocused}
                                 onClick={() => handleTodoClick(index)}
                             />
                         ))
@@ -129,6 +142,7 @@ export default function TaskGroupPanel()
                     )
                 }
             </Container>
+            <CreateColumn/>
         </div>
     ))
 }

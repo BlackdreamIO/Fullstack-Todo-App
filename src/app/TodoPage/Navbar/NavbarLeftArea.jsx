@@ -17,9 +17,9 @@ export function NavbarLeftArea()
 {
     const [isSettingDropdownOpen, setIsSettingDropdownOpen] = useState(false);
     const [isItemFocused, setIsItemFocused] = useState(false);
+    const [tabFocus, setTabFocus] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [selectedDropdownContent, setSelectedDropdownContent] = useState([]);
-    const [tabFocus, setTabFocus] = useState(false);
 
     const optionsRef = useRef(null);
     const [ isInsideOptions ] = useInsideClick(optionsRef);
@@ -29,7 +29,7 @@ export function NavbarLeftArea()
                         capitilize py-2 px-1 flex flex-row gap-2 items-center justify-start rounded-md
                         flex flex-row justify-between font-SupermeReguler`;
 
-    const settingOptions = [
+    const defaultOptions = [
         { name: 'Create', key : 'CTRL + N', icon: <MdCreateNewFolder size='1rem'/>, onClick : () => changeDropdownContent(createOptions)},
         { name: 'Sync', key : 'CTRL + S', icon: <IoSyncCircle size='1rem'/>, onClick : () => {} },
         { name: 'Preference', key : 'ctrl + i', icon: <LuPresentation size='1rem'/>, onClick : () => {} },
@@ -39,19 +39,22 @@ export function NavbarLeftArea()
     const createOptions = [
         { name: 'Create New Todo Board', icon: <BsBox2Fill size='1rem'/> },
         { name: 'Create New Note Board', icon: <FaStickyNote size='1rem'/> },
-        { name: 'Back', onClick : () => changeDropdownContent(settingOptions) }
+        { name: 'Back', onClick : () => changeDropdownContent(defaultOptions) }
     ]
 
     useEffect(() => {
-        setSelectedDropdownContent(settingOptions);
+        setSelectedDropdownContent(defaultOptions);
     }, [])
     
     const handleOptionsClose = () => { 
-        if(!isInsideOptions) setIsSettingDropdownOpen(false);
+        if(!isInsideOptions || tabFocus) {
+            setIsSettingDropdownOpen(false);
+            changeDropdownContent(defaultOptions);
+        } 
     }
 
     const handleArrowUp = useCallback(() => {
-        if(isInsideOptions || tabFocus) {
+        if(isInsideOptions) {
             setIsItemFocused(true);
             setSelectedIndex(prev => (prev - 1 + selectedDropdownContent.length) % selectedDropdownContent.length);
         }
@@ -61,7 +64,7 @@ export function NavbarLeftArea()
     }, [isInsideOptions, selectedDropdownContent.length])
 
     const handleArrowDown = useCallback(() => {
-        if(isInsideOptions || tabFocus) {
+        if(isInsideOptions) {
             setIsItemFocused(true);
             setSelectedIndex(prev => (prev + 1) % selectedDropdownContent.length);
         }
@@ -99,7 +102,13 @@ export function NavbarLeftArea()
         <Container ref={optionsRef} className={'gap-5 cursor-default select-none'}>
             <DropDownMenu className='w-full' onClose={() => handleOptionsClose()} isOpen={isSettingDropdownOpen}>
                 <DropDownHeader>
-                    <h1 tabIndex={1} onFocus={() => setTabFocus(true)} onBlur={() => setTabFocus(false)} onClick={() => setIsSettingDropdownOpen(true)} className='dark:text-neutral-500 dark:hover:text-neutral-100 text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase'>
+                    <h1 
+                        tabIndex={1} 
+                        onFocus={() => setTabFocus(true)} 
+                        onBlur={() => {setTabFocus(false)}} 
+                        onClick={() => setIsSettingDropdownOpen(true)} 
+                        className='dark:text-neutral-500 dark:hover:text-neutral-100 text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase
+                        dark:focus:outline-none dark:focus:border-none dark:focus:text-white'>
                         <IoReorderThreeOutline/>
                     </h1>
                 </DropDownHeader>
