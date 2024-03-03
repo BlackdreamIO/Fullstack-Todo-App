@@ -2,9 +2,8 @@ import React from 'react';
 import TodoNavbar from './Navbar/TodoNavbar';
 import TodoLayout from './Layout/TodoLayout';
 
-import { Button }from '../../components/cva/button/cvaButton'
-import { Container } from '../../components/container/container';
 import BottomNavigationStatus from './Layout/BottomNavigation/BottomNavigationStatus';
+import ElementWithMousePosition from './testComponent';
 
 export default function TodoPage() 
 {
@@ -13,6 +12,7 @@ export default function TodoPage()
             <TodoNavbar/>
             <TodoLayout/>
             <BottomNavigationStatus/>
+            {/* <ElementWithMousePosition /> */}
         </div>
     )
 }

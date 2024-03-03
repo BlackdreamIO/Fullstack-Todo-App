@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-export function ContextMenuHeader({children, onContextMenu, className, ...rest}) 
-{
+export const ContextMenuHeader = forwardRef(({children, onContextMenu, className, ...rest}, ref) => {
     return (
-        <div onContextMenu={onContextMenu} className={className} {...rest}>
+        <div onContextMenu={onContextMenu} className={className} ref={ref} {...rest}>
             {children}
         </div>
     )
-}
+})

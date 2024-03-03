@@ -19,14 +19,15 @@ export function NavbarLeftArea()
     const [isItemFocused, setIsItemFocused] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [selectedDropdownContent, setSelectedDropdownContent] = useState([]);
+    const [tabFocus, setTabFocus] = useState(false);
 
     const optionsRef = useRef(null);
     const [ isInsideOptions ] = useInsideClick(optionsRef);
+    
 
-
-    const optionsStyle = `dark:text-white text-neutral-700 dark:hover:bg-neutral-800 text-xs text-left 
+    const optionsStyle = `dark:text-white text-neutral-700 dark:hover:bg-neutral-800 text-sm text-left 
                         capitilize py-2 px-1 flex flex-row gap-2 items-center justify-start rounded-md
-                        flex flex-row justify-between`;
+                        flex flex-row justify-between font-SupermeReguler`;
 
     const settingOptions = [
         { name: 'Create', key : 'CTRL + N', icon: <MdCreateNewFolder size='1rem'/>, onClick : () => changeDropdownContent(createOptions)},
@@ -50,7 +51,7 @@ export function NavbarLeftArea()
     }
 
     const handleArrowUp = useCallback(() => {
-        if(isInsideOptions) {
+        if(isInsideOptions || tabFocus) {
             setIsItemFocused(true);
             setSelectedIndex(prev => (prev - 1 + selectedDropdownContent.length) % selectedDropdownContent.length);
         }
@@ -60,7 +61,7 @@ export function NavbarLeftArea()
     }, [isInsideOptions, selectedDropdownContent.length])
 
     const handleArrowDown = useCallback(() => {
-        if(isInsideOptions) {
+        if(isInsideOptions || tabFocus) {
             setIsItemFocused(true);
             setSelectedIndex(prev => (prev + 1) % selectedDropdownContent.length);
         }
@@ -70,9 +71,17 @@ export function NavbarLeftArea()
     }, [isInsideOptions, selectedDropdownContent.length])
 
     const handleEnterPress = () => {
-        selectedDropdownContent.map((option, index) => {
-            if(selectedIndex == index) {
-                selectedDropdownContent[index].onClick();
+        if(tabFocus) {
+            setIsSettingDropdownOpen(true);
+            if (optionsRef.current) {
+                setTimeout(() => {
+                    optionsRef.current.focus();
+                }, 0); // Ensure focus is set after the component has rendered
+            }
+        }
+        selectedDropdownContent.forEach((option, index) => {
+            if (selectedIndex === index) {
+                option.onClick();
             }
         })
     }
@@ -90,7 +99,7 @@ export function NavbarLeftArea()
         <Container ref={optionsRef} className={'gap-5 cursor-default select-none'}>
             <DropDownMenu className='w-full' onClose={() => handleOptionsClose()} isOpen={isSettingDropdownOpen}>
                 <DropDownHeader>
-                    <h1 onClick={() => setIsSettingDropdownOpen(true)} className='dark:text-neutral-500 dark:hover:text-neutral-100 text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase'>
+                    <h1 tabIndex={1} onFocus={() => setTabFocus(true)} onBlur={() => setTabFocus(false)} onClick={() => setIsSettingDropdownOpen(true)} className='dark:text-neutral-500 dark:hover:text-neutral-100 text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase'>
                         <IoReorderThreeOutline/>
                     </h1>
                 </DropDownHeader>

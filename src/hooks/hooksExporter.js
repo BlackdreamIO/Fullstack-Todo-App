@@ -16,4 +16,6 @@ export { useKeyPress } from './useKeyPress';
 export { useMouseEvent } from './useClick';
 
 export { useFetch } from './useFetch';
+
+export { useContextMenuPosition } from './useContextMenuPosition';
 // ...

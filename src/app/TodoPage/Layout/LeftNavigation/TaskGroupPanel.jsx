@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { useInsideClick, useKeyPress, useFetch, useLocalStorage } from '@/hooks/hooksExporter';
 
-import { TodoColumnItem } from './TodoColum';
+import { TaskPanelItem } from './TaskPanelItem';
 import { Container } from '@/components/container/container';
 import CreateColumn from './CreateColumn';
 
 import { BarLoader } from 'react-spinners';
 
-export default function TodoColumnPanel() 
+export default function TaskGroupPanel() 
 {
     const [activeIndex, setActiveIndex] = useState(0);
     const [focusIndex, setFocusIndex] = useState(0);
@@ -23,7 +23,7 @@ export default function TodoColumnPanel()
     useEffect(() => {
         const localStorageDataExist = localstoredTodo && localstoredTodo?.length > 0;
         if(localStorageDataExist) {
-            setTodos(localstoredTodo);
+            setTodos(localstoredTodo.slice(0,10));
         }
         else {
             setLocalstoredTodo(response);
@@ -62,17 +62,32 @@ export default function TodoColumnPanel()
         }
     }, [focusIndex, isFocused]);
 
+    const handleNavigateStart = () => {
+        if (isFocused) {
+            setShowFocus(true);
+            setFocusIndex(0);
+        }
+    }
+    const handleNavigateEnd = () => {
+        if (isFocused) {
+            setShowFocus(true);
+            setFocusIndex(todos.length - 1);
+        }
+    }
+
 
     useKeyPress('ArrowUp', handleArrowUp);
     useKeyPress('ArrowDown', handleArrowDown);
+    useKeyPress('Home', handleNavigateStart);
+    useKeyPress('Home', handleNavigateEnd);
     useKeyPress('Enter', handleEnter);
     useKeyPress('Escape', () => setShowFocus(false));
 
     // ------------------------- Optimization -------------------------
 
     // Memoized version of TodoColumnItem component
-    const MemoizedTodoColumnItem = useMemo(() => {
-        return memo(TodoColumnItem, (prevProps, nextProps) => {
+    const MemoizedTaskPanelItem = useMemo(() => {
+        return memo(TaskPanelItem, (prevProps, nextProps) => {
             // Only re-render if active or keyboardFocus props change
             return prevProps.active === nextProps.active && prevProps.keyboardFocus === nextProps.keyboardFocus;
         })
@@ -84,7 +99,7 @@ export default function TodoColumnPanel()
     }
 
     return useMemo(() => (
-        <div ref={ref} className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[250px] h-[87vh] space-y-2 pt-2 pl-1'>
+        <div ref={ref} className='dark:text-white dark:bg-[--darkSecondary] bg-[--lightPrimary] w-[300px] h-[87vh] space-y-2 pt-2 pl-1'>
             <CreateColumn/>
             <Container 
                 flow='col' 
@@ -95,7 +110,7 @@ export default function TodoColumnPanel()
                 {
                     todos?.length && todos.length > 0 ? (
                         todos.map((todo, index) => (
-                            <MemoizedTodoColumnItem
+                            <MemoizedTaskPanelItem
                                 key={todo.id}
                                 title={todo.title}
                                 active={activeIndex === index}

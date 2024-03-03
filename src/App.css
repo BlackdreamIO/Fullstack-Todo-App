@@ -18,8 +18,7 @@
 html 
 {
     background-color: black;
-    font-family: "Inter", sans-serif;
-    font-optical-sizing: auto;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 @font-face {
     font-family: "RobotoReguler";
@@ -32,6 +31,23 @@ html
 @font-face {
     font-family: "RobotoBold";
     src: url("./Assets/font/Roboto/RobotoBold.ttf");
+}
+@font-face {
+    font-family: "SupermeReguler";
+    src: url('./assets/font/Supreme_Complete/Fonts/OTF/SupremeRegular.otf' );
+    /* -apple-system,
+        system-ui,
+        "Segoe UI",
+        Roboto,
+        Noto,
+        Oxygen-Sans,
+        Ubuntu,
+        Cantrell,
+        "Helvetica Neue",
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol" */
 }
 
 ::-webkit-scrollbar{

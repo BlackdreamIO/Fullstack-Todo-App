@@ -70,7 +70,7 @@
     "button.background": "#000000",
     "list.highlightForeground": "#000000",
     "listFilterWidget.background": "#000000",
-    "statusBar.background": "#121212",
+    "statusBar.background": "#000000",
     "button.hoverBackground": "#000000",
     "textLink.foreground": "#000000",
     "pickerGroup.foreground": "#000000",
@@ -88,13 +88,13 @@
     "inputOption.activeBorder": "#000000",
     "terminal.selectionBackground": "#000000",
     "badge.background": "#000000",
-    "focusBorder": "#121212",
-    "progressBar.background": "#121212",
-    "selection.background": "#121212",
-    "activityBarBadge.background": "#121212",
-    "statusBarItem.remoteBackground": "#121212",
-    "panelTitle.activeBorder": "#121212",
-    "terminalCursor.background": "#121212"
+    "focusBorder": "#000000",
+    "progressBar.background": "#000000",
+    "selection.background": "#000000",
+    "activityBarBadge.background": "#000000",
+    "statusBarItem.remoteBackground": "#000000",
+    "panelTitle.activeBorder": "#000000",
+    "terminalCursor.background": "#000000"
   },
   "tokenColors": [
     {

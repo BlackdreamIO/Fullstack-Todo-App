@@ -1,11 +1,10 @@
 import cn from "@/utils/utis"
+import { forwardRef } from "react"
 
-export function ContextMenuContent({children, showContextMenu=false, className, ...rest}) 
-{
-
+export const ContextMenuContent = forwardRef(({children, showContextMenu=false, className, ...rest}, ref) => {
     return (
-        <div className={cn('',className)} style={{ display : showContextMenu ? 'block' : 'none' }} {...rest}>
+        <div className={cn('',className)} style={{ display : showContextMenu ? 'block' : 'none' }} ref={ref} {...rest}>
             {children}
         </div>
     )
-}
+})
