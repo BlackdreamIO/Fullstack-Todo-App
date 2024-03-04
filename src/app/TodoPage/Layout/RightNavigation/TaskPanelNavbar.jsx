@@ -8,7 +8,7 @@ import { Container } from "@/components/container/container";
 import { Divider } from "@/components/divider";
 import { Button } from "@/components/cva/button/cvaButton";
 import { Wrapper } from "@/components/wrapper/wrapper";
-import { MorphicElement } from "@/components/MorphicElement";
+import { MorphicElement } from "@/components/morphicElement";
 import { DropDownMenu, DropDownContent, DropDownHeader } from '@/components/dropDown/DropDown';
 
 export default function TaskPanelNavbar() 
@@ -34,7 +34,7 @@ export default function TaskPanelNavbar()
     }
 
     const handleThemeClick = () => {
-        setIsOptionThemeSelectionOpen(true)
+        setIsOptionThemeSelectionOpen(true);
     }
 
     return (
