@@ -36,7 +36,7 @@ export default function TaskGroupPanel()
     }, [response, localstoredTodo])
     
     useEffect(() => {
-        if(todos.length > 0) {
+        if(todos?.length > 0) {
             taskContext.setSelectedTaskGroup(todos[0].title);
         }
     }, [todos])
@@ -120,7 +120,7 @@ export default function TaskGroupPanel()
                 className=' h-[75vh] w-full pt-2 overflow-y-scroll'
                 ref={ref}>
                 {
-                    todos?.length && todos.length > 0 ? (
+                    todos?.length && todos?.length > 0 ? (
                         todos.map((todo, index) => (
                             <MemoizedTaskGroupPanelItem
                                 key={todo.title}
