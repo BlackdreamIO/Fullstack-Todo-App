@@ -5,6 +5,7 @@ import { Input } from '@/components/input/input';
 
 import GoogleIcon from '@/Assets/images/googleIcon.png'
 import GithubIcon from '@/Assets/images/GithubIcon.webp'
+import { Typography } from '@/components/typography/typohgraphy';
 
 
 export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}) 
@@ -58,7 +59,16 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
     };
 
     return (
-        <div className="dark:bg-[--darkSecondary] bg-neutral-100 w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
+        <div className="dark-theme:bg-theme-secondary light-theme:bg-theme-primary w-[500px] min-h-auto h-auto m-auto p-3 rounded-md flex flex-col">
+            <Typography variant={'h1'}>Log the heck</Typography>
+            <Button>Log Test</Button>
+            <button className='dark-theme:bg-white dark-theme:text-black p-4'>test alaka</button>
+        </div>
+    )
+}
+
+/*
+  <div className="dark-theme:bg-theme-secondary light-theme:bg-theme-primary w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
             items-center justify-center space-y-5 min-[1200px]:w-[600px] max-[550px]:w-[90vw] transition-transform duration-300">
 
             <div className="w-full">
@@ -68,12 +78,12 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
                     onClick={() => handleClose()}>
                         -
                 </Button>
-                <h1 className="dark:text-white text-center uppercase text-2xl min-[1200px]:text-3xl">
+                <h1 className="dark-theme:text-white light-theme:text-black text-center uppercase text-2xl min-[1200px]:text-3xl">
                     {authMethod == 'LogIn' ? 'Log In' : 'Sign Up'}
                 </h1>
             </div>
 
-            <ul className="flex flex-row items-center justify-center gap-5 w-full dark:bg-black p-2">
+            <ul className="flex flex-row items-center justify-center gap-5 w-full dark-theme:bg-black p-2">
                 <Button width={'large'} className='flex flex-row items-center justify-center gap-2 font-normal'>
                     <img src={GoogleIcon} className="w-[30px] h-[30px] rounded-[50%]" alt="google icon were not found" />
                     Google 
@@ -112,9 +122,9 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
             </div>
 
             <div className="w-full space-y-3 flex flex-col items-center justify-center">
-                <p className="dark:text-white text-center uppercase text-sm min-[1200px]:text-base">OR</p>
+                <p className="dark-theme:text-white light-theme:text-black text-center uppercase text-sm min-[1200px]:text-base">OR</p>
                 <Button 
-                    className='w-auto font-normal dark:text-neutral-500 dark:hover:text-neutral-100
+                    className='w-auto font-normal dark-theme:text-neutral-500 light-theme:text-black dark-theme:hover:text-neutral-100
                     min-[1200px]:text-lg' 
                     intent='transparent'
                     outline='off'
@@ -123,5 +133,4 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
                 </Button>
             </div>
         </div>
-    )
-}
+*/

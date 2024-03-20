@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-export function useInsideClick(ref, defaultValue = false) {
+export function useInsideClick(ref, defaultValue = false) 
+{
     const [isInside, setIsInside] = useState(defaultValue);
     
     const handleClickOutside = useCallback((e) => {
@@ -8,7 +9,7 @@ export function useInsideClick(ref, defaultValue = false) {
         {
             setIsInside(true);
         }
-        else setIsInside(false);
+        else { setIsInside(false); };
     }, [ref]);
 
     useEffect(() => {

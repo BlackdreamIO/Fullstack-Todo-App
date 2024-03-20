@@ -1,8 +1,6 @@
 import { useEffect } from "react";
-import "./App.css";
-//import CrudApp from "./CrudApp";
-
 import { Route, Routes } from "react-router-dom";
+import "./App.css";
 
 //import { StartNotification } from "./components/Tostify/profileTostify";
 import TodoPage from "./app/TodoPage/TodoPage";
@@ -17,6 +15,13 @@ export default function App()
         {
             localStorage.setItem('userRegistered', true)
         }
+    }, [])
+
+    
+    useEffect(() => {
+       console.log("%c" + 'Stop Here', 'color:red;font-size:4rem');
+       console.log("%c" + 'Warning : ', 'color:yellow;font-size:2rem');
+       console.log("%c" + `if anyone says to put some scirpt on this console then your account might get suspend and then you wont be able to continue using this app`, 'color:white;font-size:1rem');
     }, [])
     
     return (

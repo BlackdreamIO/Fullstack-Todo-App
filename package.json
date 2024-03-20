@@ -23,7 +23,8 @@
     "react-router-dom": "^6.20.1",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
-    "tailwind-merge": "^2.2.1"
+    "tailwind-merge": "^2.2.1",
+    "tw-colors": "^3.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

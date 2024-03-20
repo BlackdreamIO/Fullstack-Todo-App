@@ -1,9 +1,8 @@
 import { Container } from '@/components/container/container'
-import { Input } from '@/components/cva/input/input'
-import { Button } from '@/components/cva/button/cvaButton'
-import React from 'react'
+import { Input } from '@/components/cva/input/input';
+import { Button } from '@/components/cva/button/cvaButton';
 
-export default function CreateColumn() 
+export default function CreateTaskGroup() 
 {
     return (
         <Container className={'w-full'} flow='row'>

@@ -25,9 +25,9 @@ export function NavbarLeftArea()
     const [ isInsideOptions ] = useInsideClick(optionsRef);
     
 
-    const optionsStyle = `dark:text-white text-neutral-700 dark:hover:bg-neutral-800 text-sm text-left 
+    const optionsStyle = `dark-theme:text-white loght-theme:text-neutral-700 dark-theme:hover:bg-neutral-800 text-sm text-left 
                         capitilize py-2 px-1 flex flex-row gap-2 items-center justify-start rounded-md
-                        flex flex-row justify-between font-SupermeReguler`;
+                        flex flex-row justify-between`;
 
     const defaultOptions = [
         { name: 'Create', key : 'CTRL + N', icon: <MdCreateNewFolder size='1rem'/>, onClick : () => changeDropdownContent(createOptions)},
@@ -37,8 +37,8 @@ export function NavbarLeftArea()
         { name: 'Settings', icon: <IoMdSettings size='1rem'/>, onClick : () => {} }
     ]
     const createOptions = [
-        { name: 'Create New Todo Board', icon: <BsBox2Fill size='1rem'/> },
-        { name: 'Create New Note Board', icon: <FaStickyNote size='1rem'/> },
+        { name: 'Create New Todo Board', icon: <BsBox2Fill size='1rem'/>, onClick : () => {} },
+        { name: 'Create New Note Board', icon: <FaStickyNote size='1rem'/>, onClick : () => {} },
         { name: 'Back', onClick : () => changeDropdownContent(defaultOptions) }
     ]
 
@@ -99,36 +99,36 @@ export function NavbarLeftArea()
     }
 
     return (
-        <Container ref={optionsRef} className={'gap-5 cursor-default select-none'}>
-            <DropDownMenu className='w-full' onClose={() => handleOptionsClose()} isOpen={isSettingDropdownOpen}>
+        <Container ref={optionsRef} className={'w-6/12 flex-nowrap justify-start items-start select-none space-x-2'}>
+            <DropDownMenu onClose={() => handleOptionsClose()} isOpen={isSettingDropdownOpen}>
                 <DropDownHeader>
                     <h1 
                         tabIndex={1} 
                         onFocus={() => setTabFocus(true)} 
                         onBlur={() => {setTabFocus(false)}} 
                         onClick={() => setIsSettingDropdownOpen(true)} 
-                        className='dark:text-neutral-500 dark:hover:text-neutral-100 text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase
-                        dark:focus:outline-none dark:focus:border-none dark:focus:text-white'>
+                        className='dark-theme:text-neutral-500 dark-theme:hover:text-neutral-100 light-theme:text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase
+                        dark-theme:focus:outline-none dark-theme:focus:border-none dark-theme:focus:text-white'>
                         <IoReorderThreeOutline/>
                     </h1>
                 </DropDownHeader>
-                <DropDownContent className='dark:bg-neutral-950 left-0 w-[400%] px-1 py-3 mt-3 cursor-default' open={isSettingDropdownOpen}>
+                <DropDownContent className='bg-theme-bgSecondary border-neutral-800 left-0 w-[400px] px-1 py-3 mt-3 cursor-default' open={isSettingDropdownOpen}>
                     {
                         selectedDropdownContent.map((option, index) => (
                             <h1
                                 key={option.name}
                                 onClick={option.onClick}
-                                className={`${optionsStyle} ${selectedIndex == index && isItemFocused ? 'dark:bg-blue-600' : ''}`}>
+                                className={`${optionsStyle} ${selectedIndex == index && isItemFocused ? 'bg-theme-bgNavigation' : ''}`}>
                                 <Wrapper flow='row' wrap='no-wrap' key={index}>
                                     {option.icon} {option.name}
                                 </Wrapper>
-                                {option.key}
+                                <span className='text-xs'>{option.key}</span>
                             </h1>
                         ))
                     }
                 </DropDownContent>
             </DropDownMenu>
-            <h1 className='dark:text-white text-neutral-700 text-left font-mono text-xl mb-1 uppercase w-full'>Task Flow</h1>            
+            <h1 className='text-theme-textPrimary text-xl mb-1 uppercase'>Task Flow</h1>            
         </Container>
     )
 }
