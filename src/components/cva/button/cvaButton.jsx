@@ -4,27 +4,27 @@ import cn from "@/utils/utis";
 
 const ButtonVariants = cva(
     /* button base style */
-    "w-[150px] h-fit dark-theme:text-white light-theme:text-black text-center transition-colors duration-150 flex flex-row items-center justify-center gap-2",
+    "w-[150px] h-fit text-center transition-colors duration-150 flex flex-row items-center justify-center gap-2",
     {
         variants: {
             intent: {
                 primary:
-                    "dark-theme:bg-neutral-100 dark-theme:hover:bg-neutral-300 dark-theme:text-black",
+                    "bg-neutral-100 hover:bg-neutral-300 text-black",
                 secondary : 
-                    "dark-theme:bg-neutral-950 dark-theme:hover:bg-neutral-900 dark-theme:text-neutral-500 dark-theme:hover:text-white",
+                    "bg-neutral-950 hover:bg-neutral-900 text-theme-textTertiary hover:text-theme-textPrimary",
                 secondaryError : 
-                    "dark-theme:bg-red-900 dark-theme:hover:bg-red-800 dark-theme:text-white",
+                    "bg-red-900 hover:bg-red-800 text-theme-textPrimary",
                 error:
                     "bg-red-500 hover:bg-red-600",
                 sucess:
                     "bg-green-500 hover:bg-green-600",
                 ghost:
-                    `bg-transparent hover:bg-neutral-200 dark-theme:bg-transparent dark-theme:hover:bg-neutral-800
-                    dark-theme:text-neutral-500 dark-theme:hover:text-white text-neutral-500 hover:text-black`,
+                    `bg-transparent hover:bg-neutral-200
+                    text-theme-textTertiary hover:text-theme-textPrimary`,
                 transparent:
-                    "bg-transparent dark-theme:bg-transparent dark-theme:text-neutral-500 dark-theme:hover:text-white text-neutral-500 hover:text-black",
+                    "bg-transparent text-theme-textTertiary hover:text-theme-textPrimary",
                 odd : 
-                    "dark-theme:bg-blue-500 bg-blue-500 dark-theme:text-neutral-400 dark-theme:hover:text-white text-neutral-500 hover:text-black"
+                    "bg-blue-500 text-neutral-400 hover:text-theme-textPrimary"
             },
 
             /* button sizes */
@@ -61,8 +61,8 @@ const ButtonVariants = cva(
             },
 
             outline : {
-                on : ['border-[1px]', 'dark-theme:border-neutral-800', 'border-white'],
-                off : ['border-[1px]', 'dark-theme:border-none', 'border-none'],
+                on : ['border-[1px]', 'border-neutral-900'],
+                off : ['border-[1px]', 'border-none'],
             },
         },
 

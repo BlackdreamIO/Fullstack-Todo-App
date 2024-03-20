@@ -35,7 +35,7 @@ export function DialogContent({children, overlayClassName, className, onClose, i
     }, [isOpen]);
 
     const defaultOverlayClassName = `fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[1000] 
-            dark-theme:bg-[rgb(5,5,5,0.5)] w-full h-screen backdrop-blur-[5px] flex flex-col items-center justify-center`;
+        bg-[rgb(5,5,5,0.5)] w-full h-screen flex flex-col items-center justify-center`;
 
     const defaultClassName = `z-[2000]`;
 

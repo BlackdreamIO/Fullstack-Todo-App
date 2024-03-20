@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 
 import { useTaskContext } from "@/contextAPI/TaskContextAPI";
+import { useTaskManagerContext } from "@/contextAPI/TaskManagerContextAPI";
 import { useInsideClick } from "@/hooks/useInsideClick";
 
 import { IoEllipsisVerticalSharp, IoColorFillOutline } from "react-icons/io5";
@@ -18,10 +19,12 @@ import { DropDownMenu, DropDownContent, DropDownHeader } from '@/components/drop
 export default function TaskPanelNavbar() 
 {
     const taskContext = useTaskContext();
+    const taskManagerContext = useTaskManagerContext();
 
     const [isOptionOpen, setIsOptionOpen] = useState(false);
     const [isLayoutOptionOpen, setIsLayoutOptionOpen] = useState(false);
     const [isOptionThemeSelectionOpen, setIsOptionThemeSelectionOpen] = useState(false);
+    const [animate, setAnimate] = useState(false);
 
     const optionDropdownRef = useRef(null);
     const [isOptionFocused] = useInsideClick(optionDropdownRef, false);
@@ -64,23 +67,36 @@ export default function TaskPanelNavbar()
         setIsOptionThemeSelectionOpen(false);
     }
 
+    const handleLayoutMode = (layout='') => taskManagerContext.setLayoutMode(layout);
+    
+
+    useEffect(() => {
+        setAnimate(true);
+        const timer = setTimeout(() => {
+          setAnimate(false);
+        }, 100);
+        return () => clearTimeout(timer);
+    }, [taskContext.selectedTaskGroup]);
+
+    const subContentStyle = `right-[175px] bg-theme-bgPrimary rounded-xl border-regulerBorder border-theme-borderPrimary`;
+
     return (
         <Container wrap='no-wrap' flow='col' className='max-w-9/12 bg-theme-bgPrimary p-2'>
             <Wrapper flow='row' wrap='no-wrap' justifyItem='between' className='w-full'>
                 <MorphicElement element="section" className="max-w-5/12 overflow-hidden">
-                    <h5 className="text-theme-textPrimary text-xl font-mono text-left ml-2 truncate">
-                        {taskContext.selectedTaskGroup}
+                    <h5 className={`text-theme-textPrimary text-xl font-mono text-left ml-2 truncate transition-all duration-150 ${animate ? 'text-[aquamarine]' : 'text-theme-textPrimary'}`}>
+                        {taskContext.selectedTaskGroup || '.....   ..   .....'}
                     </h5>
                 </MorphicElement>
                 <MorphicElement ref={optionDropdownRef} element="section" className="max-w-6/12 flex flex-col items-center justify-center">
-                    <DropDownMenu className='float-right z-[1000]' isOpen={isOptionOpen} onClose={() => setIsOptionOpen(false)}>
+                    <DropDownMenu className='float-right ' isOpen={isOptionOpen} onClose={() => setIsOptionOpen(false)}>
                         <DropDownHeader>
                             <Button onClick={()=> handleDropdownOpen()} intent='transparent' outline='none' className="w-full text-theme-textPrimary text-xl">
                                 <IoEllipsisVerticalSharp/>
                             </Button>
                         </DropDownHeader>
 
-                        <DropDownContent open={isOptionOpen}>
+                        <DropDownContent open={isOptionOpen} className='bg-theme-bgPrimary rounded-xl border-regulerBorder border-theme-borderPrimary'>
                             <Button onClick={handleLayoutClick} tabIndex={0} size='xs' intent='secondary'> 
                                 <LuLayoutPanelTop/> Layout 
                             </Button>
@@ -98,16 +114,18 @@ export default function TaskPanelNavbar()
                             </Button>
                         </DropDownContent>
 
-                        <DropDownContent className='right-[175px]' open={isLayoutOptionOpen}>
-                            <Button tabIndex={0} size='xs' intent='secondary' className='flex flex-col items-center justify-center'> 
+                        <DropDownContent className={subContentStyle} open={isLayoutOptionOpen}>
+                            <Button tabIndex={0} size='xs' intent='secondary' className='flex flex-col items-center justify-center'
+                                onClick={() => handleLayoutMode('grid')}> 
                                 Grid <CiGrid41 size='2rem'/>
                             </Button>
-                            <Button tabIndex={0} size='xs' intent='secondary' className='flex flex-col items-center justify-center'>
+                            <Button tabIndex={0} size='xs' intent='secondary' className='flex flex-col items-center justify-center'
+                            onClick={() => handleLayoutMode('list')}>
                                 List <CiViewList size='2rem'/>
                             </Button>
                         </DropDownContent>
 
-                        <DropDownContent className='right-[175px]' open={isOptionThemeSelectionOpen}>
+                        <DropDownContent className={subContentStyle} open={isOptionThemeSelectionOpen}>
                             <Button tabIndex={0} size='xs' intent='secondary'> Defined Color </Button>
                             <Button tabIndex={0} size='xs' intent='secondary'> Custom Color </Button>
                         </DropDownContent>

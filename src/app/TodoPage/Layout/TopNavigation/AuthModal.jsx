@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 
 import { Button } from '@/components/cva/button/cvaButton';
-import { Input } from '@/components/input/input';
+import { Input } from '@/components/cva/input/input';
 
 import GoogleIcon from '@/Assets/images/googleIcon.png'
 import GithubIcon from '@/Assets/images/GithubIcon.webp'
+import { Container } from '@/components/container/container';
+import { MorphicElement } from '@/components/morphicElement';
 import { Typography } from '@/components/typography/typohgraphy';
-
+import { Wrapper } from '@/components/wrapper/wrapper';
 
 export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}) 
 {
@@ -18,6 +20,9 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
 
     useEffect(() => {
         setAuthMethod(mode);
+        setUserName('');
+        setEmail('');
+        setPassword('');
     }, [mode])
     
     const handleLogIn = () => {
@@ -28,15 +33,13 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
         alert(inputNotEmpty())
     }
 
-    const handleSwitchAuthMode = () => {
-        setAuthMethod(authMethod == 'LogIn' ? 'SignUp' : 'LogIn');
-    }
-
     const handleAuthOperationComplete = () => {
         if(onAuthComplete != null) {
             onAuthComplete();
         }
     }
+
+    const handleSwitchAuthMode = () => setAuthMethod(authMethod == 'LogIn' ? 'SignUp' : 'LogIn');
 
     const handleClose = () => {
         if(onCloseRequest != null) {
@@ -59,29 +62,20 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
     };
 
     return (
-        <div className="dark-theme:bg-theme-secondary light-theme:bg-theme-primary w-[500px] min-h-auto h-auto m-auto p-3 rounded-md flex flex-col">
-            <Typography variant={'h1'}>Log the heck</Typography>
-            <Button>Log Test</Button>
-            <button className='dark-theme:bg-white dark-theme:text-black p-4'>test alaka</button>
-        </div>
-    )
-}
+        <Container flow='col' items='center' justify='center' className="bg-theme-bgSecondary w-[500px] m-auto p-3 rounded-md
+            space-y-5 min-[1200px]:w-[600px] max-[550px]:w-[90vw] transition-transform duration-300">
 
-/*
-  <div className="dark-theme:bg-theme-secondary light-theme:bg-theme-primary w-[500px] min-h-auto h-auto m-auto p-2 pt-2 pb-3 rounded-md flex flex-col
-            items-center justify-center space-y-5 min-[1200px]:w-[600px] max-[550px]:w-[90vw] transition-transform duration-300">
-
-            <div className="w-full">
+            <MorphicElement className="w-full">
                 <Button 
                     intent='error'
-                    className='w-[30px] float-right'
+                    className='w-[25px] float-right'
                     onClick={() => handleClose()}>
                         -
                 </Button>
-                <h1 className="dark-theme:text-white light-theme:text-black text-center uppercase text-2xl min-[1200px]:text-3xl">
+                <Typography variant={'h1'} className="text-theme-textPrimary text-center font-normal uppercase min-[1200px]:text-3xl">
                     {authMethod == 'LogIn' ? 'Log In' : 'Sign Up'}
-                </h1>
-            </div>
+                </Typography>
+            </MorphicElement>
 
             <ul className="flex flex-row items-center justify-center gap-5 w-full dark-theme:bg-black p-2">
                 <Button width={'large'} className='flex flex-row items-center justify-center gap-2 font-normal'>
@@ -94,43 +88,45 @@ export default function AuthModal({mode='LogIn', onAuthComplete, onCloseRequest}
                 </Button>
             </ul>
 
-            <div className="w-full flex flex-col items-center justify-center space-y-3">
+            <Wrapper flow='col' className="w-full space-y-3">
                 <Input
-                    higlight={userName.length > 0}
                     placeHolder={'Enter UserName'} 
-                    className="w-[90%] min-[1200px]:h-[60px]"
-                    style={{display : authMethod == 'LogIn' ? 'none' : 'block'}} 
+                    className="w-[90%]"
+                    style={{display : authMethod == 'LogIn' ? 'none' : 'block',
+                    border : userName.length > 3 ? '1px solid lime' : ''} }
                     onChange={(e) => setUserName(e.target.value)}
                 />
                 <Input
-                    higlight={isEmailValid(email)}
+                    style={{border : isEmailValid(email) ? '1px solid lime' : ''}}
                     placeHolder={'Enter Email'} 
-                    className="w-[90%] min-[1200px]:h-[60px]"
+                    className="w-[90%]"
+                    varient='primary'
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input 
-                    higlight={password.length > 0}
+                    style={{border : password.length > 6 ? '1px solid lime' : ''}}
                     placeHolder={'Enter Passowrd'} 
-                    className="w-[90%] min-[1200px]:h-[60px]"
+                    className="w-[90%]"
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button 
                     className='w-[50%] min-[1200px]:h-[40px]' 
+                    intent='secondary'
                     onClick={() => authMethod == 'LogIn' ? handleLogIn() : handleSignUp()}>
                         {authMethod == 'LogIn' ? 'Log In' : 'Sign Up'}
                 </Button>
-            </div>
+            </Wrapper>
 
-            <div className="w-full space-y-3 flex flex-col items-center justify-center">
-                <p className="dark-theme:text-white light-theme:text-black text-center uppercase text-sm min-[1200px]:text-base">OR</p>
+            <Wrapper flow='col' className="w-full space-y-3">
+                <p className="text-theme-textPrimary text-center uppercase text-sm min-[1200px]:text-base">OR</p>
                 <Button 
-                    className='w-auto font-normal dark-theme:text-neutral-500 light-theme:text-black dark-theme:hover:text-neutral-100
-                    min-[1200px]:text-lg' 
+                    className='w-auto font-normal p-0 text-theme-textTertiary min-[1200px]:text-lg' 
                     intent='transparent'
                     outline='off'
                     onClick={() => handleSwitchAuthMode()}>
                         {authMethod == 'LogIn' ? 'Create New Account' : 'Already Have A Account !'}
                 </Button>
-            </div>
-        </div>
-*/
+            </Wrapper>
+        </Container>
+    )
+}

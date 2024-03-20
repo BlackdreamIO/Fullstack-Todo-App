@@ -20,7 +20,7 @@ export default function TaskGroupPanel()
     
     const [currentWidth, setCurrentWidth] = useState('30vw');
     const [todoMinimizeMode, setTodoMinimizeMode] = useState(false);
-    const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
+    const [isSidebarMinimized, setIsSidebarMinimized] = useState(true);
 
     const [ localstoredTodo, setLocalstoredTodo ] = useLocalStorage('todos', []);
     const { response } = useFetch('https://jsonplaceholder.typicode.com/todos', 'GET', localstoredTodo?.length < 1);
@@ -103,27 +103,13 @@ export default function TaskGroupPanel()
         }
     }
 
-    const handleThemeChange = () => {
-        if(document.body.classList.contains('dark')) {
-            document.body.classList.add('light');
-            document.body.classList.remove('dark');
-        }
-        else if(document.body.classList.contains('light')) {
-            document.body.classList.add('dark');
-            document.body.classList.remove('light');
-        }
-    }
-
     useKeyPress('ArrowUp', handleArrowUp); // navigate up
     useKeyPress('ArrowDown', handleArrowDown); // navigate down
     useKeyPress('Home', handleNavigateStart); // navigate to the first index
     useKeyPress('End', handleNavigateEnd); // navigate to the last index
     useKeyPress('Enter', handleEnter); // select the current
-    useKeyPress('l', handleSidebarClick); // toggle sidebar
+    useKeyPress('l', () =>{ if(isFocused) handleSidebarClick()}); // toggle sidebar
     useKeyPress('Escape', () => setShowFocus(false));
-
-    // unsen
-    useKeyPress('t', handleThemeChange);
 
     // ------------------------- Optimization -------------------------
 
@@ -138,7 +124,7 @@ export default function TaskGroupPanel()
         })
     }, [])
 
-    const override = {
+    const BarLoaderOveerideStyle = {
         backgroundColor: "black",
         width : '100%'
     }
@@ -165,7 +151,7 @@ export default function TaskGroupPanel()
                         <BarLoader 
                             color='white' 
                             loading={todos?.length < 1}
-                            cssOverride={override}
+                            cssOverride={BarLoaderOveerideStyle}
                         />
                     )
                 }
@@ -179,7 +165,9 @@ export default function TaskGroupPanel()
                 </MorphicElement>
             </MorphicElement>
             
-            <CreateTaskGroup/>
+            {
+                isSidebarMinimized ? ( <CreateTaskGroup/> ) : ( <></> )
+            }
         </div>
     ))
 }

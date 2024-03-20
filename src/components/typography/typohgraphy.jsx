@@ -5,12 +5,12 @@ import cn from '@/utils/utis';
 
 export const Typography = ({ variant, children, className }) => {
     
-    const defaultTypographyStyle1 = `text-4xl font-bold dark-theme:text-white light-theme:text-black`;
-    const defaultTypographyStyle2 = `text-3xl font-semibold dark-theme:text-white light-theme:text-black`;
-    const defaultTypographyStyle3 = `text-xl font-medium dark-theme:text-white light-theme:text-black`;
-    const defaultTypographyStyle4 = `text-lg font-medium dark-theme:text-white light-theme:text-black`;
-    const defaultTypographyStyle5 = `text-base font-medium dark-theme:text-white light-theme:text-black`;
-    const defaultTypographyStyle6 = `text-base font-normal dark-theme:text-white light-theme:text-black`;
+    const defaultTypographyStyle1 = `text-4xl font-bold text-theme-textPrimary`;
+    const defaultTypographyStyle2 = `text-3xl font-semibold text-theme-textPrimary`;
+    const defaultTypographyStyle3 = `text-xl font-medium text-theme-textPrimary`;
+    const defaultTypographyStyle4 = `text-lg font-medium text-theme-textPrimary`;
+    const defaultTypographyStyle5 = `text-base font-medium text-theme-textPrimary`;
+    const defaultTypographyStyle6 = `text-base font-normal text-theme-textPrimary`;
 
     const Heading = ({ children }) => {
         switch (variant) 
@@ -27,6 +27,8 @@ export const Typography = ({ variant, children, className }) => {
                 return <h5 className={cn(defaultTypographyStyle5, className)}>{children}</h5>;
             case 'h6':
                 return <h6 className={cn(defaultTypographyStyle6, className)}>{children}</h6>;
+            case 'p':
+                return <p className={cn(defaultTypographyStyle6, className)}>{children}</p>;
             default:
                 return <p className={cn(defaultTypographyStyle6, className)}>{children}</p>;
         }

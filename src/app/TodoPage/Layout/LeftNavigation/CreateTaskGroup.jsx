@@ -6,7 +6,7 @@ export default function CreateTaskGroup()
 {
     return (
         <Container className={'w-full'} flow='row'>
-            <Input className='w-full dark:bg-black' placeholder='text' />
+            <Input className='w-full' placeholder='text' />
             <Button 
                 intent='primary' 
                 size='small' 

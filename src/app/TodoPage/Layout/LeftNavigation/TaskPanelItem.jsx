@@ -11,6 +11,7 @@ import { Wrapper } from '@/components/wrapper/wrapper';
 import { DropDownMenu, DropDownHeader, DropDownContent } from '@/components/dropDown/DropDown';
 import { Confirmation, ConfirmationHeader, ConfirmationFooter } from '@/components/confirmation/ConfirmationComponent';
 import { useKeyPress } from '@/hooks/useKeyPress';
+import { Typography } from '@/components/typography/typohgraphy';
 
 export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=false, keyboardFocus=false, isFocused=false, onClick}) => {
 
@@ -80,7 +81,7 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
                     </Wrapper>
                     <DropDownMenu isOpen={openOptions} onClose={() => setOpenOptions(false)}>
                         <DropDownHeader ref={dropdownAnchorRef} onClick={(e) => handleDropdownOpen(e)}>
-                            <IoEllipsisVerticalSharp className={`${active ? 'dark:text-black' : 'dark:text-neutral-600'} cursor-pointer`} />
+                            <IoEllipsisVerticalSharp className={`${active ? 'text-black' : 'text-theme-textTertiary'} cursor-pointer`} />
                         </DropDownHeader>
                         <Wrapper style={{top : `${position.y}px`, left : `${position.x}px`}} className='fixed w-full pointer-events-none flex-col flex-nowrap items-start justify-start' >
                             <DropDownContent open={openOptions && !openConfirmation} className={`relative left-12 z-[8000] max-w-[200px] flex flex-col items-center justify-center pointer-events-auto bg-theme-primary border-neutral-800`}>
@@ -98,11 +99,11 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
             <Confirmation overlayClassName={'dark-theme:bg-[rgb(5,5,5,0.5)]'} open={openConfirmation} onClose={()=> setOpenConfirmation(false)}>
                 <ConfirmationHeader>
                     <h1 className='text-theme-textPrimary text-left text-2xl mb-2'>Delete This Todo Document</h1>
-                    <p className='text-theme-textTertiary text-sm'>
+                    <Typography className='text-theme-textTertiary text-sm'>
                         Deleting this document will permanently remove all todos associated with it. 
                         These todos will not be saved in the archive and cannot be recovered. 
                         Are you sure you want to proceed with the deletion
-                    </p>
+                    </Typography>
                 </ConfirmationHeader>
                 <ConfirmationFooter isOpen={openConfirmation} />
             </Confirmation>
