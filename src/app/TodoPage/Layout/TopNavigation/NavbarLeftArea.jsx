@@ -107,12 +107,12 @@ export function NavbarLeftArea()
                         onFocus={() => setTabFocus(true)} 
                         onBlur={() => {setTabFocus(false)}} 
                         onClick={() => setIsSettingDropdownOpen(true)} 
-                        className='dark-theme:text-neutral-500 dark-theme:hover:text-neutral-100 light-theme:text-neutral-700 font-robotoMedium text-3xl mb-1 ml-2 uppercase
-                        dark-theme:focus:outline-none dark-theme:focus:border-none dark-theme:focus:text-white'>
+                        className='text-theme-textTertiary hover:text-theme-textPrimary text-3xl mb-1 ml-2 uppercase
+                        dark-theme:focus:outline-none dark-theme:focus:border-none dark-theme:focus:text-theme-textPrimary'>
                         <IoReorderThreeOutline/>
                     </h1>
                 </DropDownHeader>
-                <DropDownContent className='bg-theme-bgSecondary border-neutral-800 left-0 w-[400px] px-1 py-3 mt-3 cursor-default' open={isSettingDropdownOpen}>
+                <DropDownContent className='bg-theme-bgSecondary border-neutral-800 left-0 w-[400px] px-1 py-3 mt-3 cursor-default z-50' open={isSettingDropdownOpen}>
                     {
                         selectedDropdownContent.map((option, index) => (
                             <h1

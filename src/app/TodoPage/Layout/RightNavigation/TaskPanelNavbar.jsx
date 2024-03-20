@@ -81,7 +81,7 @@ export default function TaskPanelNavbar()
     const subContentStyle = `right-[175px] bg-theme-bgPrimary rounded-xl border-regulerBorder border-theme-borderPrimary`;
 
     return (
-        <Container wrap='no-wrap' flow='col' className='max-w-9/12 bg-theme-bgPrimary p-2'>
+        <Container wrap='no-wrap' flow='col' className='max-w-9/12 min-w-5/12 bg-theme-bgPrimary p-2'>
             <Wrapper flow='row' wrap='no-wrap' justifyItem='between' className='w-full'>
                 <MorphicElement element="section" className="max-w-5/12 overflow-hidden">
                     <h5 className={`text-theme-textPrimary text-xl font-mono text-left ml-2 truncate transition-all duration-150 ${animate ? 'text-[aquamarine]' : 'text-theme-textPrimary'}`}>

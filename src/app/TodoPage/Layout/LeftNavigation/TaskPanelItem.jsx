@@ -84,7 +84,7 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
                             <IoEllipsisVerticalSharp className={`${active ? 'text-black' : 'text-theme-textTertiary'} cursor-pointer`} />
                         </DropDownHeader>
                         <Wrapper style={{top : `${position.y}px`, left : `${position.x}px`}} className='fixed w-full pointer-events-none flex-col flex-nowrap items-start justify-start' >
-                            <DropDownContent open={openOptions && !openConfirmation} className={`relative left-12 z-[8000] max-w-[200px] flex flex-col items-center justify-center pointer-events-auto bg-theme-primary border-neutral-800`}>
+                            <DropDownContent open={openOptions && !openConfirmation} className={`relative left-12 max-w-[200px] flex flex-col items-center justify-center pointer-events-auto bg-theme-bgPrimary border-neutral-800`}>
                                 <Fragment>
                                     <Input width='full' value={title} onChange={(e) => setRenamedText(e.target.value)} placeholder='text'/>
                                     <Button width='full' LoadingText='Renaming' loading  outline='off' intent='secondary'> <CiEdit/> Rename</Button>

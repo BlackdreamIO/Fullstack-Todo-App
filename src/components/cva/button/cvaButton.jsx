@@ -88,7 +88,7 @@ export const Button = forwardRef((
             disabled={loading}
             {...rest}>
                 {
-                    loading == true ? ( <p className="dark-theme:text-white "> {loadingText} </p> )
+                    loading == true ? ( <p className="text-theme-textPrimary"> {loadingText} </p> )
                     : ( <> {children} </> )
                 }
         </button>
