@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 
-export const useContextMenuPosition = () => {
+
+export const useContextMenuPosition = ({allowX=true, allowY=true, offsetX=0, offsetY=0}) => {
     const elementRef = useRef(null);
 
     const handleContextMenu = (e) => {
@@ -22,14 +23,15 @@ export const useContextMenuPosition = () => {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        if (left < 0) left = 0;
-        if (left + elementWidth > viewportWidth) left = viewportWidth - elementWidth;
+        left = Math.max(0, Math.min(left, viewportWidth - elementWidth));
+        top = Math.max(0, Math.min(top, viewportHeight - elementHeight));
 
-        if (top < 0) top = 0;
-        if (top + elementHeight > viewportHeight) top = viewportHeight - elementHeight;
-
-        element.style.left = `${left}px`;
-        element.style.top = `${top}px`;
+        if(allowX) {
+            element.style.left = `${left + offsetX}px`;
+        }
+        if(allowY) {
+            element.style.top = `${top + offsetY}px`;
+        }
     };
 
     useEffect(() => {

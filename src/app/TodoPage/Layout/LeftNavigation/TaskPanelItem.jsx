@@ -32,16 +32,15 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
         setPosition({ x: getCalculatedPosition(anchorRect.left, 50, 20), y: getCalculatedPosition(e.clientY)});
         setOpenOptions(true);
     } 
-   
-    useEffect(() => {
-        if(!active) setOpenOptions(false);
-    }, [active])
-    
     // calculate the x and y position so that element doesnt get out of bound
     const getCalculatedPosition = (value, threashold=375, minusOffset=120) => {
         const calculatedAxis =  value < threashold ? value : value - minusOffset;
         return calculatedAxis;
     }
+
+    useEffect(() => {
+        if(!active) setOpenOptions(false);
+    }, [active])
     
     const handleKeyPress = () => {
         if(active && isFocused) 

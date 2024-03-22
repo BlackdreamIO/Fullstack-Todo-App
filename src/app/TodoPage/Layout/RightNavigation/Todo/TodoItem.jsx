@@ -30,7 +30,7 @@ export default function TodoItem({todoLayoutMode='grid'})
         return (
             <Container flow='row' justifyItem='between'>
                 <MorphicElement className='flex flex-row items-center justify-start space-x-2' element='ul'>
-                    <Typography> 
+                    <Typography tabIndex={0}> 
                         { 
                             todoState == 'incomplete' ? <FaRegCircle/> 
                             : todoState == 'pending' ? <FaRegDotCircle/> 

@@ -5,7 +5,7 @@ const TaskManagerContext = createContext(null);
 export const useTaskManagerContext = () => useContext(TaskManagerContext);
 
 export const TaskManagerContextProvider = (props) => {
-    const [layoutMode, setLayoutMode] = useState('grid');
+    const [layoutMode, setLayoutMode] = useState('list');
 
     return (
         <TaskManagerContext.Provider value={{ layoutMode, setLayoutMode }}>
