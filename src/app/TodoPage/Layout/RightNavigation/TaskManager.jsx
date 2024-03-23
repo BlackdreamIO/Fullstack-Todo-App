@@ -8,14 +8,10 @@ import { Container } from '@/components/container/container';
 import { MorphicElement } from '@/components/morphicElement';
 import { Wrapper } from '@/components/wrapper/wrapper';
 
-import { ContextMenu, ContextMenuHeader, ContextMenuContent } from '@/components/contextMenu/contextMenuComponent';
-
-
 import { IoMdArrowDropdown } from "react-icons/io";
 import { BsMouse } from "react-icons/bs";
 import { Button } from '@/components/cva/button/cvaButton';
 import CompleteSection from './TodoSections/CompleteSection';
-import DiscordDropdown from '@/components/discord/discordDialog';
 
 export default function TaskManager() 
 {
@@ -68,10 +64,6 @@ export default function TaskManager()
                 <TodoItem todoLayoutMode={taskManagerContext.layoutMode}/>
                 <TodoItem todoLayoutMode={taskManagerContext.layoutMode}/>
             </CompleteSection>
-            
-            <DiscordDropdown title="Dynamic Dropdown">
-                <Button>Some task</Button>
-            </DiscordDropdown>
 
         </Container>
     )
