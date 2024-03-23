@@ -1,9 +1,0 @@
-
-
-// ctrl + p = open search file window
-
-// ctrl + w = close current scirpt tab
-
-// alt + <number> = navigate bettwen tab
-
-// ctlr + b = open sidebar

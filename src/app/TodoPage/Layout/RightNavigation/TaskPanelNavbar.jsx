@@ -96,7 +96,7 @@ export default function TaskPanelNavbar()
                             </Button>
                         </DropDownHeader>
 
-                        <DropDownContent open={isOptionOpen} className='bg-theme-bgPrimary rounded-xl border-regulerBorder border-theme-borderPrimary'>
+                        <DropDownContent open={isOptionOpen} className='bg-theme-bgPrimary rounded-xl border-regulerBorder border-theme-borderPrimary z-10'>
                             <Button onClick={handleLayoutClick} tabIndex={0} size='xs' intent='secondary'> 
                                 <LuLayoutPanelTop/> Layout 
                             </Button>

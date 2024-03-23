@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import cn from '@/utils/utis';
 
-export function ContextMenu({ children, contextContentSize={x : 300, y : 100}, contextContentOffset={x : 15, y : 5} }) 
+export function ContextMenu({ children, contextContentSize={x : 300, y : 100}, contextContentOffset={x : 15, y : 5}, classNmae, CloseAfterEvent=false, ...rest }) 
 {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isVisible, setIsVisible] = useState(false);
@@ -33,15 +34,23 @@ export function ContextMenu({ children, contextContentSize={x : 300, y : 100}, c
 
     const handleClickOutside = () => setIsVisible(false);
 
+    const handleCloseAfterEvent = () => {
+        if(CloseAfterEvent) {
+            setIsVisible(false);
+        }
+    }
+
     return (
-        <div className='w-full'>
+        <div className={cn('w-full', classNmae)} {...rest}>
             <div className='w-full' onContextMenu={handleContextMenu}>
               {headerChild}
             </div>
             <div style={{display : isVisible ? 'block' : 'none'}} className="fixed top-0 right-0 bottom-0 left-0 z-5" onContextMenu={handleClickOutside} onClick={handleClickOutside}></div>
             <div className="fixed z-10"
                 style={{ top: `${position.y}px`, left: `${position.x}px`, display : isVisible ? 'block' : 'none' }}>
-                {contentChild}
+                {
+                    React.cloneElement(contentChild, { onEventEnd : handleCloseAfterEvent})
+                }
              </div>
         </div>
     )
