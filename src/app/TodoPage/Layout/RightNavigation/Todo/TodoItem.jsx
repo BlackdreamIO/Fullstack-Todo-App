@@ -13,16 +13,19 @@ export default function TodoItem({todoLayoutMode='grid'})
 {
     const [todoName, setTodoName] = useState('Untitled Todo Incognition task fetch fraction of a second some more text get overflow');
     const [todoState, setTodoState] = useState('incomplete');
+    const [isFocused, setIsFocused] = useState(false);
 
     const handleTodoState = () => {
         setTodoState(todoState == 'incomplete' ? 'pending' : 'incomplete')
     }
 
     const gridStyle = `bg-theme-bgSecondary w-[35%] max-w-[330px] min-h-[100px] px-2 py-2 rounded-xl transition-all duration-150
-    border-regulerBorder border-transparent hover:border-theme-borderPrimary select-none`;
+    border-regulerBorder border-transparent hover:border-theme-borderPrimary 
+    focus-visible:border-4 focus-visible:border-theme-borderNavigation outline-none select-none`;
     
     const listStyle = `w-full bg-theme-bgSecondary min-h-[40px] p-2 rounded-xl transition-all duration-150
-        border-regulerBorder border-transparent hover:border-theme-borderPrimary select-none`;
+        border-regulerBorder border-transparent hover:border-theme-borderPrimary
+        focus-visible:border-4 focus-visible:border-theme-borderNavigation outline-none select-none`;
 
     const currentStyle = todoLayoutMode =='grid' ? gridStyle : listStyle
 
@@ -47,7 +50,7 @@ export default function TodoItem({todoLayoutMode='grid'})
     }
 
     return (
-        <MorphicElement onClick={() => handleTodoState()} className={currentStyle}>
+        <MorphicElement tabIndex={0} onFocus={()=>setIsFocused(true)} onBlur={()=>setIsFocused(false)} onClick={() => handleTodoState()} className={currentStyle}>
             <Container flow='row' justifyItem='between'>
                 <MorphicElement className='flex flex-row items-center justify-start space-x-2' element='ul'>
                     <Typography tabIndex={0}> 
