@@ -24,7 +24,7 @@ export default function TaskManager()
         <Container flow='col' itemsItem='start' justifyItem='start' wrap='no-wrap' className='p-2 space-y-5 w-full h-[75vh] overflow-y-scroll'>
     
             <InCompleteSection 
-                todos={todos}
+                todos={[]}
                 onMinimize={() => setMinimizeIncomplete(!minimizeIncomplete)} 
                 isMinimized={minimizeIncomplete}>
             </InCompleteSection>

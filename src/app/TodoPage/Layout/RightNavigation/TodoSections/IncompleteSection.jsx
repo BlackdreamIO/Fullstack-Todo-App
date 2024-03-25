@@ -10,11 +10,19 @@ import { ContextMenu, ContextMenuHeader, ContextMenuContent } from "@/components
 import TodoItem from "../Todo/TodoItem";
 import { ContextHeaderComponent } from "./TodoHeaderSection";
 import { ContextMenuComponent } from "./TodoContentSection";
+import { Input } from "@/components/cva/input/input";
+import { Typography } from "@/components/typography/typohgraphy";
+import { Button } from "@/components/cva/button/cvaButton";
+
+import { IoMdArrowDropdown } from "react-icons/io";
 
 export default function InCompleteSection({ onMinimize, isMinimized=false, children, todos=[] }) 
 {
     const [contextContentSizeProperty, setContextContentSizeProperty] = useState({x : 250, y : 100});
     
+    const [showAddTodoSection, setShowAddTodoSection] = useState(false);
+    const [addTodoSectionFocus, SetaddTodoSectionFocus] = useState(false);
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [focusIndex, setFocusIndex] = useState(0);
     const [showFocusElement, setShowFocusElement] = useState(false);
@@ -72,15 +80,36 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
         }
     }, [focusIndex, isFocused]);
 
-    const hanleOnFocus = () => setTabFocused(true); 
+    const hanleOnFocus = () => {
+        setTabFocused(true);
+        setShowFocusElement(true);
+    }; 
     const hanleOnBlur = () => setTabFocused(false);
 
+    const handleMinimizeAddTodoSection = () => {
+        setShowAddTodoSection(!showAddTodoSection);
+    }
+
+    const handleAddTodoSectionFocus = () => {
+        SetaddTodoSectionFocus(true);
+        if(addTodoSectionFocus) {
+            handleMinimizeAddTodoSection();
+        }
+    }
+
+    const handleAddTodoSectionBlur = () => {
+        SetaddTodoSectionFocus(false);
+        if(addTodoSectionFocus) {
+            handleMinimizeAddTodoSection();
+        }
+    }
 
     useKeyPress('ArrowUp', handleArrowUp);
     useKeyPress('ArrowDown', handleArrowDown);
     useKeyPress('Escape', () => {
         if(sectionRef.current) {
             sectionRef.current.blur();
+            setShowFocusElement(false);
         }
     })
     
@@ -119,8 +148,8 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
                     transition : 'height 0.1s ease-out'
                 }}
                 element='ul'
-                className='flex flex-row flex-wrap items-start justify-start w-full gap-3 overflow-hidden  outline-none focus-visible:bg-theme-bgTertiary'
-                tabIndex={1}
+                className='flex flex-row flex-wrap items-start justify-start w-full gap-3 overflow-hidden outline-none'
+                tabIndex={2}
                 onFocus={hanleOnFocus} 
                 onBlur={hanleOnBlur} 
                 ref={sectionRef}>
@@ -136,6 +165,40 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
                     ))
                 }
             </MorphicElement>
+            
+            {/* Create New Todo Section */}
+
+            <MorphicElement className='w-full flex flex-col px-1 space-y-3 mt-5'>
+                <MorphicElement element='ul' className='group w-full flex flex-row items-center justify-between'
+                    onClick={() => handleMinimizeAddTodoSection()}>
+                    <Typography className='text-theme-textTertiary group-hover:text-theme-textPrimary'>Add New Task</Typography>
+                    <Typography className='text-theme-textTertiary mr-2'>
+                        <IoMdArrowDropdown 
+                            size='1.5rem'
+                            tabIndex={1}
+                            onFocus={handleAddTodoSectionFocus}
+                            onBlur={handleAddTodoSectionBlur}
+                            className='text-theme-textPrimary hover:bg-theme-hoverBgTertiary p-1 rounded-xl pointer-events-auto z-0' 
+                        />
+                    </Typography>
+                </MorphicElement>
+
+                <MorphicElement className='w-full space-y-3' element='section' style={{display : showAddTodoSection ? 'none' : 'block'}}>
+                    <Input
+                        width='full' 
+                        className='py-2 bg-theme-bgSecondary hover:bg-theme-bgSecondary 
+                        border-2 border-transparent hover:border-theme-borderPrimary
+                        focus-visible:border-theme-borderPrimary'
+                        placeholder='Task Name'
+                    />
+                    <MorphicElement element='ul' className='w-full flex flex-row items-center justify-start space-x-3'>
+                        <Button intent='secondary'>Add</Button>
+                        <Button intent='secondary'>Setting</Button>
+                        <Button intent='secondary'>Cancell</Button>
+                    </MorphicElement>
+                </MorphicElement>
+            </MorphicElement>
+
         </MorphicElement>
     )
 }

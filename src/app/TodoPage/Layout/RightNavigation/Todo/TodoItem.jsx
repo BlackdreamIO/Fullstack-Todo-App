@@ -29,9 +29,8 @@ export const TodoItem = memo(({todoLayoutMode='grid', isFocused=false, isActive=
     const gridStyle = `bg-theme-bgSecondary w-[35%] max-w-[330px] min-h-[100px] px-2 py-2 rounded-xl transition-all duration-150
     ${isFocused ? 'border-2 border-theme-borderNavigation' : 'border-regulerBorder border-transparent hover:border-theme-borderPrimary'}`;
     
-    const listStyle = `w-full min-h-[40px] p-2 rounded-xl transition-all duration-150
-    ${isFocused ? 'border-2 border-theme-borderNavigation' : 'border-regulerBorder border-transparent hover:border-theme-borderPrimary '}
-    ${isActive ? 'bg-neutral-700' : 'bg-theme-bgSecondary'}`;
+    const listStyle = `bg-theme-bgSecondary w-full min-h-[40px] p-2 rounded-xl transition-all duration-150
+    ${isFocused ? 'border-2 border-theme-borderNavigation' : 'border-regulerBorder border-transparent hover:border-theme-borderPrimary '}`;
 
     const currentStyle = todoLayoutMode =='grid' ? gridStyle : listStyle
 

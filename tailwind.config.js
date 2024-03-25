@@ -41,6 +41,7 @@ export default
                     'textPrimary' : 'rgb(255,255,255)',
                     'textSecondary' : 'rgb(200,200,200)',
                     'textTertiary' : 'rgb(130,130,130)', 'hoverTextTertiary' : 'rgb(255,255,255)',
+                    'textCold' : 'rgb(135, 206, 235)',
 
                     'borderPrimary' : 'rgb(30,30,30)',
                     'borderSecondary' : 'rgb(90,90,90)',

@@ -4,7 +4,8 @@ import cn from "@/utils/utis";
 
 const ButtonVariants = cva(
     /* button base style */
-    "w-[150px] h-fit text-center transition-colors duration-150 flex flex-row items-center justify-center gap-2",
+    `w-[150px] h-fit text-center transition-colors duration-150 flex flex-row items-center justify-center gap-2 focus-visible:outline-blue-400
+    `,
     {
         variants: {
             intent: {
@@ -61,7 +62,7 @@ const ButtonVariants = cva(
             },
 
             outline : {
-                on : ['border-[1px]', 'border-neutral-900'],
+                on : ['border-[1px]', 'border-neutral-900', 'focus-visible:border-blue-400'],
                 off : ['border-[1px]', 'border-none'],
             },
         },
