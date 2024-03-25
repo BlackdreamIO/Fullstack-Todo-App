@@ -1,31 +1,31 @@
-import { useState, useEffect, useRef, Fragment} from "react";
+import { useState, useEffect, useRef, useCallback, memo, useMemo,} from "react";
+import { useTaskManagerContext } from "@/contextAPI/TaskManagerContextAPI";
+import { useKeyPress } from "@/hooks/useKeyPress";
+import { useInsideClick } from "@/hooks/useInsideClick";
 
 import { MorphicElement } from "@/components/morphicElement"
-import { Typography } from "@/components/typography/typohgraphy";
-import { Wrapper } from "@/components/wrapper/wrapper";
 import { Divider } from "@/components/divider";
-import { Button } from "@/components/cva/button/cvaButton";
-import { Input } from "@/components/input/input";
-import { DropDownContent, DropDownMenu, DropDownHeader, getCalculatedPosition } from "@/components/dropDown/DropDown";
 import { ContextMenu, ContextMenuHeader, ContextMenuContent } from "@/components/contextMenu/contextMenuComponent";
 
-import { IoMdArrowDropdown } from "react-icons/io";
-import { CiSettings } from "react-icons/ci";
+import TodoItem from "../Todo/TodoItem";
+import { ContextHeaderComponent } from "./TodoHeaderSection";
+import { ContextMenuComponent } from "./TodoContentSection";
 
-
-export default function InCompleteSection({ onMinimize, isMinimized=false, children }) 
+export default function InCompleteSection({ onMinimize, isMinimized=false, children, todos=[] }) 
 {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
     const [contextContentSizeProperty, setContextContentSizeProperty] = useState({x : 250, y : 100});
-    const [contextDropdownOpen, setContextDropdownOpen] = useState(false);
-    const [settingDropdownOpen, setSettingDropdownOpen] = useState(false);
     
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [focusIndex, setFocusIndex] = useState(0);
+    const [showFocusElement, setShowFocusElement] = useState(false);
+    const [tabFocused, setTabFocused] = useState(false);
+    
+    const sectionRef = useRef(null);
     const contextContentRef = useRef(null);
-    const dropdownAnchorRef = useRef(null);
 
-    const handleOnMinimize = () => {
-        if(onMinimize != null) onMinimize();
-    }
+    const [ isFocused ] = useInsideClick(sectionRef);
+    const taskManagerContext = useTaskManagerContext();
+
 
     useEffect(() => {
         if(contextContentRef.current) {
@@ -35,85 +35,105 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
         }
     }, [contextContentRef.current])
 
-    const handleDropdownOpen = (e) => {
-        const anchorRect = dropdownAnchorRef.current.getBoundingClientRect();
-        setPosition({ x: getCalculatedPosition(anchorRect.left, 50, 20), y: getCalculatedPosition(e.clientY)});
-        setSettingDropdownOpen(true);
-    } 
+   useEffect(() => {
+        if(focusIndex === activeIndex) setShowFocusElement(false);
+    }, [focusIndex])
+    useEffect(() => {
+        if(!isFocused && !tabFocused) {
+            setShowFocusElement(false);
+        }
+    }, [isFocused, tabFocused])
+    
 
-    const settingDropdownContent = () => {
-        return (
-            <Fragment>
-                <Button width='full' intent='secondary'>Show Details</Button>
-                <Button width='full' intent='secondary'>Edit This Section</Button>
-                <Button width='full' intent='error'>Delete</Button>
-            </Fragment>
-        )
-    }
+    const handleTodoClick = useCallback((index) => {
+        setActiveIndex(index);
+        setFocusIndex(index);
+    }, [todos])
 
-    const contextHeader = () => {
-        return (
-            <Wrapper flow='row' wrap='no-wrap' alignItem='center' justifyItem='between' className='w-full pr-2 pointer-events-none'>
-                <Typography variant={'h2'}>Incomplete</Typography>
-                <Wrapper flow='row' wrap='no-wrap'>
-                    <IoMdArrowDropdown 
-                        size='2rem'
-                        className='text-theme-textPrimary hover:bg-theme-hoverBgTertiary p-1 rounded-xl pointer-events-auto z-0' 
-                        onClick={() => handleOnMinimize()}
-                        style={{transform : `rotate(${isMinimized ? 180 : 0}deg)`}}
-                    />
-                    <DropDownMenu className='w-full' isOpen={settingDropdownOpen} onClose={()=>setSettingDropdownOpen(false)}>
-                        <DropDownHeader ref={dropdownAnchorRef} onClick={(e)=>handleDropdownOpen(e)}>
-                            <CiSettings 
-                                size='2rem'
-                                className='text-theme-textTertiary hover:bg-theme-hoverBgTertiary p-1 rounded-xl pointer-events-auto' 
-                            />
-                        </DropDownHeader>
-                        <Wrapper style={{top : `${position.y}px`, left : `${position.x}px`}} className='fixed w-full pointer-events-none flex-col flex-nowrap items-start justify-start z-10' >
-                            <DropDownContent className='relative w-[200px] right-36' open={settingDropdownOpen}>
-                                {settingDropdownContent()}
-                            </DropDownContent>
-                        </Wrapper>
-                    </DropDownMenu>
-                    
-                </Wrapper>
-            </Wrapper>
-        )
-    }
+    const handleArrowUp = useCallback(() => {
+        if (isFocused || tabFocused) {
+            setShowFocusElement(true);
+            setFocusIndex(prevIndex => Math.max(prevIndex - 1, 0));
+        }
+    }, [isFocused, tabFocused]);
+
+    const handleArrowDown = useCallback(() => {
+        if (isFocused || tabFocused) {
+            setShowFocusElement(true);
+            setFocusIndex(prevIndex => Math.min(prevIndex + 1, todos.length - 1));
+        }
+    }, [isFocused, tabFocused, todos?.length]);
+
+    const handleEnter = useCallback(() => {
+        if (isFocused) {
+            setActiveIndex(focusIndex);
+            setShowFocusElement(false);
+            taskContext.setSelectedTaskGroup(todos[focusIndex].title);
+        }
+    }, [focusIndex, isFocused]);
+
+    const hanleOnFocus = () => setTabFocused(true); 
+    const hanleOnBlur = () => setTabFocused(false);
+
+
+    useKeyPress('ArrowUp', handleArrowUp);
+    useKeyPress('ArrowDown', handleArrowDown);
+    useKeyPress('Escape', () => {
+        if(sectionRef.current) {
+            sectionRef.current.blur();
+        }
+    })
+    
+    const MemoizedTodoItem = useMemo(() => {
+        return memo(TodoItem, (prevProps, nextProps) => {
+            return  prevProps.isActive === nextProps.isActive && 
+                    prevProps.isFocused === nextProps.isFocused &&
+                    prevProps.todoLayoutMode === nextProps.todoLayoutMode;
+        })
+    }, [])
 
     return (
-        <MorphicElement className='flex flex-row flex-wrap items-center justify-start gap-2 w-full'>
+        <MorphicElement 
+            className='flex flex-row flex-wrap items-center justify-start gap-2 w-full'>
             
+            {/* Header Section */}
+
             <ContextMenu contextContentSize={contextContentSizeProperty} className='w-full'>
                 <ContextMenuHeader>
-                   {contextHeader()}
+                   <ContextHeaderComponent
+                        isMinimized={isMinimized}
+                        onMinimize={() => onMinimize()}
+                   />
                 </ContextMenuHeader>
                 <ContextMenuContent className='w-[200px] h-auto space-y-2' ref={contextContentRef}>
-                    <Button width='full' intent='secondary'>Show Details</Button>
-                    <DropDownMenu className='w-full' isOpen={contextDropdownOpen} onClose={() => setContextDropdownOpen(false)}>
-                        <DropDownHeader onClick={() => setContextDropdownOpen(!contextDropdownOpen)}>
-                            <Button width='full' intent='secondary'>Edit This Section</Button>
-                        </DropDownHeader>
-                        <DropDownContent className='absolute bottom-10 w-[200px]' open={contextDropdownOpen}>
-                            <Input placeholder='Rename'/>
-                            <Button intent='secondary' width='full'>Change Color</Button>
-                            <Button width='full'>Apply Changes</Button>
-                        </DropDownContent>
-                    </DropDownMenu>
-                    <Button width='full' intent='error'>Delete</Button>
+                    <ContextMenuComponent />
                 </ContextMenuContent>
             </ContextMenu>
 
             <Divider className='bg-theme-borderPrimary'/>
+
+            {/* Todo Section */}
 
             <MorphicElement style={{
                     height : isMinimized ? '0px' : 'auto',
                     transition : 'height 0.1s ease-out'
                 }}
                 element='ul'
-                className='flex flex-row flex-wrap items-start justify-start w-full gap-3 overflow-hidden'>
+                className='flex flex-row flex-wrap items-start justify-start w-full gap-3 overflow-hidden  outline-none focus-visible:bg-theme-bgTertiary'
+                tabIndex={1}
+                onFocus={hanleOnFocus} 
+                onBlur={hanleOnBlur} 
+                ref={sectionRef}>
                 {
-                    children
+                    todos.map((todo, currentIndex) => (
+                        <MemoizedTodoItem
+                            onClick={() => handleTodoClick(currentIndex)}
+                            isActive={currentIndex == activeIndex}
+                            isFocused={currentIndex == focusIndex && showFocusElement}
+                            todoLayoutMode={taskManagerContext.layoutMode}
+                            key={currentIndex}
+                        />
+                    ))
                 }
             </MorphicElement>
         </MorphicElement>

@@ -114,9 +114,9 @@ export default function TaskGroupPanel()
     // ------------------------- Optimization -------------------------
 
     // Memoized version of TodoColumnItem component
+    // Only re-render if active or keyboardFocus props change
     const MemoizedTaskGroupPanelItem = useMemo(() => {
         return memo(TaskGroupPanelItem, (prevProps, nextProps) => {
-            // Only re-render if active or keyboardFocus props change
             return  prevProps.active === nextProps.active && 
                     prevProps.keyboardFocus === nextProps.keyboardFocus && 
                     prevProps.isFocused === nextProps.isFocused &&

@@ -5,7 +5,7 @@ import BottomNavigationStatus from './Layout/BottomNavigation/BottomNavigationSt
 export default function TodoPage() 
 {
     return (
-        <div className='h-screen dark:bg-black cursor-default '>
+        <div className='h-screen dark:bg-black cursor-default select-none'>
             <TodoNavbar/>
             <TodoLayout/>
             <BottomNavigationStatus/>
