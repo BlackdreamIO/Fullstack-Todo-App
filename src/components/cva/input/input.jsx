@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority'
 import cn from "@/utils/utis";
 
 const InputVarient = cva(
-    "w-11/12 py-1 px-2 rounded-md outline-none focus:outline-none",
+    "w-11/12 py-1 px-2 rounded-md outline-none focus:outline-none selection:bg-sky-200 selection:bg-opacity-25",
     {
         variants: {
             intent: {

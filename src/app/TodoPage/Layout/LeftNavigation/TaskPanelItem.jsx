@@ -8,12 +8,13 @@ import { Input } from '@/components/cva/input/input';
 import { Button } from '@/components/cva/button/cvaButton';
 import { Container } from '@/components/container/container';
 import { Wrapper } from '@/components/wrapper/wrapper';
-import { DropDownMenu, DropDownHeader, DropDownContent } from '@/components/dropDown/DropDown';
+import { DropDownMenu, DropDownHeader, DropDownContent, getCalculatedPosition } from '@/components/dropDown/DropDown';
 import { Confirmation, ConfirmationHeader, ConfirmationFooter } from '@/components/confirmation/ConfirmationComponent';
 import { useKeyPress } from '@/hooks/useKeyPress';
 import { Typography } from '@/components/typography/typohgraphy';
+import { useKeyboardNavigationContext } from '@/contextAPI/KeybaordNavigationContextAPI';
 
-export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=false, keyboardFocus=false, isFocused=false, onClick}) => {
+export const TaskGroupPanelItem = memo(({title, active=false, optionIsOpen, minimizedMode=false, keyboardFocus=false, isFocused=false, onClick}) => {
 
     const [openOptions, setOpenOptions] = useState(false);
     const [openConfirmation, setOpenConfirmation] = useState(false);
@@ -22,6 +23,8 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
 
     const containerRef = useRef(null);
     const dropdownAnchorRef = useRef(null);
+    const keyboardNavigationContext = useKeyboardNavigationContext(); // { keybaordNavigationEnabled, setKeybaordNavigationEnabled }
+    const kbnEnabled = keyboardNavigationContext.keybaordNavigationEnabled;
 
     const handleClick = () => {
         if(onClick != null) onClick();
@@ -32,15 +35,17 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
         setPosition({ x: getCalculatedPosition(anchorRect.left, 50, 20), y: getCalculatedPosition(e.clientY)});
         setOpenOptions(true);
     } 
-    // calculate the x and y position so that element doesnt get out of bound
-    const getCalculatedPosition = (value, threashold=375, minusOffset=120) => {
-        const calculatedAxis =  value < threashold ? value : value - minusOffset;
-        return calculatedAxis;
-    }
 
     useEffect(() => {
         if(!active) setOpenOptions(false);
     }, [active])
+
+    useEffect(() => {
+      if(optionIsOpen != null) {
+        optionIsOpen(openOptions);
+      }
+    }, [openOptions])
+    
     
     const handleKeyPress = () => {
         if(active && isFocused) 
@@ -64,7 +69,7 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
 
     const ColStyle = `w-[95%] min-h-[40px] px-2 pt-1 group rounded-lg cursor-default transition-all duration-150 border-[3px] border-transparent
         ${active ? 'bg-theme-bgPrimaryLight' : 'bg-transparent'}
-        ${keyboardFocus ? 'border-blue-500' : 'text-neutral-500 group-hover:text-neutral-200'}`
+        ${keyboardFocus ? 'border-theme-borderNavigation' : 'text-neutral-500 group-hover:text-neutral-200'}`
 
     const titleStyle = `mb-1 font-sans font-bold text-[0.9rem] flex gap-2 items-center justify-center ${active ? 'dark:text-black text-black' : 'text-neutral-500 group-hover:text-neutral-200'}`
 
@@ -83,12 +88,16 @@ export const TaskGroupPanelItem = memo(({title, active=false, minimizedMode=fals
                             <IoEllipsisVerticalSharp className={`${active ? 'text-black' : 'text-theme-textTertiary'} cursor-pointer`} />
                         </DropDownHeader>
                         <Wrapper style={{top : `${position.y}px`, left : `${position.x}px`}} className='fixed w-full pointer-events-none flex-col flex-nowrap items-start justify-start' >
-                            <DropDownContent open={openOptions && !openConfirmation} className={`relative left-12 max-w-[200px] flex flex-col items-center justify-center pointer-events-auto bg-theme-bgPrimary border-neutral-800`}>
+                            <DropDownContent 
+                                tabIndex={kbnEnabled ? 1 : -1} 
+                                open={openOptions && !openConfirmation} 
+                                className={`relative left-12 max-w-[200px] flex flex-col items-center justify-center pointer-events-auto bg-theme-bgPrimary border-neutral-800`}
+                                >
                                 <Fragment>
-                                    <Input width='full' value={title} onChange={(e) => setRenamedText(e.target.value)} placeholder='text'/>
-                                    <Button width='full' LoadingText='Renaming' loading  outline='off' intent='secondary'> <CiEdit/> Rename</Button>
-                                    <Button width='full' outline='off' intent='secondary'><FiColumns/> Change Icon</Button>
-                                    <Button onClick={() => setOpenConfirmation(true)} width='full' outline='off' intent='secondaryError'><CiTrash /> Delete This List</Button>
+                                    <Input tabIndex={kbnEnabled ? 2 : -1} width='full' value={title} onChange={(e) => setRenamedText(e.target.value)} placeholder='text'/>
+                                    <Button tabIndex={kbnEnabled ? 2 : -1} width='full' LoadingText='Renaming' loading  outline='off' intent='secondary'> <CiEdit/> Rename</Button>
+                                    <Button  tabIndex={kbnEnabled ? 2 : -1} width='full' outline='off' intent='secondary'><FiColumns/> Change Icon</Button>
+                                    <Button tabIndex={kbnEnabled ? 2 : -1} onBlur={() => setOpenOptions(false)} onClick={() => setOpenConfirmation(true)} width='full' outline='off' intent='secondaryError'><CiTrash /> Delete This List</Button>
                                 </Fragment>
                             </DropDownContent>
                         </Wrapper>

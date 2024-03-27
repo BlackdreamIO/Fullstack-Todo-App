@@ -15,6 +15,7 @@ import { Button } from "@/components/cva/button/cvaButton";
 import { Wrapper } from "@/components/wrapper/wrapper";
 import { MorphicElement } from "@/components/morphicElement";
 import { DropDownMenu, DropDownContent, DropDownHeader } from '@/components/dropDown/DropDown';
+import { useKeyboardNavigationContext } from "@/contextAPI/KeybaordNavigationContextAPI";
 
 export default function TaskPanelNavbar() 
 {
@@ -28,6 +29,8 @@ export default function TaskPanelNavbar()
 
     const optionDropdownRef = useRef(null);
     const [isOptionFocused] = useInsideClick(optionDropdownRef, false);
+    const keyboardNavigationContext = useKeyboardNavigationContext(); // { keybaordNavigationEnabled, setKeybaordNavigationEnabled }
+    const kbnEnabled = keyboardNavigationContext.keybaordNavigationEnabled;
 
     useEffect(() => {
         if(!isOptionFocused) {
@@ -91,7 +94,7 @@ export default function TaskPanelNavbar()
                 <MorphicElement ref={optionDropdownRef} element="section" className="max-w-6/12 flex flex-col items-center justify-center">
                     <DropDownMenu className='float-right ' isOpen={isOptionOpen} onClose={() => setIsOptionOpen(false)}>
                         <DropDownHeader>
-                            <Button onClick={()=> handleDropdownOpen()} intent='transparent' outline='none' className="w-full text-theme-textPrimary text-xl">
+                            <Button tabIndex={kbnEnabled ? 1 : -1} onClick={()=> handleDropdownOpen()} intent='transparent' outline='none' className="w-full text-theme-textPrimary text-xl">
                                 <IoEllipsisVerticalSharp/>
                             </Button>
                         </DropDownHeader>

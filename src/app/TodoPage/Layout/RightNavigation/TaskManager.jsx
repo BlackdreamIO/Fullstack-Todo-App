@@ -15,7 +15,7 @@ export default function TaskManager()
 {
     const taskManagerContext = useTaskManagerContext();
 
-    const [todos, setTodos] = useState(Array(10).fill('randomXYZ'));
+    const [todos, setTodos] = useState(Array(5).fill('randomXYZ'));
 
     const [minimizeIncomplete, setMinimizeIncomplete] = useState(false);
     const [minimizeComplete, setMinimizeComplete] = useState(false);
@@ -24,7 +24,7 @@ export default function TaskManager()
         <Container flow='col' itemsItem='start' justifyItem='start' wrap='no-wrap' className='p-2 space-y-5 w-full h-[75vh] overflow-y-scroll'>
     
             <InCompleteSection 
-                todos={[]}
+                todos={todos}
                 onMinimize={() => setMinimizeIncomplete(!minimizeIncomplete)} 
                 isMinimized={minimizeIncomplete}>
             </InCompleteSection>

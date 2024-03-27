@@ -9,13 +9,6 @@ export function DialogContent({children, overlayClassName, className, onClose, i
 {
     const dialogRef = useRef(null);
 
-    // useOutsideClick(dialogRef, () => {
-    //     if(onClose != null && isOpen) {
-    //         onClose();
-    //         console.log('close dialog window');
-    //     }
-    // })
-
     const handleOutsideClick = (event) => {
         if (dialogRef.current && !dialogRef.current.contains(event.target)) {
             if(onClose != null) {
@@ -31,13 +24,13 @@ export function DialogContent({children, overlayClassName, className, onClose, i
             return () => {
                 window.removeEventListener('click', handleOutsideClick);
             };
-        }, 1000);
+        }, 700);
     }, [isOpen]);
 
     const defaultOverlayClassName = `fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[1000] 
         bg-[rgb(5,5,5,0.5)] w-full h-screen flex flex-col items-center justify-center`;
 
-    const defaultClassName = `z-[2000]`;
+    const defaultClassName = `z-[2000] rounded-tenPixel`;
 
     return (
         <div className={cn(defaultOverlayClassName, overlayClassName)} {...rest}>

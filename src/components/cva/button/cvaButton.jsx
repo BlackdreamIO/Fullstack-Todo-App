@@ -62,7 +62,7 @@ const ButtonVariants = cva(
             },
 
             outline : {
-                on : ['border-[1px]', 'border-neutral-900', 'focus-visible:border-blue-400'],
+                on : ['border-[1px]', 'border-neutral-900', 'focus-visible:border-theme-borderNavigation'],
                 off : ['border-[1px]', 'border-none'],
             },
         },

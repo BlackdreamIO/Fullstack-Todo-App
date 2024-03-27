@@ -12,6 +12,7 @@ import { Container } from '@/components/container/container';
 import { DropDownMenu, DropDownContent, DropDownHeader  } from '@/components/dropDown/DropDown';
 import { useKeyPress, useInsideClick } from '@/hooks/hooksExporter';
 import { Wrapper } from '@/components/wrapper/wrapper';
+import { useKeyboardNavigationContext } from '@/contextAPI/KeybaordNavigationContextAPI';
 
 export function NavbarLeftArea()
 {
@@ -23,6 +24,8 @@ export function NavbarLeftArea()
 
     const optionsRef = useRef(null);
     const [ isInsideOptions ] = useInsideClick(optionsRef);
+    const keyboardNavigationContext = useKeyboardNavigationContext(); // { keybaordNavigationEnabled, setKeybaordNavigationEnabled }
+    const kbnEnabled = keyboardNavigationContext.keybaordNavigationEnabled;
     
 
     const optionsStyle = `dark-theme:text-white loght-theme:text-neutral-700 dark-theme:hover:bg-neutral-800 text-sm text-left 
@@ -54,24 +57,24 @@ export function NavbarLeftArea()
     }
 
     const handleArrowUp = useCallback(() => {
-        if(isInsideOptions) {
+        if(isInsideOptions && kbnEnabled) {
             setIsItemFocused(true);
             setSelectedIndex(prev => (prev - 1 + selectedDropdownContent.length) % selectedDropdownContent.length);
         }
         else {
             setIsItemFocused(false);
         }
-    }, [isInsideOptions, selectedDropdownContent.length])
+    }, [isInsideOptions, kbnEnabled, selectedDropdownContent.length])
 
     const handleArrowDown = useCallback(() => {
-        if(isInsideOptions) {
+        if(isInsideOptions && kbnEnabled) {
             setIsItemFocused(true);
             setSelectedIndex(prev => (prev + 1) % selectedDropdownContent.length);
         }
         else {
             setIsItemFocused(false);
         }
-    }, [isInsideOptions, selectedDropdownContent.length])
+    }, [isInsideOptions, kbnEnabled, selectedDropdownContent.length])
 
     const handleEnterPress = () => {
         if(tabFocus) {
@@ -103,12 +106,12 @@ export function NavbarLeftArea()
             <DropDownMenu onClose={() => handleOptionsClose()} isOpen={isSettingDropdownOpen}>
                 <DropDownHeader>
                     <h1 
-                        tabIndex={1} 
+                        tabIndex={kbnEnabled ? 1 : -1} 
                         onFocus={() => setTabFocus(true)} 
                         onBlur={() => {setTabFocus(false)}} 
                         onClick={() => setIsSettingDropdownOpen(true)} 
                         className='text-theme-textTertiary hover:text-theme-textPrimary text-3xl mb-1 ml-2 uppercase
-                        dark-theme:focus:outline-none dark-theme:focus:border-none dark-theme:focus:text-theme-textPrimary'>
+                        outline-none focus:text-theme-textPrimary border-2 border-transparent focus-visible:border-theme-borderNavigation'>
                         <IoReorderThreeOutline/>
                     </h1>
                 </DropDownHeader>
