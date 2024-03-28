@@ -39,7 +39,7 @@ export default function KeybaordNavigationInfo()
 
                 <Wrapper flow='col' wrap='no-wrap' alignItem='center' justifyItem='center' className='w-full space-y-4'>
                     <Typography variant={'h1'} >
-                        SWITCH TO KEYBOARD MODE ?
+                        SWITCH TO KEYBOARD MODE {'( BETA )'}
                     </Typography>
                     <Typography variant={'p'} className='text-center text-yellow-300'>
                         we detected that you pressed tab key more then once. You can navigate this app with your tab 

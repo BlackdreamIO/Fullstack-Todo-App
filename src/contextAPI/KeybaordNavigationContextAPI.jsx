@@ -10,7 +10,7 @@ export const KeyboardNavigationContextProvider = (props) => {
     const [keybaordTabTriggerd, setKeybaordTabTriggerd] = useState(0);
     const [stopTrigger, setStopTrigger] = useState(false);
 
-    const [keybaordNavigationEnabled, setKeybaordNavigationEnabled] = useState(true);
+    const [keybaordNavigationEnabled, setKeybaordNavigationEnabled] = useState(false);
     
     const [crateNewTodoItem, setCrateNewTodoItem] = useState('CTRL + N');
     const [crateNewTodoGroup, setCrateNewTodoGroup] = useState('CTRL + G');

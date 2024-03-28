@@ -8,7 +8,7 @@ import { DropDownContent, DropDownMenu, DropDownHeader, getCalculatedPosition } 
 import { IoMdArrowDropdown } from "react-icons/io";
 import { CiSettings } from "react-icons/ci";
  
-export function ContextHeaderComponent({isMinimized=false, onMinimize}) 
+export function ContextHeaderComponent({title='untitled', isMinimized=false, onMinimize}) 
 {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [settingDropdownOpen, setSettingDropdownOpen] = useState(false);
@@ -37,7 +37,7 @@ export function ContextHeaderComponent({isMinimized=false, onMinimize})
 
     return (
         <Wrapper flow='row' wrap='no-wrap' alignItem='center' justifyItem='between' className='w-full pr-2 pointer-events-none'>
-            <Typography variant={'h2'}>Incomplete</Typography>
+            <Typography variant={'h2'}>{title}</Typography>
             <Wrapper flow='row' wrap='no-wrap'>
                 <IoMdArrowDropdown 
                     size='2rem'

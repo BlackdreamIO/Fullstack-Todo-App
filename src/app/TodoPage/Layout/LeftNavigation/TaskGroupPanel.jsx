@@ -104,7 +104,7 @@ export default function TaskGroupPanel()
     }
 
     const handleSidebarClick = () => {
-        if (!tabFocused || !kbnEnabled) return;
+        if (!tabFocused && !kbnEnabled) return;
 
         setIsSidebarMinimized(prev => prev =! prev);
         if(isSidebarMinimized) {
@@ -135,10 +135,8 @@ export default function TaskGroupPanel()
     const handleItemOptionOpen = (isOpen) => {
         setIsItemOptionOpen(isOpen);
         if(!tabFocused && !isItemOptionOpen) {
-        handleDisableNavigation();
-        console.log(`tabFocused ${tabFocused} && isItemOptionOpen ${isItemOptionOpen}`);
+            handleDisableNavigation();
         }
-        console.log(isOpen);
     }
 
 

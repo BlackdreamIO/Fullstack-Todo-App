@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import cn from '@/utils/utis';
 
-export function ContextMenu({ children, contextContentSize={x : 300, y : 100}, contextContentOffset={x : 15, y : 5}, classNmae, CloseAfterEvent=false, ...rest }) 
+export function ContextMenu({ children, contextContentSize={x : 300, y : 100}, contextContentOffset={x : 15, y : 5}, className, CloseAfterEvent=false, ...rest }) 
 {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isVisible, setIsVisible] = useState(false);
@@ -41,7 +41,7 @@ export function ContextMenu({ children, contextContentSize={x : 300, y : 100}, c
     }
 
     return (
-        <div className={cn('w-full', classNmae)} {...rest}>
+        <div className={cn('w-full', className)} {...rest}>
             <div className='w-full' onContextMenu={handleContextMenu}>
               {headerChild}
             </div>

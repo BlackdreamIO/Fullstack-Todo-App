@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback, memo, useMemo,} from "react";
 import { useTaskManagerContext } from "@/contextAPI/TaskManagerContextAPI";
+import { useKeyboardNavigationContext } from "@/contextAPI/KeybaordNavigationContextAPI";
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { useInsideClick } from "@/hooks/useInsideClick";
 
@@ -12,10 +13,9 @@ import { ContextMenuComponent } from "./TodoContentSection";
 
 import CreateTodoSection from "./CreateTodoSection";
 import TodoItem from "../Todo/TodoItem";
-import { useKeyboardNavigationContext } from "@/contextAPI/KeybaordNavigationContextAPI";
 
 
-export default function InCompleteSection({ onMinimize, isMinimized=false, children, todos=[] }) 
+export default function TodoSegmentSection({ title='untitled', todos=[] }) 
 {
     const [contextContentSizeProperty, setContextContentSizeProperty] = useState({x : 250, y : 100});
 
@@ -24,6 +24,8 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
     const [showFocusElement, setShowFocusElement] = useState(false);
     const [tabFocused, setTabFocused] = useState(false);
     
+    const [minimizeSegmentSection, setSetMinimizeIncomplete] = useState(false);
+
     const sectionRef = useRef(null);
     const contextContentRef = useRef(null);
 
@@ -32,6 +34,9 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
     const keyboardNavigationContext = useKeyboardNavigationContext(); // { keybaordNavigationEnabled, setKeybaordNavigationEnabled }
     const kbnEnabled = keyboardNavigationContext.keybaordNavigationEnabled;
 
+    const onMinimize = () => {
+        setSetMinimizeIncomplete(!minimizeSegmentSection);
+    }
 
     useEffect(() => {
         if(contextContentRef.current) {
@@ -119,7 +124,8 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
             <ContextMenu contextContentSize={contextContentSizeProperty} className='w-full'>
                 <ContextMenuHeader>
                    <ContextHeaderComponent
-                        isMinimized={isMinimized}
+                        title={title}
+                        isMinimized={minimizeSegmentSection}
                         onMinimize={() => onMinimize()}
                    />
                 </ContextMenuHeader>
@@ -133,7 +139,7 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
             {/* Todo Section */}
 
             <MorphicElement style={{
-                    height : isMinimized ? '0px' : 'auto',
+                    height : minimizeSegmentSection ? '0px' : 'auto',
                     transition : 'height 0.1s ease-out'
                 }}
                 element='ul'
@@ -158,7 +164,7 @@ export default function InCompleteSection({ onMinimize, isMinimized=false, child
             {/* Create New Todo Section */}
 
             <CreateTodoSection 
-                isTodoSectionMinimized={isMinimized} 
+                isTodoSectionMinimized={minimizeSegmentSection} 
             />
 
         </MorphicElement>
