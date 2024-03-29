@@ -24,7 +24,7 @@ export default function KeybaordNavigationInfo()
     }
 
     useEffect(() => {
-        setShow(keyboardNavigationContextStopTrigger);
+        //setShow(keyboardNavigationContextStopTrigger);
     }, [keyboardNavigationContextStopTrigger])
     
 

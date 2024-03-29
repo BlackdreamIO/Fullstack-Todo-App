@@ -5,10 +5,12 @@ import { Button } from '@/components/cva/button/cvaButton';
 import { ContextMenu, ContextMenuHeader, ContextMenuContent } from "@/components/contextMenu/contextMenuComponent";
 
 import TodoSegmentSection from './TodoSections/TodoSegmentSection';
+import { useTaskContext } from '@/contextAPI/TaskContextAPI';
 
 export default function TaskManager() 
 {
     const [todos, setTodos] = useState(Array(5).fill('randomXYZ'));
+    
 
     return (
         <Container flow='col' itemsItem='start' justifyItem='start' wrap='no-wrap' className='p-2 space-y-5 w-full h-[75vh] overflow-y-scroll'>

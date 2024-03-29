@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 
 import { useTaskContext } from "@/contextAPI/TaskContextAPI";
 import { useTaskManagerContext } from "@/contextAPI/TaskManagerContextAPI";
+import { useKeyboardNavigationContext } from "@/contextAPI/KeybaordNavigationContextAPI";
 import { useInsideClick } from "@/hooks/useInsideClick";
 
 import { IoEllipsisVerticalSharp, IoColorFillOutline } from "react-icons/io5";
@@ -15,12 +16,12 @@ import { Button } from "@/components/cva/button/cvaButton";
 import { Wrapper } from "@/components/wrapper/wrapper";
 import { MorphicElement } from "@/components/morphicElement";
 import { DropDownMenu, DropDownContent, DropDownHeader } from '@/components/dropDown/DropDown';
-import { useKeyboardNavigationContext } from "@/contextAPI/KeybaordNavigationContextAPI";
 
 export default function TaskPanelNavbar() 
 {
     const taskContext = useTaskContext();
     const taskManagerContext = useTaskManagerContext();
+    const keyboardNavigationContext = useKeyboardNavigationContext(); // { keybaordNavigationEnabled, setKeybaordNavigationEnabled }
 
     const [isOptionOpen, setIsOptionOpen] = useState(false);
     const [isLayoutOptionOpen, setIsLayoutOptionOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function TaskPanelNavbar()
 
     const optionDropdownRef = useRef(null);
     const [isOptionFocused] = useInsideClick(optionDropdownRef, false);
-    const keyboardNavigationContext = useKeyboardNavigationContext(); // { keybaordNavigationEnabled, setKeybaordNavigationEnabled }
+    
     const kbnEnabled = keyboardNavigationContext.keybaordNavigationEnabled;
 
     useEffect(() => {
