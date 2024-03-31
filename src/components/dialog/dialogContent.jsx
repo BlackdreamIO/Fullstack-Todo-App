@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import cn from "../../utils/utis";
 import { useInsideClick } from "@/hooks/useInsideClick";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { useKeyPress } from "@/hooks/useKeyPress";
 
 //import { useInsideTarget } from "../../hooks/useInsideTarget";
 
@@ -26,6 +27,10 @@ export function DialogContent({children, overlayClassName, className, onClose, i
             };
         }, 700);
     }, [isOpen]);
+
+    useKeyPress('Escape', () => {
+        if(onClose != null) onClose();
+    });
 
     const defaultOverlayClassName = `fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[1000] 
         bg-[rgb(5,5,5,0.5)] w-full h-screen flex flex-col items-center justify-center`;

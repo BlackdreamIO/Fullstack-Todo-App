@@ -16,6 +16,7 @@ import { DropDownContent, DropDownHeader, DropDownMenu } from '@/components/drop
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Textarea from '@/components/textarea/textarea';
 
 export const TodoEditDialog = forwardRef(({todoName='untitled', onOpen}, ref) => {
     
@@ -33,6 +34,9 @@ export const TodoEditDialog = forwardRef(({todoName='untitled', onOpen}, ref) =>
 
     const [currentState, setCurrentState] = useState('incomplete');
     const [currentPriority, setCurrentPriority] = useState('Priority 1');
+
+    const [renameText, setRenameText] = useState('');
+    const [description, setDescription] = useState('');
 
     const handleTodoEditDialogOpen = () => {
         setDialogEnabled(true)
@@ -53,7 +57,7 @@ export const TodoEditDialog = forwardRef(({todoName='untitled', onOpen}, ref) =>
             <DialogContent
                 overlayClassName='bg-black bg-opacity-5' 
                 className='max-w-screen-lg w-10/12 max-h-[500px] overflow-x-hidden overflow-y-scroll bg-theme-bgPrimary rounded-tenpixel border border-theme-borderPrimary select-none' 
-                isOpen={dialogEnabled} >
+                isOpen={dialogEnabled}>
                 {/* HEADER */}
                 <MorphicElement className='w-full bg-theme-bgTertiary p-2 flex flex-row items-center justify-between rounded-md'>
                     <Wrapper flow='row' wrap='no-wrap' element='ul' className='h-[30px] w-11/12 overflow-hidde flex items-center justify-start'>
@@ -69,17 +73,26 @@ export const TodoEditDialog = forwardRef(({todoName='untitled', onOpen}, ref) =>
                 </MorphicElement>
                 {/* CONTENT */}
                 <MorphicElement className='w-full flex flex-row items-start space-x-2'>
-                    <MorphicElement className='w-8/12 p-2 flex flex-row items-center space-x-3'>
+                    <MorphicElement className='w-8/12 p-2 flex flex-col items-center space-y-5'>
                         {
                             enableRename ? 
-                            (<Input className='w-full bg-transparent hover:bg-transparent text-lg' placeholder={todoName}/> )
+                            ( <Input className='w-full bg-transparent hover:bg-transparent text-lg' placeholder={todoName}/> )
                             :
-                            ( <Typography className='pointer-events-none font-bold'> {todoName} </Typography> )
+                            ( <Typography className='pointer-events-none font-bold'> 
+                                <span className='text-theme-textSecondary mr-2 underline underline-offset-2'> TITLE : </span> 
+                                {todoName} 
+                            </Typography> )
                         }
-                        <MdEdit 
-                            size='1rem'
-                            onClick={() => setEnableRename(!enableRename)}
-                        />
+                        <Wrapper flow='row' alignItem='center' justifyItem='start' className='w-full space-x-2'>
+                            <Button width='full' intent='secondary' onClick={() => setEnableRename(!enableRename)}>Edit</Button>
+                        </Wrapper>
+                        <Wrapper flow='col' alignItem='start' justifyItem='start' className='w-full space-x-2'>
+                            <Typography>Descirption</Typography>
+                            <Textarea 
+                                placeholder='your descirption' 
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </Wrapper>
                     </MorphicElement>
                     <MorphicElement className='w-4/12 py-3 px-2 bg-theme-bgSecondary flex flex-col items-center justify-start space-y-5'>
                         <DropDownMenu className='w-full shadow-none' isOpen={showStateDropdown} onClose={()=>setShowStateDropdown(false)}>
@@ -150,6 +163,7 @@ export const TodoEditDialog = forwardRef(({todoName='untitled', onOpen}, ref) =>
                                 onChange={(date) => setEndDate(date)} 
                             />
                         </MorphicElement>
+                        <Divider className='bg-theme-bgTertiary w-full'/>
                         <Button width='full'>Apply Changes</Button>
                         <Button width='full' intent='error'>Delete</Button>
                     </MorphicElement>
