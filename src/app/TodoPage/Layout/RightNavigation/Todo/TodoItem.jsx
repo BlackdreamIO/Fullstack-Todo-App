@@ -196,44 +196,6 @@ export const TodoItem = memo(({todoLayoutMode='grid', isFocused=false, isActive=
                     ref={todoEditDialogRef}
                     todoName={todoName}
                 />
-
-                {/*<Dialog open={true}>
-                    <DialogContent overlayClassName='bg-black bg-opacity-5' className='max-w-screen-lg w-10/12 max-h-auto bg-theme-bgPrimary rounded-tenpixel border border-theme-borderPrimary' isOpen>
-                        
-                        <MorphicElement className='w-full bg-theme-bgTertiary p-2 flex flex-row items-center justify-between rounded-md'>
-                            <Wrapper flow='row' wrap='no-wrap' element='ul' className='h-[30px] w-11/12 overflow-hidde flex items-center justify-start'>
-                                <Typography variant={'h4'} className='text-left truncate'>
-                                    {taskContext.selectedTaskGroup} / {todoName}
-                                </Typography>
-                            </Wrapper>
-                            <IoMdClose 
-                                size='1.7rem'
-                                className='bg-transparent hover:bg-white text-white hover:text-black p-1 rounded-tenpixel'
-                            />
-                        </MorphicElement>
-                        
-                        <MorphicElement className='w-full p-2 flex flex-row items-center justify-between'>
-                            <MorphicElement className='w-9/12 bg-cyan-500'>
-                                {
-                                    enableRename ? 
-                                    (
-                                        <Input 
-
-                                            className='w-full bg-transparent hover:bg-transparent text-lg' 
-                                            placeholder={todoName} 
-                                        />
-                                    )
-                                    :
-                                    (
-                                        <Typography className='pointer-events-none'>
-                                            {todoName}
-                                        </Typography>
-                                    )
-                                }
-                            </MorphicElement>
-                        </MorphicElement>
-                    </DialogContent>
-                </Dialog> */}
             </Container>
         </MorphicElement>
     )
