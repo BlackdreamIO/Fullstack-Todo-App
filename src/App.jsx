@@ -6,7 +6,7 @@ import "./App.css";
 import TodoPage from "./app/TodoPage/TodoPage";
 import SettingPage from "./app/SettingPage/SettingPage";
 
-export default function App() 
+export default function App()
 {
     useEffect(() => {
         window.addEventListener("contextmenu", e => e.preventDefault());
